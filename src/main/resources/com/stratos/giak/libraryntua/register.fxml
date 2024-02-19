@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+<?import java.net.URL?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" hgap="10" vgap="10" styleClass="root"
+          xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.stratos.giak.libraryntua.RegisterController">
+    <padding>
+        <Insets bottom="10" left="25" right="25" top="25"/>
+    </padding>
+    <!--  <gridLinesVisible>true</gridLinesVisible>-->
+    <Text id="welcome-text" text="BYE" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0"/>
+
+    <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <TextField fx:id="usernameField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+    <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <PasswordField fx:id="passwordField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1"
+                   GridPane.rowIndex="2"/>
+
+    <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <TextField fx:id="emailField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1"
+               GridPane.rowIndex="3"/>
+
+    <Label text="First Name:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <TextField fx:id="nameFirstField" onMouseClicked="#onFieldClicked"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="4"/>
+
+    <Label text="Last Name:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+    <TextField fx:id="nameLastField" onMouseClicked="#onFieldClicked"
+               GridPane.columnIndex="1"
+               GridPane.rowIndex="5"/>
+
+    <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+    <TextField fx:id="IDField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1"
+               GridPane.rowIndex="6"/>
+
+    <Text fx:id="registerErrorText" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+
+    <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="9">
+        <Button onAction="#handleLoginButtonAction" text="Sign Up"/>
+    </HBox>
+    <TextFlow fx:id="loginTextFlow" GridPane.columnIndex="0" GridPane.rowIndex="10"
+              GridPane.columnSpan="2"/>
+    <stylesheets>
+        <URL value="@login.css"/>
+    </stylesheets>
+</GridPane>

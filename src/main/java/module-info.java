@@ -6,6 +6,7 @@ module com.stratos.giak.libraryntua {
     requires net.synedra.validatorfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
+    requires controlsfx;
 
     opens com.stratos.giak.libraryntua to javafx.fxml;
     exports com.stratos.giak.libraryntua;
