@@ -3,6 +3,7 @@ package com.stratos.giak.libraryntua;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -15,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -63,9 +65,10 @@ public class LoginController {
             passwordField.setBorder(new Border(BORDER_STROKE_ERROR));
             return;
         }
-        if (user.getAccessLevel() == AccessLevel.ADMIN) {
-        }
         LoggedUser.getInstance().setUser(user);
+        if (user.getAccessLevel() == AccessLevel.ADMIN) {
+            ((Stage) ((Node) event.getSource()).getScene().getWindow()).setTitle("NTUA-Library (Admin)");
+        }
         Utilities.changeScene(event, "main-view.fxml");
     }
 

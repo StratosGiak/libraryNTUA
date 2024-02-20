@@ -2,6 +2,7 @@ package com.stratos.giak.libraryntua;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.io.*;
@@ -15,15 +16,15 @@ public class BookModel implements Serializable {
     private transient SimpleStringProperty author = new SimpleStringProperty();
     private transient SimpleStringProperty publisher = new SimpleStringProperty();
     private transient SimpleStringProperty ISBN = new SimpleStringProperty();
-    private transient SimpleStringProperty genre = new SimpleStringProperty();
+    private transient SimpleObjectProperty<GenreModel> genre = new SimpleObjectProperty<>();
     private transient SimpleIntegerProperty yearOfPublication = new SimpleIntegerProperty();
     private transient SimpleIntegerProperty copies = new SimpleIntegerProperty();
     private transient SimpleIntegerProperty ratingsSum = new SimpleIntegerProperty();
     private transient SimpleIntegerProperty ratingsCount = new SimpleIntegerProperty();
     private transient SimpleStringProperty rating = new SimpleStringProperty();
 
-    public BookModel(String title, String author, String publisher, String ISBN, int yearOfPublication, String genre, int copies) {
-        this.uuid = UUID.randomUUID();
+    public BookModel(UUID uuid, String title, String author, String publisher, String ISBN, int yearOfPublication, GenreModel genre, int copies) {
+        this.uuid = uuid;
         this.title.set(title);
         this.author.set(author);
         this.publisher.set(publisher);
@@ -33,6 +34,11 @@ public class BookModel implements Serializable {
         this.copies.set(copies);
         this.ratingsSum.set(0);
         this.ratingsCount.set(0);
+        rating.bind(Bindings.createStringBinding(() -> ratingsCount.get() != 0 ? ratingsFormat.format((float) ratingsSum.get() / ratingsCount.get()) + " (" + ratingsCount.get() + ")" : "-", ratingsSum, ratingsCount));
+    }
+
+    public BookModel(String title, String author, String publisher, String ISBN, int yearOfPublication, GenreModel genre, int copies) {
+        this(UUID.randomUUID(), title, author, publisher, ISBN, yearOfPublication, genre, copies);
         rating.bind(Bindings.createStringBinding(() -> ratingsCount.get() != 0 ? ratingsFormat.format((float) ratingsSum.get() / ratingsCount.get()) + " (" + ratingsCount.get() + ")" : "-", ratingsSum, ratingsCount));
     }
 
@@ -96,13 +102,13 @@ public class BookModel implements Serializable {
         this.yearOfPublication.set(yearOfPublication);
     }
 
-    public String getGenre() {
+    public GenreModel getGenre() {
         return genre.get();
     }
 
-    public void setGenre(String genre) {
-        if (genre == null || genre.isBlank()) throw new IllegalArgumentException("Genre cannot be blank");
-        this.genre.set(genre);
+    public void setGenre(UUID uuid) {
+        if (Genres.getInstance().getGenre(uuid) == null) throw new IllegalArgumentException("Genre UUID not found");
+        genre.set(Genres.getInstance().getGenre(uuid));
     }
 
     public int getCopies() {
@@ -139,7 +145,7 @@ public class BookModel implements Serializable {
         stream.writeUTF(author.getValueSafe());
         stream.writeUTF(publisher.getValueSafe());
         stream.writeUTF(ISBN.getValueSafe());
-        stream.writeUTF(genre.getValueSafe());
+        stream.writeObject(genre.getValue());
         stream.writeInt(yearOfPublication.getValue());
         stream.writeInt(copies.getValue());
         stream.writeInt(ratingsSum.getValue());
@@ -153,7 +159,7 @@ public class BookModel implements Serializable {
         author = new SimpleStringProperty(stream.readUTF());
         publisher = new SimpleStringProperty(stream.readUTF());
         ISBN = new SimpleStringProperty(stream.readUTF());
-        genre = new SimpleStringProperty(stream.readUTF());
+        genre = new SimpleObjectProperty<>((GenreModel) stream.readObject());
         yearOfPublication = new SimpleIntegerProperty(stream.readInt());
         copies = new SimpleIntegerProperty(stream.readInt());
         ratingsSum = new SimpleIntegerProperty(stream.readInt());

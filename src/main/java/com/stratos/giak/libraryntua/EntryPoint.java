@@ -30,7 +30,7 @@ public class EntryPoint extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        stage.setTitle("NTUA-Library!");
+        stage.setTitle("NTUA-Library");
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("welcome.fxml")));
         Scene scene = new Scene(root);
         stage.setScene(scene);

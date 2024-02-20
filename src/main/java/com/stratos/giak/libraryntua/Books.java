@@ -53,9 +53,9 @@ public final class Books {
                 || book.getAuthor().isBlank()
                 || book.getPublisher().isBlank()
                 || book.getISBN().isBlank()
-                || book.getGenre().isBlank())
-            throw new IllegalArgumentException("Invalid account info");
-        getAllBooksMap().put(book.getUUID(), book);
+                || book.getGenre() == null)
+            throw new IllegalArgumentException("Invalid book details");
+        getAllBooksMap().putIfAbsent(book.getUUID(), book);
     }
 
     void removeBook(UUID uuid) {
@@ -63,8 +63,8 @@ public final class Books {
     }
 
     void editBook(UUID uuid, BookModel book) {
-        if (getBook(uuid) == null) throw new IllegalArgumentException("Book does not exist");
-        getAllBooksMap().put(uuid, book);
+        if (getAllBooksMap().replace(uuid, book) == null)
+            throw new IllegalArgumentException("Book UUID does not exist");
     }
 
     void saveBooks() throws IOException {

@@ -10,7 +10,7 @@
         <Insets bottom="10" left="25" right="25" top="25"/>
     </padding>
     <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0">
-        <Text text="Edit User"/>
+        <Text fx:id="titleText" text="Create new user"/>
     </HBox>
     <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
     <TextField fx:id="usernameField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
@@ -19,13 +19,13 @@
     <TextField fx:id="passwordField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
     <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-    <TextField fx:id="emailField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    <TextField fx:id="emailField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
     <Label text="First Name:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-    <TextField fx:id="nameFirstField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    <TextField fx:id="nameFirstField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
     <Label text="Last Name:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-    <TextField fx:id="nameLastField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    <TextField fx:id="nameLastField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
     <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
     <TextField fx:id="IDField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1"

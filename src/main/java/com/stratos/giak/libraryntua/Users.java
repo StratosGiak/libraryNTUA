@@ -69,12 +69,12 @@ public final class Users {
                 || user.getNameLast().isBlank()
                 || user.getID().isBlank())
             throw new IllegalArgumentException("Invalid account info");
-        allUsersMap.put(user.getUUID(), user);
+        getAllUsersMap().putIfAbsent(user.getUUID(), user);
     }
 
     void editUser(UUID uuid, UserModel user) {
-        if (getUserByUUID(uuid) == null) throw new IllegalArgumentException("Username does not exists");
-        allUsersMap.put(uuid, user);
+        if (getAllUsersMap().replace(uuid, user) == null)
+            throw new IllegalArgumentException("User UUID does not exists");
     }
 
     void saveUsers() throws IOException {

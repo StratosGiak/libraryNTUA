@@ -62,7 +62,7 @@ public class RegisterController {
             usernameField.setBorder(BORDER_ERROR);
             return;
         }
-        if (!email.matches("[\\w.]+@[\\w.]+\\.\\w+")) {
+        if (!email.matches(".+@.+")) {
             registerErrorText.setText("Please enter a valid email address");
             emailField.setBorder(BORDER_ERROR);
             return;

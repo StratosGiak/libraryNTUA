@@ -16,21 +16,29 @@ public class UserModel implements Serializable {
     private transient SimpleStringProperty email = new SimpleStringProperty();
     private transient SimpleObjectProperty<AccessLevel> accessLevel = new SimpleObjectProperty<>();
 
-    public UserModel(String username, String password, String nameFirst, String nameLast, String ID, String email) {
-        this.uuid = UUID.randomUUID();
+    public UserModel(UUID uuid, String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
+        this.uuid = uuid;
         this.username.set(username);
         this.password.set(password);
         this.nameFirst.set(nameFirst);
         this.nameLast.set(nameLast);
         this.ID.set(ID);
         this.email.set(email);
-        this.accessLevel.set(AccessLevel.USER);
+        this.accessLevel.set(accessLevel);
+    }
+
+    public UserModel(UUID uuid, String username, String password, String nameFirst, String nameLast, String ID, String email) {
+        this(uuid, username, password, nameFirst, nameLast, ID, email, AccessLevel.USER);
+    }
+
+    public UserModel(String username, String password, String nameFirst, String nameLast, String ID, String email) {
+        this(UUID.randomUUID(), username, password, nameFirst, nameLast, ID, email, AccessLevel.USER);
     }
 
     public UserModel(String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
-        this(username, password, nameFirst, nameLast, ID, email);
-        this.accessLevel.set(accessLevel);
+        this(UUID.randomUUID(), username, password, nameFirst, nameLast, ID, email, accessLevel);
     }
+
 
     public UUID getUUID() {
         return uuid;

@@ -42,26 +42,23 @@ public class MainView {
     private TabPane tabPane;
 
     public void initialize() {
-        addBookButton.setOnAction(event -> {
-            try {
-                handleAddBookButtonAction(event);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
         addBookButton.visibleProperty().set(LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN);
         addBookButton.managedProperty().bind(addBookButton.visibleProperty());
-
-        addUserButton.setOnAction(event -> {
-            try {
-                handleAddUserButtonAction(event);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
         addUserButton.visibleProperty().set(LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN);
         addUserButton.managedProperty().bind(addUserButton.visibleProperty());
+        tabPane.addEventFilter(CustomEvents.EXIT_BOOK_EVENT, event -> {
+            tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedIndex());
+            tabPane.getSelectionModel().select(0);
+            event.consume();
+        });
+        tabPane.addEventFilter(CustomEvents.EXIT_USER_EVENT, event -> {
+            tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedIndex());
+            tabPane.getSelectionModel().select(1);
+            event.consume();
+        });
+
         searchYearOfPublicationField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), null, integerFilter));
+
         FilteredList<UserModel> filteredUsers = new FilteredList<>(users, null);
         FilteredList<BookModel> filteredBooks = new FilteredList<>(books, null);
 
@@ -79,11 +76,43 @@ public class MainView {
             }
         });
 
+        tableViewUsers.setRowFactory(tableView -> {
+            TableRow<UserModel> row = new TableRow<>();
+            row.setOnMouseClicked(clickEvent -> {
+                if (clickEvent.getClickCount() > 1) {
+                    if (row.getItem() == null) return;
+                    FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Utilities.class.getResource("edit-user.fxml")));
+                    Parent root;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    ((EditUserController) loader.getController()).initializeFields(row.getItem());
+                    Tab tab = new Tab("Edit User", root);
+                    tabPane.getTabs().add(tab);
+                    tabPane.getSelectionModel().select(tab);
+                }
+            });
+            return row;
+        });
+
         tableViewBooks.setRowFactory(tableView -> {
             TableRow<BookModel> row = new TableRow<>();
             row.setOnMouseClicked(clickEvent -> {
                 if (clickEvent.getClickCount() > 1) {
-                    System.out.println("CLICKED");
+                    if (row.getItem() == null) return;
+                    FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Utilities.class.getResource("edit-book.fxml")));
+                    Parent root;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    ((EditBookController) loader.getController()).initializeFields(row.getItem());
+                    Tab tab = new Tab("Edit Book", root);
+                    tabPane.getTabs().add(tab);
+                    tabPane.getSelectionModel().select(tab);
                 }
             });
             return row;
@@ -92,15 +121,15 @@ public class MainView {
         tableViewUsers.setItems(filteredUsers);
         tableViewBooks.setItems(filteredBooks);
 
-        searchTitleField.textProperty().addListener((obs, oldValue, newValue) -> {
-            titlePredicate.set(book -> book.getTitle().toLowerCase().contains(newValue.toLowerCase().trim()));
-        });
-        searchAuthorField.textProperty().addListener((obs, oldValue, newValue) -> {
-            authorPredicate.set(book -> book.getAuthor().toLowerCase().contains(newValue.toLowerCase().trim()));
-        });
-        searchYearOfPublicationField.textProperty().addListener((obs, oldValue, newValue) -> {
-            yearOfPublicationPredicate.set(book -> newValue.isBlank() || book.getYearOfPublication() == Integer.parseInt(newValue));
-        });
+        searchTitleField.textProperty().addListener((obs, oldValue, newValue) ->
+                titlePredicate.set(book -> book.getTitle().toLowerCase().contains(newValue.toLowerCase().trim()))
+        );
+        searchAuthorField.textProperty().addListener((obs, oldValue, newValue) ->
+                authorPredicate.set(book -> book.getAuthor().toLowerCase().contains(newValue.toLowerCase().trim()))
+        );
+        searchYearOfPublicationField.textProperty().addListener((obs, oldValue, newValue) ->
+                yearOfPublicationPredicate.set(book -> newValue.isBlank() || book.getYearOfPublication() == Integer.parseInt(newValue))
+        );
 //        AutoCompletionBinding<String> autocompletion = TextFields.bindAutoCompletion(searchTitleField, Genres.getInstance().getGenresList());
 //        searchTitleField.setOnMouseClicked(event -> {
 //            if (searchTitleField.getText().isBlank()) {
@@ -109,7 +138,26 @@ public class MainView {
 //            autocompletion.getAutoCompletionPopup().show(searchTitleField);
 //        });
         for (TableColumn columnName : tableViewUsers.getColumns()) {
+            columnName.setReorderable(false);
             columnName.setCellFactory(column -> new TableCell<UserModel, Object>() {
+                @Override
+                protected void updateItem(Object item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setGraphic(null);
+                        return;
+                    }
+                    setText(item.toString());
+                    Tooltip t = new Tooltip(item.toString());
+                    t.setShowDelay(new Duration(300));
+                    setTooltip(t);
+                }
+            });
+        }
+        for (TableColumn columnName : tableViewBooks.getColumns()) {
+            columnName.setReorderable(false);
+            columnName.setCellFactory(column -> new TableCell<BookModel, Object>() {
                 @Override
                 protected void updateItem(Object item, boolean empty) {
                     super.updateItem(item, empty);
@@ -137,7 +185,7 @@ public class MainView {
     }
 
     public void handleAddBookButtonAction(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Utilities.class.getResource("create-book.fxml")));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Utilities.class.getResource("edit-book.fxml")));
         Parent root = loader.load();
         Tab tab = new Tab("Add Book", root);
         tabPane.getTabs().add(tab);

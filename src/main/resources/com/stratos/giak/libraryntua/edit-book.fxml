@@ -5,13 +5,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" hgap="10" vgap="10"
-          xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.stratos.giak.libraryntua.CreateBookController">
+          xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.stratos.giak.libraryntua.EditBookController">
     <padding>
         <Insets bottom="10" left="25" right="25" top="25"/>
     </padding>
     <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0">
-        <Text text="Create book"/>
+        <Text fx:id="titleText" text="Create new book"/>
     </HBox>
+
     <Label text="Title:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
     <TextField fx:id="titleField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
@@ -25,7 +26,7 @@
     <TextField fx:id="ISBNField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
     <Label text="Genre:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-    <TextField fx:id="genreField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    <ChoiceBox fx:id="genreField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
     <Label text="Year of publication:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
     <TextField fx:id="yearOfPublicationField" maxWidth="-Infinity"

@@ -1,7 +1,9 @@
 package com.stratos.giak.libraryntua;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Border;
@@ -24,6 +26,7 @@ public class EditUserController {
     public TextField IDField;
     @FXML
     public Text errorText;
+    public Text titleText;
     @FXML
     private TextField usernameField;
     @FXML
@@ -36,8 +39,8 @@ public class EditUserController {
     private String initialID;
     private UUID uuid;
 
-
     public void initializeFields(UserModel user) {
+        if (user == null) return;
         uuid = user.getUUID();
         initialUsername = user.getUsername();
         initialPassword = user.getPassword();
@@ -51,10 +54,7 @@ public class EditUserController {
         nameFirstField.setText(initialNameFirst);
         nameLastField.setText(initialNameLast);
         IDField.setText(initialID);
-    }
-
-    public void initialize() {
-
+        titleText.setText("Edit user " + initialUsername);
     }
 
     public void onFieldClicked(MouseEvent ignoredMouseEvent) {
@@ -66,7 +66,7 @@ public class EditUserController {
         IDField.setBorder(Border.EMPTY);
     }
 
-    public void handleSubmitButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleSubmitButtonAction(ActionEvent actionEvent) {
         final String username = usernameField.getText();
         final String password = passwordField.getText();
         final String email = emailField.getText();
@@ -83,12 +83,12 @@ public class EditUserController {
             if (ID.isBlank()) IDField.setBorder(BORDER_ERROR);
             return;
         }
-        if (!username.equals(initialUsername) && Users.getInstance().getUserByUsername(username) != null) {
+        if ((uuid == null || !username.equals(initialUsername)) && Users.getInstance().getUserByUsername(username) != null) {
             errorText.setText("Username already exists");
             usernameField.setBorder(BORDER_ERROR);
             return;
         }
-        if (!email.matches("[\\w.]+@[\\w.]+\\.\\w+")) {
+        if (!email.matches(".+@.+")) {
             errorText.setText("Please enter a valid email address");
             emailField.setBorder(BORDER_ERROR);
             return;
@@ -98,7 +98,7 @@ public class EditUserController {
             IDField.setBorder(BORDER_ERROR);
             return;
         }
-        if (!email.equals(initialEmail)) {
+        if (uuid == null || !email.equals(initialEmail)) {
             for (UserModel user : Users.getInstance().getAllUsersList()) {
                 if (user.getEmail().equals(email)) {
                     errorText.setText("Email already exists");
@@ -107,7 +107,7 @@ public class EditUserController {
                 }
             }
         }
-        if (!ID.equals(initialID)) {
+        if (uuid == null || !ID.equals(initialID)) {
             for (UserModel user : Users.getInstance().getAllUsersList()) {
                 if (user.getID().equals(ID)) {
                     errorText.setText("ID already exists");
@@ -116,12 +116,18 @@ public class EditUserController {
                 }
             }
         }
-        final UserModel user = new UserModel(username, password, nameFirst, nameLast, ID, email, AccessLevel.USER);
-        Users.getInstance().editUser(uuid, user);
-        Utilities.changeScene(actionEvent, "main-view.fxml");
+        final UserModel user;
+        if (uuid == null) {
+            user = new UserModel(username, password, nameFirst, nameLast, ID, email);
+            Users.getInstance().addUser(user);
+        } else {
+            user = new UserModel(uuid, username, password, nameFirst, nameLast, ID, email);
+            Users.getInstance().editUser(uuid, user);
+        }
+        ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_USER_EVENT));
     }
 
     public void handleCancelButtonAction(ActionEvent actionEvent) throws IOException {
-        Utilities.changeScene(actionEvent, "main-view.fxml");
+        ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_USER_EVENT));
     }
 }
