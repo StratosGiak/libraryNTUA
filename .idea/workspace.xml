@@ -4,24 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="461b61c3-1cb4-44a0-9524-27eda1e699ac" name="Changes" comment="basic functionality">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/GenreModel.java" afterDir="false" />
+    <list default="true" id="461b61c3-1cb4-44a0-9524-27eda1e699ac" name="Changes" comment="added genres">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookListController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/UserListController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/book-list.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/user-list.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookSearchOptions.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Books.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Books.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/CreateBookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditBookController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/CustomEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/CustomEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EntryPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Genres.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Genres.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/MainView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/UserModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/UserModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Users.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/create-book.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/edit-book.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/edit-user.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/edit-user.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/main-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -163,7 +153,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708372915015</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="added genres">
+      <option name="closed" value="true" />
+      <created>1708395267657</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1708395267657</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -178,8 +176,24 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="initial commit, sample project" />
     <MESSAGE value="basic functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="basic functionality" />
+    <MESSAGE value="added genres" />
+    <option name="LAST_COMMIT_MESSAGE" value="added genres" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditBookController.java</url>
+          <line>48</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
