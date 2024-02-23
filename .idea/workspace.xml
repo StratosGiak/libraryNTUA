@@ -4,15 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="461b61c3-1cb4-44a0-9524-27eda1e699ac" name="Changes" comment="added genres">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookListController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/UserListController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/book-list.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/user-list.fxml" afterDir="false" />
+    <list default="true" id="461b61c3-1cb4-44a0-9524-27eda1e699ac" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookDetailsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookShowcaseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/book-details.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/book-showcase.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookListController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/CustomEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/CustomEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/MainView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditBookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditBookController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Genres.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Genres.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/MainViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/UserListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/UserListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/book-list.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/book-list.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/edit-book.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/edit-book.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/edit-user.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/edit-user.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/login.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/main-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/register.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/register.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/welcome.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/welcome.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +88,7 @@
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_directory_selection": "C:/Users/Stratos/IdeaProjects/libraryNTUA/src/main/java/com/stratos/giak/libraryntua",
-    "last_opened_file_path": "C:/Users/Stratos/IdeaProjects/libraryNTUA/src/main/resources/com/stratos/giak/libraryntua/images",
+    "last_opened_file_path": "C:/Users/Stratos/IdeaProjects/test",
     "project.structure.last.edited": "Problems",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.38850576",
@@ -99,7 +116,6 @@
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.stratos.giak.libraryntua.EntryPoint" />
       <module name="libraryNTUA" />
-      <option name="VM_PARAMETERS" value="--add-exports javafx.base/com.sun.javafx.event=controlsfx" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -161,7 +177,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708395267657</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="refactored main view">
+      <option name="closed" value="true" />
+      <created>1708483194668</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1708483194668</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -180,20 +204,7 @@
     <MESSAGE value="initial commit, sample project" />
     <MESSAGE value="basic functionality" />
     <MESSAGE value="added genres" />
-    <option name="LAST_COMMIT_MESSAGE" value="added genres" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditBookController.java</url>
-          <line>48</line>
-          <properties>
-            <option name="lambda-ordinal" value="-1" />
-          </properties>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="refactored main view" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactored main view" />
   </component>
 </project>

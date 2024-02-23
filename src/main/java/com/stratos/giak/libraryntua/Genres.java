@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 import java.io.*;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -21,13 +22,20 @@ public final class Genres implements Serializable {
             try {
                 instance.loadGenres();
             } catch (IOException | ClassNotFoundException e) {
-                instance.addGenre(new GenreModel("Fantasy"));
-                instance.addGenre(new GenreModel("Science Fiction"));
-                instance.addGenre(new GenreModel("Novel"));
-                instance.addGenre(new GenreModel("Poetry"));
+                GenreModel[] defaultGenres = {
+                        null,
+                        new GenreModel("Fantasy"),
+                        new GenreModel("Science Fiction"),
+                        new GenreModel("Novel"),
+                        new GenreModel("Poetry")
+                };
+                for (GenreModel genre : defaultGenres) {
+                    instance.getGenresMap().put(genre != null ? genre.getUUID() : UUID.randomUUID(), genre);
+                }
                 return instance;
             } finally {
                 instance.genresList = FXCollections.observableArrayList(instance.genresMap.values());
+                instance.genresList.sort(Comparator.nullsFirst(Comparator.comparing(GenreModel::getName)));
                 instance.genresMap.addListener((MapChangeListener<UUID, GenreModel>) change -> {
                     if (change.wasAdded()) {
                         instance.genresList.add(change.getValueAdded());

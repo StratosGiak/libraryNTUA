@@ -39,9 +39,10 @@ public class EditUserController {
     private String initialID;
     private UUID uuid;
 
-    public void initializeFields(UserModel user) {
-        if (user == null) return;
-        uuid = user.getUUID();
+    public void initializeFields(UUID uuid) {
+        this.uuid = uuid;
+        if (this.uuid == null) return;
+        UserModel user = Users.getInstance().getUserByUUID(this.uuid);
         initialUsername = user.getUsername();
         initialPassword = user.getPassword();
         initialEmail = user.getEmail();
@@ -98,23 +99,15 @@ public class EditUserController {
             IDField.setBorder(BORDER_ERROR);
             return;
         }
-        if (uuid == null || !email.equals(initialEmail)) {
-            for (UserModel user : Users.getInstance().getAllUsersList()) {
-                if (user.getEmail().equals(email)) {
-                    errorText.setText("Email already exists");
-                    emailField.setBorder(BORDER_ERROR);
-                    return;
-                }
-            }
+        if ((uuid == null || !email.equals(initialEmail)) && Users.getInstance().getAllUsersList().stream().anyMatch(user -> user.getEmail().equals(email))) {
+            errorText.setText("Email already exists");
+            emailField.setBorder(BORDER_ERROR);
+            return;
         }
-        if (uuid == null || !ID.equals(initialID)) {
-            for (UserModel user : Users.getInstance().getAllUsersList()) {
-                if (user.getID().equals(ID)) {
-                    errorText.setText("ID already exists");
-                    IDField.setBorder(BORDER_ERROR);
-                    return;
-                }
-            }
+        if ((uuid == null || !ID.equals(initialID)) && Users.getInstance().getAllUsersList().stream().anyMatch(user -> user.getID().equals(ID))) {
+            errorText.setText("ID already exists");
+            IDField.setBorder(BORDER_ERROR);
+            return;
         }
         final UserModel user;
         if (uuid == null) {

@@ -8,14 +8,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.UUID;
 
 public class EntryPoint extends Application {
 
     public void init() {
-        for (UUID key : Users.getInstance().getAllUsersMap().keySet()) {
-            System.out.println(Users.getInstance().getAllUsersMap().get(key) + "\n" + key + "\n");
-        }
+//        for (UUID key : Users.getInstance().getAllUsersMap().keySet()) {
+//            System.out.println(Users.getInstance().getAllUsersMap().get(key) + "\n" + key + "\n");
+//        }
     }
 
     public void stop() {

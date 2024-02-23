@@ -16,9 +16,6 @@ public class UserListController {
     private TableView<UserModel> tableViewUsers;
 
     public void initialize() {
-        addUserButton.visibleProperty().set(LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN);
-        addUserButton.managedProperty().bind(addUserButton.visibleProperty());
-
         FilteredList<UserModel> filteredUsers = new FilteredList<>(users, null);
 
         tableViewUsers.setRowFactory(tableView -> {
@@ -26,7 +23,7 @@ public class UserListController {
             row.setOnMouseClicked(clickEvent -> {
                 if (clickEvent.getClickCount() > 1) {
                     if (row.getItem() == null) return;
-                    ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.CreateUserEvent(row.getItem()));
+                    ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.CreateUserEvent(row.getItem().getUUID()));
                 }
             });
             return row;

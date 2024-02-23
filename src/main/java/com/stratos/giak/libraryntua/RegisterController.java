@@ -72,17 +72,15 @@ public class RegisterController {
             IDField.setBorder(BORDER_ERROR);
             return;
         }
-        for (UserModel user : Users.getInstance().getAllUsersList()) {
-            if (user.getEmail().equals(email)) {
-                registerErrorText.setText("Email already exists");
-                emailField.setBorder(BORDER_ERROR);
-                return;
-            }
-            if (user.getID().equals(ID)) {
-                registerErrorText.setText("ID already exists");
-                IDField.setBorder(BORDER_ERROR);
-                return;
-            }
+        if (Users.getInstance().getAllUsersList().stream().anyMatch(user -> user.getEmail().equals(email))) {
+            registerErrorText.setText("Email already exists");
+            emailField.setBorder(BORDER_ERROR);
+            return;
+        }
+        if (Users.getInstance().getAllUsersList().stream().anyMatch(user -> user.getID().equals(ID))) {
+            registerErrorText.setText("ID already exists");
+            IDField.setBorder(BORDER_ERROR);
+            return;
         }
         final UserModel user = new UserModel(username, password, nameFirst, nameLast, ID, email, AccessLevel.USER);
         Users.getInstance().addUser(user);

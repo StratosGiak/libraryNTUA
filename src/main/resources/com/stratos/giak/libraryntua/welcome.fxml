@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <SplitPane xmlns:fx="http://javafx.com/fxml/1" fx:id="splitPane"
            fx:controller="com.stratos.giak.libraryntua.WelcomeController"
            xmlns="http://javafx.com/javafx/17.0.2-ea">
-    <ImageView>
-        <Image url="@background.jpg"/>
-    </ImageView>
+    <fx:include source="book-showcase.fxml"/>
     <fx:include source="login.fxml"/>
 </SplitPane>

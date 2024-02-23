@@ -9,33 +9,31 @@ import javafx.scene.control.TabPane;
 import java.io.IOException;
 import java.util.Objects;
 
-public class MainView {
+public class MainViewController {
 
     @FXML
     private TabPane tabPane;
 
     public void initialize() {
+//        if(LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN){
+//            tabPane.getTabs().add(new Tab("Users"));
+//        }
         tabPane.addEventFilter(CustomEvents.CreateUserEvent.CREATE_USER_EVENT, event -> {
+            if (LoggedUser.getInstance().getUser().getAccessLevel() != AccessLevel.ADMIN) {
+                CustomAlerts.showPrivilegesAlert();
+                return;
+            }
             Parent root;
             Tab tab;
             FXMLLoader loader;
-            if (LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN) {
-                loader = new FXMLLoader(Objects.requireNonNull(Utilities.class.getResource("edit-user.fxml")));
-            } else {
-                loader = new FXMLLoader(Objects.requireNonNull(Utilities.class.getResource("edit-user.fxml")));
-            }
+            loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("edit-user.fxml")));
             try {
                 root = loader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            if (LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN) {
-                ((EditUserController) loader.getController()).initializeFields(event.getUser());
-                tab = new Tab("Edit User", root);
-            } else {
-                ((EditUserController) loader.getController()).initializeFields(event.getUser());
-                tab = new Tab("Edit User", root);
-            }
+            ((EditUserController) loader.getController()).initializeFields(event.getUUID());
+            tab = new Tab("Edit User", root);
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
             event.consume();
@@ -45,9 +43,9 @@ public class MainView {
             Tab tab;
             FXMLLoader loader;
             if (LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN) {
-                loader = new FXMLLoader(Objects.requireNonNull(Utilities.class.getResource("edit-book.fxml")));
+                loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("edit-book.fxml")));
             } else {
-                loader = new FXMLLoader(Objects.requireNonNull(Utilities.class.getResource("edit-book.fxml")));
+                loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("book-details.fxml")));
             }
             try {
                 root = loader.load();
@@ -55,11 +53,11 @@ public class MainView {
                 throw new RuntimeException(e);
             }
             if (LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN) {
-                ((EditBookController) loader.getController()).initializeFields(event.getBook());
+                ((EditBookController) loader.getController()).initializeFields(event.getUUID());
                 tab = new Tab("Edit Book", root);
             } else {
-                ((EditBookController) loader.getController()).initializeFields(event.getBook());
-                tab = new Tab("Edit Book", root);
+                ((BookDetailsController) loader.getController()).initializeFields(event.getUUID());
+                tab = new Tab(Books.getInstance().getBook(event.getUUID()).getTitle(), root);
             }
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);

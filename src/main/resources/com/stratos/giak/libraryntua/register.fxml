@@ -43,7 +43,7 @@
     <Text fx:id="registerErrorText" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
 
     <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="9">
-        <Button onAction="#handleLoginButtonAction" text="Sign Up"/>
+        <Button onAction="#handleLoginButtonAction" styleClass="button1" text="Sign Up"/>
     </HBox>
     <TextFlow fx:id="loginTextFlow" GridPane.columnIndex="0" GridPane.rowIndex="10"
               GridPane.columnSpan="2"/>

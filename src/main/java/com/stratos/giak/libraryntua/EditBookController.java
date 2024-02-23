@@ -45,9 +45,10 @@ public class EditBookController {
     private int initialCopies;
     private UUID uuid;
 
-    public void initializeFields(BookModel book) {
-        if (book == null) return;
-        uuid = book.getUUID();
+    public void initializeFields(UUID uuid) {
+        this.uuid = uuid;
+        if (this.uuid == null) return;
+        BookModel book = Books.getInstance().getBook(uuid);
         initialTitle = book.getTitle();
         initialAuthor = book.getAuthor();
         initialPublisher = book.getPublisher();

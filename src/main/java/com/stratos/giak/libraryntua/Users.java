@@ -78,7 +78,7 @@ public final class Users {
     }
 
     void saveUsers() throws IOException {
-        FileOutputStream fileStream = new FileOutputStream("medialab/credentials");
+        FileOutputStream fileStream = new FileOutputStream("medialab/users");
         ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
         objectStream.writeObject(new HashMap<>(getAllUsersMap()));
         objectStream.close();
@@ -86,7 +86,7 @@ public final class Users {
     }
 
     void loadUsers() throws IOException, ClassNotFoundException {
-        FileInputStream fileStream = new FileInputStream("medialab/credentials");
+        FileInputStream fileStream = new FileInputStream("medialab/users");
         ObjectInputStream objectStream = new ObjectInputStream(fileStream);
         allUsersMap = FXCollections.observableMap((HashMap<UUID, UserModel>) objectStream.readObject());
         objectStream.close();

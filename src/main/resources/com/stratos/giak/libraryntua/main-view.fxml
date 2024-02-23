@@ -3,8 +3,8 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <TabPane xmlns:fx="http://javafx.com/fxml/1" fx:id="tabPane"
-         xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.stratos.giak.libraryntua.MainView">
-    <Tab text="Books" closable="false">
+         xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.stratos.giak.libraryntua.MainViewController">
+    <Tab text="Library" closable="false">
         <fx:include source="book-list.fxml"/>
     </Tab>
     <Tab text="Users" closable="false">
