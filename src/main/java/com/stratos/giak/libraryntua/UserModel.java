@@ -2,8 +2,11 @@ package com.stratos.giak.libraryntua;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class UserModel implements Serializable {
@@ -14,7 +17,9 @@ public class UserModel implements Serializable {
     private transient SimpleStringProperty nameLast = new SimpleStringProperty();
     private transient SimpleStringProperty ID = new SimpleStringProperty();
     private transient SimpleStringProperty email = new SimpleStringProperty();
+
     private transient SimpleObjectProperty<AccessLevel> accessLevel = new SimpleObjectProperty<>();
+    private transient ObservableList<UUID> borrowedList = FXCollections.observableArrayList();
 
     public UserModel(UUID uuid, String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
         this.uuid = uuid;
@@ -39,12 +44,15 @@ public class UserModel implements Serializable {
         this(UUID.randomUUID(), username, password, nameFirst, nameLast, ID, email, accessLevel);
     }
 
+    public ObservableList<UUID> getBorrowedList() {
+        return borrowedList;
+    }
 
     public UUID getUUID() {
         return uuid;
     }
 
-    public SimpleObjectProperty<AccessLevel> getAccessLevelProperty() {
+    public SimpleObjectProperty<AccessLevel> accessLevelProperty() {
         return accessLevel;
     }
 
@@ -131,13 +139,14 @@ public class UserModel implements Serializable {
     @Serial
     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
-        stream.writeUTF(username.getValueSafe());
-        stream.writeUTF(password.getValueSafe());
-        stream.writeUTF(nameFirst.getValueSafe());
-        stream.writeUTF(nameLast.getValueSafe());
-        stream.writeUTF(ID.getValueSafe());
-        stream.writeUTF(email.getValueSafe());
-        stream.writeObject(accessLevel.getValue());
+        stream.writeUTF(getUsername());
+        stream.writeUTF(getPassword());
+        stream.writeUTF(getNameFirst());
+        stream.writeUTF(getNameLast());
+        stream.writeUTF(getID());
+        stream.writeUTF(getEmail());
+        stream.writeObject(getAccessLevel());
+        stream.writeObject(new ArrayList<>(getBorrowedList()));
     }
 
     @Serial
@@ -150,6 +159,7 @@ public class UserModel implements Serializable {
         ID = new SimpleStringProperty(stream.readUTF());
         email = new SimpleStringProperty(stream.readUTF());
         accessLevel = new SimpleObjectProperty<>((AccessLevel) stream.readObject());
+        borrowedList = FXCollections.observableArrayList((ArrayList<UUID>) stream.readObject());
     }
 
     public String toString() {

@@ -21,6 +21,7 @@ public class UserListController {
         tableViewUsers.setRowFactory(tableView -> {
             TableRow<UserModel> row = new TableRow<>();
             row.setOnMouseClicked(clickEvent -> {
+                System.out.println(LoggedUser.getInstance().getUser().getUsername());
                 if (clickEvent.getClickCount() > 1) {
                     if (row.getItem() == null) return;
                     ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.CreateUserEvent(row.getItem().getUUID()));

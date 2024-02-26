@@ -17,7 +17,7 @@ public class BookShowcaseController {
 
     public void initialize() {
         if (Books.getInstance().getAllBooksList().isEmpty()) {
-            VBox vBox = new VBox(new Text("There are currently no books available"));
+            VBox vBox = new VBox(new Text("There are currently no books in the library"));
             vBox.alignmentProperty().set(Pos.CENTER);
             showcaseRow.getChildren().add(vBox);
         } else {
@@ -38,7 +38,6 @@ public class BookShowcaseController {
                         new Text(book.getTitle()),
                         new Text(book.getAuthor()),
                         new Text(book.getISBN()),
-                        new Text(book.getRating()),
                         new Group(hbox)
                 );
                 vBox.alignmentProperty().set(Pos.CENTER);

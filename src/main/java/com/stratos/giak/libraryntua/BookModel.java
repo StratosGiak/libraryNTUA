@@ -4,8 +4,11 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static com.stratos.giak.libraryntua.Utilities.ratingsFormat;
@@ -22,6 +25,7 @@ public class BookModel implements Serializable {
     private transient SimpleIntegerProperty ratingsSum = new SimpleIntegerProperty();
     private transient SimpleIntegerProperty ratingsCount = new SimpleIntegerProperty();
     private transient SimpleStringProperty rating = new SimpleStringProperty();
+    private transient ObservableList<CommentModel> comments = FXCollections.observableArrayList();
 
     public BookModel(UUID uuid, String title, String author, String publisher, String ISBN, int yearOfPublication, GenreModel genre, int copies) {
         this.uuid = uuid;
@@ -40,6 +44,46 @@ public class BookModel implements Serializable {
     public BookModel(String title, String author, String publisher, String ISBN, int yearOfPublication, GenreModel genre, int copies) {
         this(UUID.randomUUID(), title, author, publisher, ISBN, yearOfPublication, genre, copies);
         rating.bind(Bindings.createStringBinding(() -> ratingsCount.get() != 0 ? ratingsFormat.format((float) ratingsSum.get() / ratingsCount.get()) + " (" + ratingsCount.get() + ")" : "-", ratingsSum, ratingsCount));
+    }
+
+    public SimpleStringProperty titleProperty() {
+        return title;
+    }
+
+    public SimpleStringProperty authorProperty() {
+        return author;
+    }
+
+    public SimpleStringProperty publisherProperty() {
+        return publisher;
+    }
+
+    public SimpleStringProperty ISBNProperty() {
+        return ISBN;
+    }
+
+    public SimpleObjectProperty<GenreModel> genreProperty() {
+        return genre;
+    }
+
+    public SimpleIntegerProperty yearOfPublicationProperty() {
+        return yearOfPublication;
+    }
+
+    public SimpleIntegerProperty ratingsSumProperty() {
+        return ratingsSum;
+    }
+
+    public SimpleIntegerProperty ratingsCountProperty() {
+        return ratingsCount;
+    }
+
+    public ObservableList<CommentModel> getComments() {
+        return comments;
+    }
+
+    public SimpleIntegerProperty copiesProperty() {
+        return copies;
     }
 
     public String getRating() {
@@ -148,6 +192,7 @@ public class BookModel implements Serializable {
         stream.writeObject(genre.getValue());
         stream.writeInt(yearOfPublication.getValue());
         stream.writeInt(copies.getValue());
+        stream.writeObject(new ArrayList<>(comments));
         stream.writeInt(ratingsSum.getValue());
         stream.writeInt(ratingsCount.getValue());
     }
@@ -162,6 +207,7 @@ public class BookModel implements Serializable {
         genre = new SimpleObjectProperty<>((GenreModel) stream.readObject());
         yearOfPublication = new SimpleIntegerProperty(stream.readInt());
         copies = new SimpleIntegerProperty(stream.readInt());
+        comments = FXCollections.observableArrayList((ArrayList<CommentModel>) stream.readObject());
         ratingsSum = new SimpleIntegerProperty(stream.readInt());
         ratingsCount = new SimpleIntegerProperty(stream.readInt());
         rating = new SimpleStringProperty();

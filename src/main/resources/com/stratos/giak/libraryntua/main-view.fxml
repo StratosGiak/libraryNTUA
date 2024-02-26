@@ -10,4 +10,7 @@
     <Tab text="Users" closable="false">
         <fx:include source="user-list.fxml"/>
     </Tab>
+    <Tab text="Loans" closable="false">
+        <fx:include source="loan-list.fxml"/>
+    </Tab>
 </TabPane>

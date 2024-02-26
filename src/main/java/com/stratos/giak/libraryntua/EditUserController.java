@@ -37,6 +37,7 @@ public class EditUserController {
     private String initialNameFirst;
     private String initialNameLast;
     private String initialID;
+    private AccessLevel initalAccessLevel;
     private UUID uuid;
 
     public void initializeFields(UUID uuid) {
@@ -49,6 +50,7 @@ public class EditUserController {
         initialNameFirst = user.getNameFirst();
         initialNameLast = user.getNameLast();
         initialID = user.getID();
+        initalAccessLevel = user.getAccessLevel();
         usernameField.setText(initialUsername);
         passwordField.setText(initialPassword);
         emailField.setText(initialEmail);
@@ -114,7 +116,7 @@ public class EditUserController {
             user = new UserModel(username, password, nameFirst, nameLast, ID, email);
             Users.getInstance().addUser(user);
         } else {
-            user = new UserModel(uuid, username, password, nameFirst, nameLast, ID, email);
+            user = new UserModel(uuid, username, password, nameFirst, nameLast, ID, email, initalAccessLevel);
             Users.getInstance().editUser(uuid, user);
         }
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_USER_EVENT));

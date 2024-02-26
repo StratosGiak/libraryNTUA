@@ -22,6 +22,7 @@ public class EntryPoint extends Application {
             Users.getInstance().saveUsers();
             Books.getInstance().saveBooks();
             Genres.getInstance().saveGenres();
+            Loans.getInstance().saveLoans();
         } catch (IOException e) {
             e.printStackTrace();
         }

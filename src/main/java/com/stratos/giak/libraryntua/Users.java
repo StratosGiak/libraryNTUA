@@ -63,11 +63,11 @@ public final class Users {
 
     void addUser(UserModel user) {
         if (user.getUsername().isBlank()
-                || user.getPassword().isBlank()
-                || user.getEmail().isBlank()
-                || user.getNameFirst().isBlank()
-                || user.getNameLast().isBlank()
-                || user.getID().isBlank())
+            || user.getPassword().isBlank()
+            || user.getEmail().isBlank()
+            || user.getNameFirst().isBlank()
+            || user.getNameLast().isBlank()
+            || user.getID().isBlank())
             throw new IllegalArgumentException("Invalid account info");
         getAllUsersMap().putIfAbsent(user.getUUID(), user);
     }

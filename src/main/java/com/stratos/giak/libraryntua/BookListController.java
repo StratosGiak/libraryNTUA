@@ -120,6 +120,7 @@ public class BookListController {
     }
 
     public void handleAddBookButtonAction(ActionEvent actionEvent) {
-        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.CreateBookEvent());
+        Books.getInstance().getBook(Books.getInstance().getAllBooksList().get(0).getUUID()).setTitle("Hello");
+        //((Node) actionEvent.getSource()).fireEvent(new CustomEvents.CreateBookEvent());
     }
 }

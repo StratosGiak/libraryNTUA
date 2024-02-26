@@ -5,31 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="461b61c3-1cb4-44a0-9524-27eda1e699ac" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookDetailsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookShowcaseController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/book-details.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/book-showcase.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/CommentModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/LoanListController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/LoanModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Loans.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/loan-list.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookDetailsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookDetailsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookListController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/CustomEvents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/CustomEvents.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditBookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditBookController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookShowcaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/BookShowcaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/CustomAlerts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/CustomAlerts.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EditUserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/EntryPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Genres.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Genres.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/MainViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/LoggedUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/LoggedUser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/UserListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/UserListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/UserModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/UserModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stratos/giak/libraryntua/Users.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/book-list.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/book-list.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/edit-book.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/edit-book.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/edit-user.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/edit-user.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/book-details.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/book-details.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/main-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/register.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/register.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/welcome.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stratos/giak/libraryntua/welcome.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,29 +67,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Application.EntryPoint.executor": "Run",
-    "Application.HelloApplication.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.TextLink.executor": "Debug",
-    "Application.Unnamed.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_directory_selection": "C:/Users/Stratos/IdeaProjects/libraryNTUA/src/main/java/com/stratos/giak/libraryntua",
-    "last_opened_file_path": "C:/Users/Stratos/IdeaProjects/test",
-    "project.structure.last.edited": "Problems",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.38850576",
-    "rearrange.code.on.save": "true",
-    "settings.editor.selected.configurable": "project.propVCSSupport.CommitDialog"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Application.EntryPoint.executor&quot;: &quot;Run&quot;,
+    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TextLink.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/Stratos/IdeaProjects/libraryNTUA/src/main/java/com/stratos/giak/libraryntua&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Stratos/IdeaProjects/test&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.38850576&quot;,
+    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.CommitDialog&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Stratos\IdeaProjects\libraryNTUA\src\main\resources\com\stratos\giak\libraryntua\images" />
@@ -185,7 +179,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708483194668</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added showcase, ratings">
+      <option name="closed" value="true" />
+      <created>1708651125261</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1708651125261</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -205,6 +207,7 @@
     <MESSAGE value="basic functionality" />
     <MESSAGE value="added genres" />
     <MESSAGE value="refactored main view" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactored main view" />
+    <MESSAGE value="added showcase, ratings" />
+    <option name="LAST_COMMIT_MESSAGE" value="added showcase, ratings" />
   </component>
 </project>
