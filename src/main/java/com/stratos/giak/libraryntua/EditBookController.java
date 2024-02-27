@@ -101,13 +101,11 @@ public class EditBookController {
             if (copies.isBlank()) copiesField.setBorder(BORDER_ERROR);
             return;
         }
-        final BookModel book;
         if (uuid == null) {
-            book = new BookModel(title, author, publisher, ISBN, Integer.parseInt(yearOfPublication), genre, Integer.parseInt(copies));
+            final BookModel book = new BookModel(title, author, publisher, ISBN, Integer.parseInt(yearOfPublication), genre, Integer.parseInt(copies));
             Books.getInstance().addBook(book);
         } else {
-            book = new BookModel(uuid, title, author, publisher, ISBN, Integer.parseInt(yearOfPublication), genre, Integer.parseInt(copies));
-            Books.getInstance().editBook(uuid, book);
+            Books.getInstance().editBook(uuid, title, author, publisher, ISBN, Integer.parseInt(yearOfPublication), genre.getUUID(), Integer.parseInt(copies));
         }
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_BOOK_EVENT));
     }

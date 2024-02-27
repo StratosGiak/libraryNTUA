@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class UserModel implements Serializable {
@@ -17,9 +16,7 @@ public class UserModel implements Serializable {
     private transient SimpleStringProperty nameLast = new SimpleStringProperty();
     private transient SimpleStringProperty ID = new SimpleStringProperty();
     private transient SimpleStringProperty email = new SimpleStringProperty();
-
     private transient SimpleObjectProperty<AccessLevel> accessLevel = new SimpleObjectProperty<>();
-    private transient ObservableList<UUID> borrowedList = FXCollections.observableArrayList();
 
     public UserModel(UUID uuid, String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
         this.uuid = uuid;
@@ -44,8 +41,8 @@ public class UserModel implements Serializable {
         this(UUID.randomUUID(), username, password, nameFirst, nameLast, ID, email, accessLevel);
     }
 
-    public ObservableList<UUID> getBorrowedList() {
-        return borrowedList;
+    public ObservableList<LoanModel> getBorrowedList() {
+        return FXCollections.observableArrayList(Loans.getInstance().getLoanList().stream().filter(loan -> loan.getUuidUser().equals(uuid)).toList());
     }
 
     public UUID getUUID() {
@@ -146,7 +143,6 @@ public class UserModel implements Serializable {
         stream.writeUTF(getID());
         stream.writeUTF(getEmail());
         stream.writeObject(getAccessLevel());
-        stream.writeObject(new ArrayList<>(getBorrowedList()));
     }
 
     @Serial
@@ -159,7 +155,6 @@ public class UserModel implements Serializable {
         ID = new SimpleStringProperty(stream.readUTF());
         email = new SimpleStringProperty(stream.readUTF());
         accessLevel = new SimpleObjectProperty<>((AccessLevel) stream.readObject());
-        borrowedList = FXCollections.observableArrayList((ArrayList<UUID>) stream.readObject());
     }
 
     public String toString() {

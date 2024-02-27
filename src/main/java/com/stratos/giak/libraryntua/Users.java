@@ -1,18 +1,15 @@
 package com.stratos.giak.libraryntua;
 
 import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 
 import java.io.*;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public final class Users {
     private static Users instance;
-    private transient ObservableList<UserModel> allUsersList;
-    private transient ObservableMap<UUID, UserModel> allUsersMap = FXCollections.observableHashMap();
+    private transient ObservableList<UserModel> allUsersList = FXCollections.observableArrayList();
 
     public static Users getInstance() {
         if (instance == null) {
@@ -28,25 +25,20 @@ public final class Users {
                         "0",
                         "admin@admin.com",
                         AccessLevel.ADMIN);
+                UserModel tempAdmin = new UserModel(
+                        "a",
+                        "a",
+                        "Temp",
+                        "Admin",
+                        "1",
+                        "temp@admin.com",
+                        AccessLevel.ADMIN);
                 instance.addUser(defaultAdmin);
+                instance.addUser(tempAdmin);
                 return instance;
-            } finally {
-                instance.allUsersList = FXCollections.observableArrayList(instance.allUsersMap.values());
-                instance.allUsersMap.addListener((MapChangeListener<UUID, UserModel>) change -> {
-                    if (change.wasAdded()) {
-                        instance.allUsersList.add(change.getValueAdded());
-                    }
-                    if (change.wasRemoved()) {
-                        instance.allUsersList.remove(change.getValueRemoved());
-                    }
-                });
             }
         }
         return instance;
-    }
-
-    ObservableMap<UUID, UserModel> getAllUsersMap() {
-        return allUsersMap;
     }
 
     ObservableList<UserModel> getAllUsersList() {
@@ -54,7 +46,7 @@ public final class Users {
     }
 
     UserModel getUserByUUID(UUID uuid) {
-        return getAllUsersMap().get(uuid);
+        return getAllUsersList().stream().filter(user -> user.getUUID().equals(uuid)).findAny().orElse(null);
     }
 
     UserModel getUserByUsername(String username) {
@@ -63,24 +55,32 @@ public final class Users {
 
     void addUser(UserModel user) {
         if (user.getUsername().isBlank()
-            || user.getPassword().isBlank()
-            || user.getEmail().isBlank()
-            || user.getNameFirst().isBlank()
-            || user.getNameLast().isBlank()
-            || user.getID().isBlank())
+                || user.getPassword().isBlank()
+                || user.getEmail().isBlank()
+                || user.getNameFirst().isBlank()
+                || user.getNameLast().isBlank()
+                || user.getID().isBlank())
             throw new IllegalArgumentException("Invalid account info");
-        getAllUsersMap().putIfAbsent(user.getUUID(), user);
+        getAllUsersList().add(user);
     }
 
-    void editUser(UUID uuid, UserModel user) {
-        if (getAllUsersMap().replace(uuid, user) == null)
+    void editUser(UUID uuid, String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
+        UserModel user = getAllUsersList().stream().filter(usr -> usr.getUUID().equals(uuid)).findAny().orElse(null);
+        if (user == null)
             throw new IllegalArgumentException("User UUID does not exists");
+        if (username != null) user.setUsername(username);
+        if (password != null) user.setPassword(password);
+        if (nameFirst != null) user.setNameFirst(nameFirst);
+        if (nameLast != null) user.setNameLast(nameLast);
+        if (ID != null) user.setID(ID);
+        if (email != null) user.setEmail(email);
+        if (accessLevel != null) user.setAccessLevel(accessLevel);
     }
 
     void saveUsers() throws IOException {
         FileOutputStream fileStream = new FileOutputStream("medialab/users");
         ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
-        objectStream.writeObject(new HashMap<>(getAllUsersMap()));
+        objectStream.writeObject(new ArrayList<>(getAllUsersList()));
         objectStream.close();
         fileStream.close();
     }
@@ -88,7 +88,7 @@ public final class Users {
     void loadUsers() throws IOException, ClassNotFoundException {
         FileInputStream fileStream = new FileInputStream("medialab/users");
         ObjectInputStream objectStream = new ObjectInputStream(fileStream);
-        allUsersMap = FXCollections.observableMap((HashMap<UUID, UserModel>) objectStream.readObject());
+        allUsersList = FXCollections.observableArrayList((ArrayList<UserModel>) objectStream.readObject());
         objectStream.close();
         fileStream.close();
     }

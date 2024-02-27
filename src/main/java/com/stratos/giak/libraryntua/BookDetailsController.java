@@ -9,8 +9,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.controlsfx.control.Rating;
 
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class BookDetailsController {
@@ -64,7 +63,7 @@ public class BookDetailsController {
             return;
         }
         if (this.uuid == null) throw new RuntimeException("Book UUID is null");
-        LoanModel borrowed = new LoanModel(this.uuid, LoggedUser.getInstance().getUser().getUUID(), Date.from(Instant.now()), 3);
+        LoanModel borrowed = new LoanModel(this.uuid, LoggedUser.getInstance().getUser().getUUID(), LocalDate.now(), 3);
         Loans.getInstance().addLoan(borrowed);
     }
 }

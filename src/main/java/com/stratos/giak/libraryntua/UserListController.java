@@ -2,6 +2,7 @@ package com.stratos.giak.libraryntua;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -29,8 +30,9 @@ public class UserListController {
             });
             return row;
         });
-
-        tableViewUsers.setItems(filteredUsers);
+        SortedList<UserModel> sortableUsers = new SortedList<>(filteredUsers);
+        sortableUsers.comparatorProperty().bind(tableViewUsers.comparatorProperty());
+        tableViewUsers.setItems(sortableUsers);
 
         for (TableColumn columnName : tableViewUsers.getColumns()) {
             columnName.setReorderable(false);

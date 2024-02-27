@@ -4,19 +4,19 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.io.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class LoanModel implements Serializable {
     private UUID uuid;
     private UUID uuidBook;
     private UUID uuidUser;
-    private Date loanDate;
+    private LocalDate loanDate;
     private int loanLength;
     private transient SimpleIntegerProperty rating = new SimpleIntegerProperty();
     private transient SimpleStringProperty comment = new SimpleStringProperty();
 
-    public LoanModel(UUID uuid, UUID uuidBook, UUID uuidUser, Date loanDate, Integer loanLength) {
+    public LoanModel(UUID uuid, UUID uuidBook, UUID uuidUser, LocalDate loanDate, Integer loanLength) {
         this.uuid = uuid;
         this.uuidBook = uuidBook;
         this.uuidUser = uuidUser;
@@ -24,7 +24,7 @@ public class LoanModel implements Serializable {
         this.loanLength = loanLength;
     }
 
-    public LoanModel(UUID uuidBook, UUID uuidUser, Date loanDate, Integer loanLength) {
+    public LoanModel(UUID uuidBook, UUID uuidUser, LocalDate loanDate, Integer loanLength) {
         this(UUID.randomUUID(), uuidBook, uuidUser, loanDate, loanLength);
     }
 
@@ -40,7 +40,7 @@ public class LoanModel implements Serializable {
         return uuidUser;
     }
 
-    public Date getLoanDate() {
+    public LocalDate getLoanDate() {
         return loanDate;
     }
 

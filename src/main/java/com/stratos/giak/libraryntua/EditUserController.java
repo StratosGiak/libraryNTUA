@@ -96,7 +96,7 @@ public class EditUserController {
             emailField.setBorder(BORDER_ERROR);
             return;
         }
-        if (!ID.matches("\\d+")) {
+        if (!ID.matches(".+")) {
             errorText.setText("Please enter a valid ID");
             IDField.setBorder(BORDER_ERROR);
             return;
@@ -111,13 +111,11 @@ public class EditUserController {
             IDField.setBorder(BORDER_ERROR);
             return;
         }
-        final UserModel user;
         if (uuid == null) {
-            user = new UserModel(username, password, nameFirst, nameLast, ID, email);
+            final UserModel user = new UserModel(username, password, nameFirst, nameLast, ID, email);
             Users.getInstance().addUser(user);
         } else {
-            user = new UserModel(uuid, username, password, nameFirst, nameLast, ID, email, initalAccessLevel);
-            Users.getInstance().editUser(uuid, user);
+            Users.getInstance().editUser(uuid, username, password, nameFirst, nameLast, ID, email, null);
         }
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_USER_EVENT));
     }

@@ -4,6 +4,7 @@ import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -77,7 +78,9 @@ public class BookListController {
             });
             return row;
         });
-        tableViewBooks.setItems(filteredBooks);
+        SortedList<BookModel> sortableBooks = new SortedList<>(filteredBooks);
+        sortableBooks.comparatorProperty().bind(tableViewBooks.comparatorProperty());
+        tableViewBooks.setItems(sortableBooks);
 
         searchTitleField.textProperty().addListener((obs, oldValue, newValue) ->
                 titlePredicate.set(book -> book.getTitle().toLowerCase().contains(newValue.toLowerCase().trim()))
@@ -120,7 +123,6 @@ public class BookListController {
     }
 
     public void handleAddBookButtonAction(ActionEvent actionEvent) {
-        Books.getInstance().getBook(Books.getInstance().getAllBooksList().get(0).getUUID()).setTitle("Hello");
-        //((Node) actionEvent.getSource()).fireEvent(new CustomEvents.CreateBookEvent());
+        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.CreateBookEvent());
     }
 }
