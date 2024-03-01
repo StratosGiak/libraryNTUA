@@ -25,7 +25,7 @@ public class BookModel implements Serializable {
     private transient SimpleIntegerProperty ratingsSum = new SimpleIntegerProperty();
     private transient SimpleIntegerProperty ratingsCount = new SimpleIntegerProperty();
     private transient SimpleStringProperty rating = new SimpleStringProperty();
-    private transient ObservableList<CommentModel> comments = FXCollections.observableArrayList();
+    private transient ObservableList<ReviewModel> comments = FXCollections.observableArrayList();
 
     public BookModel(String title, String author, String publisher, String ISBN, Integer yearOfPublication, GenreModel genre, Integer copies) {
         this.uuid = UUID.randomUUID();
@@ -92,7 +92,7 @@ public class BookModel implements Serializable {
         return ratingsCount;
     }
 
-    public ObservableList<CommentModel> getComments() {
+    public ObservableList<ReviewModel> getComments() {
         return comments;
     }
 
@@ -221,7 +221,7 @@ public class BookModel implements Serializable {
         genre = new SimpleObjectProperty<>(Genres.getInstance().getGenre((UUID) stream.readObject()));
         yearOfPublication = new SimpleIntegerProperty(stream.readInt());
         copies = new SimpleIntegerProperty(stream.readInt());
-        comments = FXCollections.observableArrayList((ArrayList<CommentModel>) stream.readObject());
+        comments = FXCollections.observableArrayList((ArrayList<ReviewModel>) stream.readObject());
         ratingsSum = new SimpleIntegerProperty(stream.readInt());
         ratingsCount = new SimpleIntegerProperty(stream.readInt());
         rating = new SimpleStringProperty();

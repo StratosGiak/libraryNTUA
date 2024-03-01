@@ -52,3 +52,11 @@ root {
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
+
+.list-cell:empty {
+    visibility:hidden;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}

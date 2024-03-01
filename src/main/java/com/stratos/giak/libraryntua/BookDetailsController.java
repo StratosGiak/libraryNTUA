@@ -3,8 +3,12 @@ package com.stratos.giak.libraryntua;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.controlsfx.control.Rating;
@@ -40,6 +44,7 @@ public class BookDetailsController {
     public Button incrementLoanLengthButton;
     @FXML
     public Text errorText;
+    public ListView<ReviewModel> commentList;
     private BookModel book;
 
     public void initializeFields(BookModel book) {
@@ -60,6 +65,41 @@ public class BookDetailsController {
         text.setFont(new Font(24));
         ratingsField.getStyleClass().add("rating-bar");
         ratingsField.getChildren().addAll(rating, text);
+
+        commentList.setCellFactory(listView -> new ListCell<>() {
+                    {
+                        setPrefWidth(0);
+                    }
+
+                    @Override
+                    protected void updateItem(ReviewModel item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                            setGraphic(null);
+                            return;
+                        }
+                        Text username = new Text();
+                        username.textProperty().bind(item.usernameProperty());
+                        username.wrappingWidthProperty().bind(widthProperty().subtract(10));
+                        Text comment = new Text();
+                        comment.textProperty().bind(item.commentProperty());
+                        comment.wrappingWidthProperty().bind(widthProperty().subtract(10));
+                        Rating ratingBar = new Rating(5);
+                        ratingBar.setMouseTransparent(true);
+                        ratingBar.setFocusTraversable(false);
+                        ratingBar.styleProperty().set("-fx-scale-x:0.5; -fx-scale-y:0.5;");
+                        ratingBar.ratingProperty().bind(item.ratingProperty());
+
+                        VBox vBox = new VBox(username);
+                        vBox.setSpacing(2);
+                        if (item.ratingProperty().get() != 0) vBox.getChildren().add(new Group(ratingBar));
+                        if (!comment.getText().isBlank()) vBox.getChildren().add(comment);
+                        setGraphic(vBox);
+                    }
+                }
+        );
+        commentList.setItems(book.getComments());
 
         borrowButton.disableProperty().bind(Bindings.createBooleanBinding(() -> book.copiesProperty().get() <= 0 || Loans.getInstance().getLoanList().filtered(loan -> loan.getUser().equals(LoggedUser.getInstance().getUser())).size() >= 2, book.copiesProperty(), Loans.getInstance().getLoanList()));
         errorText.textProperty().bind(Bindings.createStringBinding(() -> {
