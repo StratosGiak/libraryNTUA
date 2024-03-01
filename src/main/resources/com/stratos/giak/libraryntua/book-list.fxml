@@ -15,8 +15,12 @@
     <TextField fx:id="searchYearOfPublicationField" promptText="Year of publication" GridPane.columnIndex="1"
                GridPane.rowIndex="3"/>
     <ChoiceBox fx:id="searchGenreField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-    <Button fx:id="addBookButton" onAction="#handleAddBookButtonAction" text="Add Book" GridPane.columnIndex="2"
-            GridPane.rowIndex="0"/>
+    <VBox spacing="10" alignment="TOP_CENTER" GridPane.columnIndex="2" GridPane.rowIndex="5">
+        <Button fx:id="addBookButton" onAction="#handleAddBookButtonAction" maxWidth="Infinity" text="Add Book"/>
+        <Button fx:id="editBookButton" onAction="#handleEditBookButtonAction" maxWidth="Infinity" text="Edit Book"/>
+        <Button fx:id="removeBookButton" onAction="#handleRemoveBookButtonAction" maxWidth="Infinity"
+                text="Remove Book"/>
+    </VBox>
     <TableView fx:id="tableViewBooks" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5">
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

@@ -3,48 +3,47 @@ package com.stratos.giak.libraryntua;
 import javafx.event.Event;
 import javafx.event.EventType;
 
-import java.util.UUID;
-
 public final class CustomEvents {
     public static final EventType<Event> LINK_REGISTER_EVENT = new EventType<>("register");
     public static final EventType<Event> LINK_LOGIN_EVENT = new EventType<>("login");
 
     public static final EventType<Event> EXIT_BOOK_EVENT = new EventType<>("exit book creation scene");
     public static final EventType<Event> EXIT_USER_EVENT = new EventType<>("exit user creation scene");
+    public static final EventType<Event> LOGOUT_EVENT = new EventType<>("logout current user");
 
-    public static class CreateBookEvent extends Event {
-        public static final EventType<CreateBookEvent> CREATE_BOOK_EVENT = new EventType<>("create/edit book");
-        private UUID uuid;
+    public static class EditBookEvent extends Event {
+        public static final EventType<EditBookEvent> EDIT_BOOK_EVENT = new EventType<>("create/edit book");
+        private BookModel book;
 
-        public CreateBookEvent() {
-            super(CreateBookEvent.CREATE_BOOK_EVENT);
+        public EditBookEvent() {
+            super(EditBookEvent.EDIT_BOOK_EVENT);
         }
 
-        public CreateBookEvent(UUID uuid) {
+        public EditBookEvent(BookModel book) {
             this();
-            this.uuid = uuid;
+            this.book = book;
         }
 
-        public UUID getUUID() {
-            return uuid;
+        public BookModel getBook() {
+            return book;
         }
     }
 
-    public static class CreateUserEvent extends Event {
-        public static final EventType<CreateUserEvent> CREATE_USER_EVENT = new EventType<>("create/edit user");
-        private UUID uuid;
+    public static class EditUserEvent extends Event {
+        public static final EventType<EditUserEvent> EDIT_USER_EVENT = new EventType<>("create/edit user");
+        private UserModel user;
 
-        public CreateUserEvent() {
-            super(CreateUserEvent.CREATE_USER_EVENT);
+        public EditUserEvent() {
+            super(EditUserEvent.EDIT_USER_EVENT);
         }
 
-        public CreateUserEvent(UUID uuid) {
+        public EditUserEvent(UserModel user) {
             this();
-            this.uuid = uuid;
+            this.user = user;
         }
 
-        public UUID getUUID() {
-            return uuid;
+        public UserModel getUser() {
+            return user;
         }
     }
 
@@ -53,7 +52,7 @@ public final class CustomEvents {
         private BookModel book;
 
         public ViewBookDetailsEvent() {
-            super(CreateUserEvent.CREATE_USER_EVENT);
+            super(ViewBookDetailsEvent.VIEW_BOOK_DETAILS_EVENT);
         }
 
         public ViewBookDetailsEvent(BookModel book) {
@@ -63,6 +62,24 @@ public final class CustomEvents {
 
         public BookModel getBook() {
             return book;
+        }
+    }
+
+    public static class ViewLoanDetailsEvent extends Event {
+        public static final EventType<ViewLoanDetailsEvent> VIEW_LOAN_DETAILS_EVENT = new EventType<>("view loan details");
+        private LoanModel loan;
+
+        public ViewLoanDetailsEvent() {
+            super(ViewLoanDetailsEvent.VIEW_LOAN_DETAILS_EVENT);
+        }
+
+        public ViewLoanDetailsEvent(LoanModel loan) {
+            this();
+            this.loan = loan;
+        }
+
+        public LoanModel getLoan() {
+            return loan;
         }
     }
 }

@@ -16,16 +16,16 @@ public class BookShowcaseController {
     public HBox showcaseRow;
 
     public void initialize() {
-        if (Books.getInstance().getAllBooksList().isEmpty()) {
+        if (Books.getInstance().getBooksList().isEmpty()) {
             VBox vBox = new VBox(new Text("There are currently no books in the library"));
             vBox.alignmentProperty().set(Pos.CENTER);
             showcaseRow.getChildren().add(vBox);
         } else {
-            List<BookModel> topBooks = Books.getInstance().getAllBooksList().sorted((o1, o2) -> {
+            List<BookModel> topBooks = Books.getInstance().getBooksList().sorted((o1, o2) -> {
                 if (o1.getRatingsCount() == 0) return -1;
                 if (o2.getRatingsCount() == 0) return 1;
                 return Float.compare((float) o1.getRatingsSum() / o1.getRatingsCount(), (float) o2.getRatingsSum() / o2.getRatingsCount());
-            }).subList(0, Math.min(Books.getInstance().getAllBooksList().size(), 5));
+            }).subList(0, Math.min(Books.getInstance().getBooksList().size(), 5));
             for (BookModel book : topBooks) {
                 Rating rating = new Rating(5, book.getRatingsCount() != 0 ? book.getRatingsSum() / book.getRatingsCount() : 0);
                 rating.setMouseTransparent(true);
@@ -37,9 +37,10 @@ public class BookShowcaseController {
                 VBox vBox = new VBox(
                         new Text(book.getTitle()),
                         new Text(book.getAuthor()),
-                        new Text(book.getISBN()),
+                        new Text("ISBN " + book.getISBN()),
                         new Group(hbox)
                 );
+                vBox.setSpacing(6);
                 vBox.alignmentProperty().set(Pos.CENTER);
                 showcaseRow.getChildren().add(vBox);
             }

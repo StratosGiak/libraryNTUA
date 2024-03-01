@@ -1,18 +1,19 @@
 package com.stratos.giak.libraryntua;
 
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.text.Text;
+import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
-
-import java.util.UUID;
 
 import static com.stratos.giak.libraryntua.Constants.BORDER_ERROR;
 import static com.stratos.giak.libraryntua.Utilities.integerFilter;
@@ -36,43 +37,62 @@ public class EditBookController {
     public TextField copiesField;
     @FXML
     public Text errorText;
-    private String initialTitle;
-    private String initialAuthor;
-    private String initialPublisher;
-    private String initialISBN;
-    private int initialYearOfPublication;
-    private GenreModel initialGenre;
-    private int initialCopies;
-    private UUID uuid;
+    public Button revertTitle;
+    public Button revertAuthor;
+    public Button revertPublisher;
+    public Button revertISBN;
+    public Button revertGenre;
+    public Button revertYearOfPublication;
+    public Button revertCopies;
+    private BookModel book;
 
-    public void initializeFields(UUID uuid) {
-        this.uuid = uuid;
-        if (this.uuid == null) return;
-        BookModel book = Books.getInstance().getBook(uuid);
-        initialTitle = book.getTitle();
-        initialAuthor = book.getAuthor();
-        initialPublisher = book.getPublisher();
-        initialISBN = book.getISBN();
-        initialYearOfPublication = book.getYearOfPublication();
-        initialGenre = book.getGenre();
-        initialCopies = book.getCopies();
-        titleField.setText(initialTitle);
-        authorField.setText(initialAuthor);
-        publisherField.setText(initialPublisher);
-        ISBNField.setText(initialISBN);
-        yearOfPublicationField.setText(String.valueOf(initialYearOfPublication));
-        genreField.setValue(initialGenre);
-        copiesField.setText(String.valueOf(initialCopies));
-        titleText.setText("Edit book " + initialTitle);
+    public void initializeFields(BookModel book) {
+        this.book = book;
+        if (book == null) return;
+        titleField.setText(book.getTitle());
+        authorField.setText(book.getAuthor());
+        publisherField.setText(book.getPublisher());
+        ISBNField.setText(book.getISBN());
+        yearOfPublicationField.setText(String.valueOf(book.getYearOfPublication()));
+        genreField.setValue(book.getGenre());
+        copiesField.setText(String.valueOf(book.getCopies()));
+        titleText.setText("Edit book " + book.getTitle());
+
+        revertTitle.visibleProperty().bind(Bindings.createBooleanBinding(() -> !titleField.textProperty().get().equals(book.getTitle()), titleField.textProperty()));
+        revertAuthor.visibleProperty().bind(Bindings.createBooleanBinding(() -> !authorField.textProperty().get().equals(book.getAuthor()), authorField.textProperty()));
+        revertPublisher.visibleProperty().bind(Bindings.createBooleanBinding(() -> !publisherField.textProperty().get().equals(book.getPublisher()), publisherField.textProperty()));
+        revertISBN.visibleProperty().bind(Bindings.createBooleanBinding(() -> !ISBNField.textProperty().get().equals(book.getISBN()), ISBNField.textProperty()));
+        revertGenre.visibleProperty().bind(Bindings.createBooleanBinding(() -> genreField.valueProperty().get() == null || !genreField.valueProperty().get().equals(book.getGenre()), genreField.valueProperty()));
+        revertYearOfPublication.visibleProperty().bind(Bindings.createBooleanBinding(() -> !yearOfPublicationField.textProperty().get().equals(String.valueOf(book.getYearOfPublication())), yearOfPublicationField.textProperty()));
+        revertCopies.visibleProperty().bind(Bindings.createBooleanBinding(() -> !copiesField.textProperty().get().equals(String.valueOf(book.getCopies())), copiesField.textProperty()));
+
+        revertTitle.setOnAction(event -> titleField.setText(book.getTitle()));
+        revertAuthor.setOnAction(event -> authorField.setText(book.getAuthor()));
+        revertPublisher.setOnAction(event -> publisherField.setText(book.getPublisher()));
+        revertISBN.setOnAction(event -> ISBNField.setText(book.getISBN()));
+        revertGenre.setOnAction(event -> genreField.setValue(book.getGenre()));
+        revertYearOfPublication.setOnAction(event -> yearOfPublicationField.setText(String.valueOf(book.getYearOfPublication())));
+        revertCopies.setOnAction(event -> copiesField.setText(String.valueOf(book.getCopies())));
     }
 
     public void initialize() {
         yearOfPublicationField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), null, integerFilter));
         copiesField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 1, integerFilter));
         genreField.setItems(Genres.getInstance().getGenresList());
+        genreField.converterProperty().set(new StringConverter<>() {
+            @Override
+            public String toString(GenreModel genre) {
+                return genre != null ? genre.toString() : "—";
+            }
+
+            @Override
+            public GenreModel fromString(String string) {
+                return null;
+            }
+        });
     }
 
-    public void onFieldClicked(MouseEvent ignoredMouseEvent) {
+    public void onFieldClicked(MouseEvent mouseEvent) {
         titleField.setBorder(Border.EMPTY);
         authorField.setBorder(Border.EMPTY);
         publisherField.setBorder(Border.EMPTY);
@@ -101,11 +121,11 @@ public class EditBookController {
             if (copies.isBlank()) copiesField.setBorder(BORDER_ERROR);
             return;
         }
-        if (uuid == null) {
+        if (book == null) {
             final BookModel book = new BookModel(title, author, publisher, ISBN, Integer.parseInt(yearOfPublication), genre, Integer.parseInt(copies));
             Books.getInstance().addBook(book);
         } else {
-            Books.getInstance().editBook(uuid, title, author, publisher, ISBN, Integer.parseInt(yearOfPublication), genre.getUUID(), Integer.parseInt(copies));
+            Books.getInstance().editBook(book, title, author, publisher, ISBN, Integer.parseInt(yearOfPublication), genre, Integer.parseInt(copies));
         }
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_BOOK_EVENT));
     }

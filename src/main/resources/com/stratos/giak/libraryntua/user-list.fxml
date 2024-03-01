@@ -4,15 +4,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
-<GridPane xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
-          xmlns="http://javafx.com/javafx"
-          fx:controller="com.stratos.giak.libraryntua.UserListController">
+<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" hgap="10" vgap="10"
+          xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.stratos.giak.libraryntua.UserListController">
     <padding>
         <Insets bottom="10" left="25" right="25" top="25"/>
     </padding>
-    <Button fx:id="addUserButton" text="Add User" onAction="#handleAddUserButtonAction" GridPane.rowIndex="0"
-            GridPane.columnIndex="1"/>
-    <TableView fx:id="tableViewUsers" GridPane.rowIndex="1" GridPane.hgrow="ALWAYS" GridPane.columnSpan="1">
+    <VBox spacing="10" alignment="TOP_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <Button fx:id="addUserButton" onAction="#handleAddUserButtonAction" maxWidth="Infinity" text="Add User"/>
+        <Button fx:id="editUserButton" onAction="#handleEditUserButtonAction" maxWidth="Infinity" text="Edit User"/>
+        <Button fx:id="removeUserButton" onAction="#handleRemoveUserButtonAction" maxWidth="Infinity"
+                text="Remove User"/>
+    </VBox>
+    <TableView fx:id="tableViewUsers" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>

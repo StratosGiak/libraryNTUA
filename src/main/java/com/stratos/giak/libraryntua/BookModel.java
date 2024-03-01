@@ -27,8 +27,8 @@ public class BookModel implements Serializable {
     private transient SimpleStringProperty rating = new SimpleStringProperty();
     private transient ObservableList<CommentModel> comments = FXCollections.observableArrayList();
 
-    public BookModel(UUID uuid, String title, String author, String publisher, String ISBN, int yearOfPublication, GenreModel genre, int copies) {
-        this.uuid = uuid;
+    public BookModel(String title, String author, String publisher, String ISBN, Integer yearOfPublication, GenreModel genre, Integer copies) {
+        this.uuid = UUID.randomUUID();
         this.title.set(title);
         this.author.set(author);
         this.publisher.set(publisher);
@@ -41,8 +41,22 @@ public class BookModel implements Serializable {
         rating.bind(Bindings.createStringBinding(() -> ratingsCount.get() != 0 ? ratingsFormat.format((float) ratingsSum.get() / ratingsCount.get()) + " (" + ratingsCount.get() + ")" : "-", ratingsSum, ratingsCount));
     }
 
-    public BookModel(String title, String author, String publisher, String ISBN, int yearOfPublication, GenreModel genre, int copies) {
-        this(UUID.randomUUID(), title, author, publisher, ISBN, yearOfPublication, genre, copies);
+    public BookModel(String title, String author, String publisher, String ISBN, Integer yearOfPublication, String genreName, Integer copies) {
+        GenreModel genre = Genres.getInstance().getGenresList().stream().filter(gnr -> gnr != null && gnr.getName().equals(genreName)).findAny().orElse(null);
+        if (genre == null) {
+            genre = new GenreModel(genreName);
+            Genres.getInstance().addGenre(genre);
+        }
+        this.uuid = UUID.randomUUID();
+        this.title.set(title);
+        this.author.set(author);
+        this.publisher.set(publisher);
+        this.ISBN.set(ISBN);
+        this.genre.set(genre);
+        this.yearOfPublication.set(yearOfPublication);
+        this.copies.set(copies);
+        this.ratingsSum.set(0);
+        this.ratingsCount.set(0);
         rating.bind(Bindings.createStringBinding(() -> ratingsCount.get() != 0 ? ratingsFormat.format((float) ratingsSum.get() / ratingsCount.get()) + " (" + ratingsCount.get() + ")" : "-", ratingsSum, ratingsCount));
     }
 
@@ -150,9 +164,9 @@ public class BookModel implements Serializable {
         return genre.get();
     }
 
-    public void setGenre(UUID uuid) {
-        if (Genres.getInstance().getGenre(uuid) == null) throw new IllegalArgumentException("Genre UUID not found");
-        genre.set(Genres.getInstance().getGenre(uuid));
+    public void setGenre(GenreModel genre) {
+        if (genre == null) throw new IllegalArgumentException("Genre UUID not found");
+        this.genre.set(genre);
     }
 
     public int getCopies() {
@@ -189,7 +203,7 @@ public class BookModel implements Serializable {
         stream.writeUTF(author.getValueSafe());
         stream.writeUTF(publisher.getValueSafe());
         stream.writeUTF(ISBN.getValueSafe());
-        stream.writeObject(genre.getValue());
+        stream.writeObject(genre.getValue().getUUID());
         stream.writeInt(yearOfPublication.getValue());
         stream.writeInt(copies.getValue());
         stream.writeObject(new ArrayList<>(comments));
@@ -204,7 +218,7 @@ public class BookModel implements Serializable {
         author = new SimpleStringProperty(stream.readUTF());
         publisher = new SimpleStringProperty(stream.readUTF());
         ISBN = new SimpleStringProperty(stream.readUTF());
-        genre = new SimpleObjectProperty<>((GenreModel) stream.readObject());
+        genre = new SimpleObjectProperty<>(Genres.getInstance().getGenre((UUID) stream.readObject()));
         yearOfPublication = new SimpleIntegerProperty(stream.readInt());
         copies = new SimpleIntegerProperty(stream.readInt());
         comments = FXCollections.observableArrayList((ArrayList<CommentModel>) stream.readObject());

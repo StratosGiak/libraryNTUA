@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public final class Users {
     private static Users instance;
-    private transient ObservableList<UserModel> allUsersList = FXCollections.observableArrayList();
+    private transient ObservableList<UserModel> usersList = FXCollections.observableArrayList();
 
     public static Users getInstance() {
         if (instance == null) {
@@ -17,40 +17,49 @@ public final class Users {
             try {
                 instance.loadUsers();
             } catch (IOException | ClassNotFoundException e) {
-                UserModel defaultAdmin = new UserModel(
-                        "medialab",
-                        "medialab_2024",
-                        "Default",
-                        "Admin",
-                        "0",
-                        "admin@admin.com",
-                        AccessLevel.ADMIN);
-                UserModel tempAdmin = new UserModel(
-                        "a",
-                        "a",
-                        "Temp",
-                        "Admin",
-                        "1",
-                        "temp@admin.com",
-                        AccessLevel.ADMIN);
-                instance.addUser(defaultAdmin);
-                instance.addUser(tempAdmin);
+                UserModel[] defaultUsers = {
+                        new UserModel(
+                                "medialab",
+                                "medialab_2024",
+                                "Default",
+                                "Admin",
+                                "0",
+                                "admin@admin.com",
+                                AccessLevel.ADMIN),
+                        new UserModel(
+                                "a",
+                                "a",
+                                "Temp",
+                                "Admin",
+                                "1",
+                                "temp@admin.com",
+                                AccessLevel.ADMIN),
+                        new UserModel(
+                                "stratos",
+                                "pass",
+                                "Stra",
+                                "Tos",
+                                "1234",
+                                "s@g.c",
+                                AccessLevel.USER)
+                };
+                instance.getUsersList().addAll(defaultUsers);
                 return instance;
             }
         }
         return instance;
     }
 
-    ObservableList<UserModel> getAllUsersList() {
-        return allUsersList;
+    ObservableList<UserModel> getUsersList() {
+        return usersList;
     }
 
-    UserModel getUserByUUID(UUID uuid) {
-        return getAllUsersList().stream().filter(user -> user.getUUID().equals(uuid)).findAny().orElse(null);
+    UserModel getUser(UUID uuid) {
+        return getUsersList().stream().filter(user -> user.getUUID().equals(uuid)).findAny().orElse(null);
     }
 
     UserModel getUserByUsername(String username) {
-        return getAllUsersList().stream().filter(user -> user.getUsername().equals(username)).findAny().orElse(null);
+        return getUsersList().stream().filter(user -> user.getUsername().equals(username)).findAny().orElse(null);
     }
 
     void addUser(UserModel user) {
@@ -61,13 +70,12 @@ public final class Users {
                 || user.getNameLast().isBlank()
                 || user.getID().isBlank())
             throw new IllegalArgumentException("Invalid account info");
-        getAllUsersList().add(user);
+        getUsersList().add(user);
     }
 
-    void editUser(UUID uuid, String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
-        UserModel user = getAllUsersList().stream().filter(usr -> usr.getUUID().equals(uuid)).findAny().orElse(null);
+    void editUser(UserModel user, String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
         if (user == null)
-            throw new IllegalArgumentException("User UUID does not exists");
+            throw new IllegalArgumentException("User object does not exists");
         if (username != null) user.setUsername(username);
         if (password != null) user.setPassword(password);
         if (nameFirst != null) user.setNameFirst(nameFirst);
@@ -77,10 +85,15 @@ public final class Users {
         if (accessLevel != null) user.setAccessLevel(accessLevel);
     }
 
+    void removeUser(UserModel user) {
+        Loans.getInstance().removeAllWithUser(user);
+        getUsersList().remove(user);
+    }
+
     void saveUsers() throws IOException {
         FileOutputStream fileStream = new FileOutputStream("medialab/users");
         ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
-        objectStream.writeObject(new ArrayList<>(getAllUsersList()));
+        objectStream.writeObject(new ArrayList<>(getUsersList()));
         objectStream.close();
         fileStream.close();
     }
@@ -88,7 +101,7 @@ public final class Users {
     void loadUsers() throws IOException, ClassNotFoundException {
         FileInputStream fileStream = new FileInputStream("medialab/users");
         ObjectInputStream objectStream = new ObjectInputStream(fileStream);
-        allUsersList = FXCollections.observableArrayList((ArrayList<UserModel>) objectStream.readObject());
+        usersList = FXCollections.observableArrayList((ArrayList<UserModel>) objectStream.readObject());
         objectStream.close();
         fileStream.close();
     }

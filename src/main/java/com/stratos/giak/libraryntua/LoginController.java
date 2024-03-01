@@ -33,7 +33,7 @@ public class LoginController {
     private TextFlow registerTextFlow;
 
     public void initialize() {
-        registerTextFlow.getChildren().add(new TextFlow(new Text("Don't have an account? "), registerLink));
+        registerTextFlow.getChildren().addAll(new Text("Don't have an account? "), registerLink);
         registerLink.setOnAction(event -> {
             registerTextFlow.fireEvent(new Event(CustomEvents.LINK_REGISTER_EVENT));
         });

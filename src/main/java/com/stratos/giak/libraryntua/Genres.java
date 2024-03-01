@@ -2,19 +2,15 @@ package com.stratos.giak.libraryntua;
 
 
 import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 
 import java.io.*;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public final class Genres implements Serializable {
     private static Genres instance;
-    private transient ObservableMap<UUID, GenreModel> genresMap = FXCollections.observableHashMap();
-    private transient ObservableList<GenreModel> genresList;
+    private transient ObservableList<GenreModel> genresList = FXCollections.observableArrayList();
 
     public static Genres getInstance() {
         if (instance == null) {
@@ -29,28 +25,11 @@ public final class Genres implements Serializable {
                         new GenreModel("Novel"),
                         new GenreModel("Poetry")
                 };
-                for (GenreModel genre : defaultGenres) {
-                    instance.getGenresMap().put(genre != null ? genre.getUUID() : UUID.randomUUID(), genre);
-                }
+                instance.getGenresList().addAll(defaultGenres);
                 return instance;
-            } finally {
-                instance.genresList = FXCollections.observableArrayList(instance.genresMap.values());
-                instance.genresList.sort(Comparator.nullsFirst(Comparator.comparing(GenreModel::getName)));
-                instance.genresMap.addListener((MapChangeListener<UUID, GenreModel>) change -> {
-                    if (change.wasAdded()) {
-                        instance.genresList.add(change.getValueAdded());
-                    }
-                    if (change.wasRemoved()) {
-                        instance.genresList.remove(change.getValueRemoved());
-                    }
-                });
             }
         }
         return instance;
-    }
-
-    public ObservableMap<UUID, GenreModel> getGenresMap() {
-        return genresMap;
     }
 
     public ObservableList<GenreModel> getGenresList() {
@@ -58,7 +37,7 @@ public final class Genres implements Serializable {
     }
 
     public GenreModel getGenre(UUID uuid) {
-        return getGenresMap().get(uuid);
+        return getGenresList().stream().filter(genre -> genre != null && genre.getUUID().equals(uuid)).findAny().orElse(null);
     }
 
     public void addGenre(GenreModel genre) {
@@ -66,29 +45,32 @@ public final class Genres implements Serializable {
             CustomAlerts.showPrivilegesAlert();
             return;
         }
-        getGenresMap().putIfAbsent(genre.getUUID(), genre);
+        getGenresList().add(genre);
     }
 
-    public void editGenre(UUID uuid, GenreModel genre) {
+    public void editGenre(GenreModel genre, String name) {
         if (LoggedUser.getInstance().getUser().getAccessLevel() != AccessLevel.ADMIN) {
             CustomAlerts.showPrivilegesAlert();
             return;
         }
-        getGenresMap().replace(uuid, genre);
+        if (genre == null)
+            throw new IllegalArgumentException("Genre UUID not found");
+        if (name != null) genre.setName(name);
     }
 
-    public void removeGenre(UUID uuid) {
+    public void removeGenre(GenreModel genre) {
         if (LoggedUser.getInstance().getUser().getAccessLevel() != AccessLevel.ADMIN) {
             CustomAlerts.showPrivilegesAlert();
             return;
         }
-        getGenresMap().remove(uuid);
+        Books.getInstance().removeAllWithGenre(genre);
+        getGenresList().remove(genre);
     }
 
     void saveGenres() throws IOException {
         FileOutputStream fileStream = new FileOutputStream("medialab/genres");
         ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
-        objectStream.writeObject(new HashMap<>(getGenresMap()));
+        objectStream.writeObject(new ArrayList<>(getGenresList()));
         objectStream.close();
         fileStream.close();
     }
@@ -96,7 +78,7 @@ public final class Genres implements Serializable {
     void loadGenres() throws IOException, ClassNotFoundException {
         FileInputStream fileStream = new FileInputStream("medialab/genres");
         ObjectInputStream objectStream = new ObjectInputStream(fileStream);
-        genresMap = FXCollections.observableMap((HashMap<UUID, GenreModel>) objectStream.readObject());
+        genresList = FXCollections.observableArrayList((ArrayList<GenreModel>) objectStream.readObject());
         objectStream.close();
         fileStream.close();
     }

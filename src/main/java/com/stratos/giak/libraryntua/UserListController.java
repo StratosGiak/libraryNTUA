@@ -1,5 +1,6 @@
 package com.stratos.giak.libraryntua;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -10,22 +11,28 @@ import javafx.scene.control.*;
 import javafx.util.Duration;
 
 public class UserListController {
-    private final ObservableList<UserModel> users = Users.getInstance().getAllUsersList();
+    private final ObservableList<UserModel> users = Users.getInstance().getUsersList();
     @FXML
     public Button addUserButton;
+    @FXML
+    public Button editUserButton;
+    @FXML
+    public Button removeUserButton;
     @FXML
     private TableView<UserModel> tableViewUsers;
 
     public void initialize() {
+        editUserButton.disableProperty().bind(Bindings.createBooleanBinding(() -> tableViewUsers.getSelectionModel().selectedItemProperty().get() == null, tableViewUsers.getSelectionModel().selectedItemProperty()));
+        removeUserButton.disableProperty().bind(Bindings.createBooleanBinding(() -> tableViewUsers.getSelectionModel().selectedItemProperty().get() == null || tableViewUsers.getSelectionModel().selectedItemProperty().get().equals(LoggedUser.getInstance().getUser()), tableViewUsers.getSelectionModel().selectedItemProperty()));
+
         FilteredList<UserModel> filteredUsers = new FilteredList<>(users, null);
 
         tableViewUsers.setRowFactory(tableView -> {
             TableRow<UserModel> row = new TableRow<>();
             row.setOnMouseClicked(clickEvent -> {
-                System.out.println(LoggedUser.getInstance().getUser().getUsername());
                 if (clickEvent.getClickCount() > 1) {
                     if (row.getItem() == null) return;
-                    ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.CreateUserEvent(row.getItem().getUUID()));
+                    ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.EditUserEvent(row.getItem()));
                 }
             });
             return row;
@@ -55,6 +62,20 @@ public class UserListController {
     }
 
     public void handleAddUserButtonAction(ActionEvent actionEvent) {
-        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.CreateUserEvent());
+        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.EditUserEvent());
+    }
+
+    public void handleEditUserButtonAction(ActionEvent actionEvent) {
+        UserModel selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) return;
+        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.EditUserEvent(selectedUser));
+    }
+
+    public void handleRemoveUserButtonAction(ActionEvent actionEvent) {
+        UserModel selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
+        if (selectedUser == null || selectedUser.equals(LoggedUser.getInstance().getUser())) return;
+        if (CustomAlerts.showDeleteUserAlert()) {
+            Users.getInstance().removeUser(selectedUser);
+        }
     }
 }

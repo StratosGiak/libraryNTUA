@@ -18,8 +18,8 @@ public class UserModel implements Serializable {
     private transient SimpleStringProperty email = new SimpleStringProperty();
     private transient SimpleObjectProperty<AccessLevel> accessLevel = new SimpleObjectProperty<>();
 
-    public UserModel(UUID uuid, String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
-        this.uuid = uuid;
+    public UserModel(String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
+        this.uuid = UUID.randomUUID();
         this.username.set(username);
         this.password.set(password);
         this.nameFirst.set(nameFirst);
@@ -29,20 +29,12 @@ public class UserModel implements Serializable {
         this.accessLevel.set(accessLevel);
     }
 
-    public UserModel(UUID uuid, String username, String password, String nameFirst, String nameLast, String ID, String email) {
-        this(uuid, username, password, nameFirst, nameLast, ID, email, AccessLevel.USER);
-    }
-
     public UserModel(String username, String password, String nameFirst, String nameLast, String ID, String email) {
-        this(UUID.randomUUID(), username, password, nameFirst, nameLast, ID, email, AccessLevel.USER);
-    }
-
-    public UserModel(String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
-        this(UUID.randomUUID(), username, password, nameFirst, nameLast, ID, email, accessLevel);
+        this(username, password, nameFirst, nameLast, ID, email, AccessLevel.USER);
     }
 
     public ObservableList<LoanModel> getBorrowedList() {
-        return FXCollections.observableArrayList(Loans.getInstance().getLoanList().stream().filter(loan -> loan.getUuidUser().equals(uuid)).toList());
+        return FXCollections.observableArrayList(Loans.getInstance().getLoanList().stream().filter(loan -> loan.getUser().equals(this)).toList());
     }
 
     public UUID getUUID() {

@@ -72,12 +72,12 @@ public class RegisterController {
             IDField.setBorder(BORDER_ERROR);
             return;
         }
-        if (Users.getInstance().getAllUsersList().stream().anyMatch(user -> user.getEmail().equals(email))) {
+        if (Users.getInstance().getUsersList().stream().anyMatch(user -> user.getEmail().equals(email))) {
             registerErrorText.setText("Email already exists");
             emailField.setBorder(BORDER_ERROR);
             return;
         }
-        if (Users.getInstance().getAllUsersList().stream().anyMatch(user -> user.getID().equals(ID))) {
+        if (Users.getInstance().getUsersList().stream().anyMatch(user -> user.getID().equals(ID))) {
             registerErrorText.setText("ID already exists");
             IDField.setBorder(BORDER_ERROR);
             return;

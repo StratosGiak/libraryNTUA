@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<TabPane xmlns:fx="http://javafx.com/fxml/1" fx:id="tabPane"
-         xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.stratos.giak.libraryntua.MainViewController">
-    <Tab text="Library" closable="false">
-        <fx:include source="book-list.fxml"/>
-    </Tab>
-    <Tab text="Users" closable="false">
-        <fx:include source="user-list.fxml"/>
-    </Tab>
-    <Tab text="Loans" closable="false">
-        <fx:include source="loan-list.fxml"/>
-    </Tab>
-</TabPane>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.TextFlow?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="stackPane" xmlns="http://javafx.com/javafx/17.0.2-ea"
+           fx:controller="com.stratos.giak.libraryntua.MainViewController">
+    <TabPane fx:id="tabPane">
+        <Tab closable="false" text="Library">
+            <fx:include source="book-list.fxml"/>
+        </Tab>
+        <Tab closable="false" text="Loans">
+            <fx:include source="loan-list.fxml"/>
+        </Tab>
+    </TabPane>
+
+    <Group StackPane.alignment="TOP_RIGHT">
+        <StackPane.margin>
+            <Insets top="3" right="5"/>
+        </StackPane.margin>
+        <TextFlow fx:id="accountTextFlow" textAlignment="RIGHT"/>
+    </Group>
+</StackPane>

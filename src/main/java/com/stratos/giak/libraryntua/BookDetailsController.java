@@ -10,7 +10,6 @@ import javafx.scene.text.Text;
 import org.controlsfx.control.Rating;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class BookDetailsController {
     @FXML
@@ -31,21 +30,29 @@ public class BookDetailsController {
     public Text copiesField;
     @FXML
     public HBox ratingsField;
+    @FXML
     public Button borrowButton;
-    private UUID uuid;
+    @FXML
+    public Text loanLengthText;
+    @FXML
+    public Button decrementLoanLengthButton;
+    @FXML
+    public Button incrementLoanLengthButton;
+    @FXML
+    public Text errorText;
+    private BookModel book;
 
-    public void initializeFields(UUID uuid) {
-        this.uuid = uuid;
-        if (this.uuid == null) return;
-        BookModel book = Books.getInstance().getBook(this.uuid);
-        titleField.setText(book.getTitle());
-        authorField.setText(book.getAuthor());
-        publisherField.setText(book.getPublisher());
-        ISBNField.setText(book.getISBN());
-        yearOfPublicationField.setText(String.valueOf(book.getYearOfPublication()));
-        genreField.setText(book.getGenre().toString());
-        copiesField.setText(String.valueOf(book.getCopies()));
-
+    public void initializeFields(BookModel book) {
+        this.book = book;
+        if (book == null) return;
+        titleText.setText(book.getTitle() + " details");
+        titleField.textProperty().bind(book.titleProperty());
+        authorField.textProperty().bind(book.authorProperty());
+        publisherField.textProperty().bind(book.publisherProperty());
+        ISBNField.textProperty().bind(book.ISBNProperty());
+        yearOfPublicationField.textProperty().bind(book.yearOfPublicationProperty().asString());
+        genreField.textProperty().bind(book.genreProperty().asString());
+        copiesField.textProperty().bind(book.copiesProperty().asString());
         org.controlsfx.control.Rating rating = new Rating(5, book.getRatingsCount() != 0 ? book.getRatingsSum() / book.getRatingsCount() : 0);
         rating.setMouseTransparent(true);
         rating.setFocusTraversable(false);
@@ -54,7 +61,22 @@ public class BookDetailsController {
         ratingsField.getStyleClass().add("rating-bar");
         ratingsField.getChildren().addAll(rating, text);
 
-        borrowButton.disableProperty().bind(Bindings.createBooleanBinding(() -> Books.getInstance().getBook(uuid).copiesProperty().get() <= 0, Books.getInstance().getBook(uuid).copiesProperty()));
+        borrowButton.disableProperty().bind(Bindings.createBooleanBinding(() -> book.copiesProperty().get() <= 0 || Loans.getInstance().getLoanList().filtered(loan -> loan.getUser().equals(LoggedUser.getInstance().getUser())).size() >= 2, book.copiesProperty(), Loans.getInstance().getLoanList()));
+        errorText.textProperty().bind(Bindings.createStringBinding(() -> {
+            String error = "";
+            if (book.copiesProperty().get() < 1)
+                error += "Book is currently unavailable\n";
+            if (Loans.getInstance().getLoanList().filtered(loan -> loan.getUser().equals(LoggedUser.getInstance().getUser())).size() >= 2)
+                error += "You already have 2 open book loans";
+            return error;
+        }, book.authorProperty(), Loans.getInstance().getLoanList()));
+    }
+
+    public void initialize() {
+        decrementLoanLengthButton.disableProperty().bind(Bindings.createBooleanBinding(() -> Integer.parseInt(loanLengthText.textProperty().get()) <= 1, loanLengthText.textProperty()));
+        incrementLoanLengthButton.disableProperty().bind(Bindings.createBooleanBinding(() -> Integer.parseInt(loanLengthText.textProperty().get()) >= 5, loanLengthText.textProperty()));
+        errorText.visibleProperty().bind(errorText.textProperty().isNotEmpty());
+        //Bindings.createBooleanBinding(() -> Loans.getInstance().getLoanList().stream().filter(loan -> loan.getUser().equals(LoggedUser.getInstance().getUser())).findAny().isEmpty())
     }
 
     public void handleBorrowButtonAction(ActionEvent actionEvent) {
@@ -62,8 +84,20 @@ public class BookDetailsController {
             CustomAlerts.showMaxBorrowedAlert();
             return;
         }
-        if (this.uuid == null) throw new RuntimeException("Book UUID is null");
-        LoanModel borrowed = new LoanModel(this.uuid, LoggedUser.getInstance().getUser().getUUID(), LocalDate.now(), 3);
+        if (book == null) throw new RuntimeException("Book UUID is null");
+        LoanModel borrowed = new LoanModel(book, LoggedUser.getInstance().getUser(), LocalDate.now(), Integer.parseInt(loanLengthText.getText()));
         Loans.getInstance().addLoan(borrowed);
+    }
+
+    public void handleDecrementLoanLengthAction(ActionEvent actionEvent) {
+        int loanLength = Integer.parseInt(loanLengthText.getText());
+        if (loanLength <= 1) return;
+        loanLengthText.setText(String.valueOf(loanLength - 1));
+    }
+
+    public void handleIncrementLoanLengthAction(ActionEvent actionEvent) {
+        int loanLength = Integer.parseInt(loanLengthText.getText());
+        if (loanLength >= 5) return;
+        loanLengthText.setText(String.valueOf(loanLength + 1));
     }
 }

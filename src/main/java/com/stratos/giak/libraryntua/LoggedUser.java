@@ -1,10 +1,8 @@
 package com.stratos.giak.libraryntua;
 
-import java.util.UUID;
-
 public final class LoggedUser {
     private static LoggedUser instance;
-    private UUID uuid;
+    private UserModel user;
 
     private LoggedUser() {
     }
@@ -17,11 +15,11 @@ public final class LoggedUser {
     }
 
     public UserModel getUser() {
-        if (uuid == null) throw new RuntimeException("Not logged in");
-        return Users.getInstance().getUserByUUID(uuid);
+        if (user == null) throw new RuntimeException("Not logged in");
+        return user;
     }
 
     public void setUser(UserModel user) {
-        this.uuid = user.getUUID();
+        this.user = user;
     }
 }

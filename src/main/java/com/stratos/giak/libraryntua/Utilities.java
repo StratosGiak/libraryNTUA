@@ -27,5 +27,8 @@ public class Utilities {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.getScene().setRoot(newRoot);
         stage.show();
+//        stage.sizeToScene();
+//        stage.setMinHeight(stage.getHeight());
+//        stage.setMinWidth(stage.getWidth());
     }
 }

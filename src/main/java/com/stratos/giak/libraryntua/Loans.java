@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.Iterator;
 
 public class Loans {
     private static Loans instance;
@@ -29,16 +29,40 @@ public class Loans {
 
     void addLoan(LoanModel loanModel) {
         getLoanList().add(loanModel);
+        loanModel.getBook().setCopies(loanModel.getBook().getCopies() - 1);
     }
 
-    void removeLoan(UUID uuid) {
-        getLoanList().removeIf(loan -> loan.getUuid().equals(uuid));
+    void removeLoan(LoanModel loan) {
+        BookModel book = loan.getBook();
+        book.setCopies(book.getCopies() + 1);
+        getLoanList().remove(loan);
     }
 
-    void editLoan(UUID uuid, Integer rating, String comment) {
-        LoanModel loan = getLoanList().stream().filter(loanModel -> loanModel.getUuid().equals(uuid)).findAny().orElse(null);
+    void removeAllWithUser(UserModel user) {
+        Iterator<LoanModel> iterator = getLoanList().iterator();
+        while (iterator.hasNext()) {
+            LoanModel loan = iterator.next();
+            if (!loan.getUser().equals(user)) continue;
+            BookModel book = loan.getBook();
+            book.setCopies(book.getCopies() + 1);
+            iterator.remove();
+        }
+    }
+
+    void removeAllWithBook(BookModel book) {
+        Iterator<LoanModel> iterator = getLoanList().iterator();
+        while (iterator.hasNext()) {
+            LoanModel loan = iterator.next();
+            if (!loan.getBook().equals(book)) continue;
+            BookModel bk = loan.getBook();
+            bk.setCopies(bk.getCopies() + 1);
+            iterator.remove();
+        }
+    }
+
+    void editLoan(LoanModel loan, Integer rating, String comment) {
         if (loan == null)
-            throw new IllegalArgumentException("Loan UUID does not exist");
+            throw new IllegalArgumentException("Loan object does not exist");
         if (rating != null) loan.setRating(rating);
         if (comment != null) loan.setComment(comment);
     }
