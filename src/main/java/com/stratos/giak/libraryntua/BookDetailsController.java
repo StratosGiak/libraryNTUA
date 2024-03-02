@@ -1,12 +1,12 @@
 package com.stratos.giak.libraryntua;
 
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -58,10 +58,13 @@ public class BookDetailsController {
         yearOfPublicationField.textProperty().bind(book.yearOfPublicationProperty().asString());
         genreField.textProperty().bind(book.genreProperty().asString());
         copiesField.textProperty().bind(book.copiesProperty().asString());
-        org.controlsfx.control.Rating rating = new Rating(5, book.getRatingsCount() != 0 ? book.getRatingsSum() / book.getRatingsCount() : 0);
+        Rating rating = new Rating(5);
+        rating.setPartialRating(true);
+        rating.ratingProperty().bind(Bindings.createDoubleBinding(() -> book.ratingsCountProperty().getValue() != 0 ? (double) book.ratingsSumProperty().getValue() / book.ratingsCountProperty().getValue() : 0, book.ratingsCountProperty(), book.ratingsSumProperty()));
         rating.setMouseTransparent(true);
         rating.setFocusTraversable(false);
-        Text text = new Text("(" + book.getRatingsCount() + ")");
+        Text text = new Text();
+        text.textProperty().bind(Bindings.createStringBinding(() -> "(" + book.ratingsCountProperty().get() + ")", book.ratingsCountProperty()));
         text.setFont(new Font(24));
         ratingsField.getStyleClass().add("rating-bar");
         ratingsField.getChildren().addAll(rating, text);
@@ -74,11 +77,12 @@ public class BookDetailsController {
                     @Override
                     protected void updateItem(ReviewModel item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (empty || item == null) {
+                        if (empty || item == null || item.ratingProperty().get() == 0 && (item.getComment() == null || item.getComment().isBlank())) {
                             setText(null);
                             setGraphic(null);
                             return;
                         }
+
                         Text username = new Text();
                         username.textProperty().bind(item.usernameProperty());
                         username.wrappingWidthProperty().bind(widthProperty().subtract(10));
@@ -99,8 +103,84 @@ public class BookDetailsController {
                     }
                 }
         );
-        commentList.setItems(book.getComments());
+        commentList.setItems(book.getReviews());
 
+        commentList.setSelectionModel(new MultipleSelectionModel<>() {
+            @Override
+            public ObservableList<Integer> getSelectedIndices() {
+                return FXCollections.emptyObservableList();
+            }
+
+            @Override
+            public ObservableList<ReviewModel> getSelectedItems() {
+                return FXCollections.emptyObservableList();
+            }
+
+            @Override
+            public void selectIndices(int index, int... indices) {
+
+            }
+
+            @Override
+            public void selectAll() {
+
+            }
+
+            @Override
+            public void selectFirst() {
+
+            }
+
+            @Override
+            public void selectLast() {
+
+            }
+
+            @Override
+            public void clearAndSelect(int index) {
+
+            }
+
+            @Override
+            public void select(int index) {
+
+            }
+
+            @Override
+            public void select(ReviewModel obj) {
+
+            }
+
+            @Override
+            public void clearSelection(int index) {
+
+            }
+
+            @Override
+            public void clearSelection() {
+
+            }
+
+            @Override
+            public boolean isSelected(int index) {
+                return false;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public void selectPrevious() {
+
+            }
+
+            @Override
+            public void selectNext() {
+
+            }
+        });
         borrowButton.disableProperty().bind(Bindings.createBooleanBinding(() -> book.copiesProperty().get() <= 0 || Loans.getInstance().getLoanList().filtered(loan -> loan.getUser().equals(LoggedUser.getInstance().getUser())).size() >= 2, book.copiesProperty(), Loans.getInstance().getLoanList()));
         errorText.textProperty().bind(Bindings.createStringBinding(() -> {
             String error = "";
@@ -109,13 +189,17 @@ public class BookDetailsController {
             if (Loans.getInstance().getLoanList().filtered(loan -> loan.getUser().equals(LoggedUser.getInstance().getUser())).size() >= 2)
                 error += "You already have 2 open book loans";
             return error;
-        }, book.authorProperty(), Loans.getInstance().getLoanList()));
+        }, book.copiesProperty(), Loans.getInstance().getLoanList()));
+
+        commentList.visibleProperty().bind(Bindings.createBooleanBinding(() -> !book.getReviews().isEmpty(), book.getReviews()));
+        commentList.managedProperty().bind(commentList.visibleProperty());
     }
 
     public void initialize() {
         decrementLoanLengthButton.disableProperty().bind(Bindings.createBooleanBinding(() -> Integer.parseInt(loanLengthText.textProperty().get()) <= 1, loanLengthText.textProperty()));
         incrementLoanLengthButton.disableProperty().bind(Bindings.createBooleanBinding(() -> Integer.parseInt(loanLengthText.textProperty().get()) >= 5, loanLengthText.textProperty()));
         errorText.visibleProperty().bind(errorText.textProperty().isNotEmpty());
+        commentList.setPlaceholder(new Label("This book has no reviews"));
         //Bindings.createBooleanBinding(() -> Loans.getInstance().getLoanList().stream().filter(loan -> loan.getUser().equals(LoggedUser.getInstance().getUser())).findAny().isEmpty())
     }
 

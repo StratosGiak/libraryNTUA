@@ -130,6 +130,11 @@ public class MainViewController {
             tabPane.getSelectionModel().select(1);
             event.consume();
         });
+        stackPane.addEventFilter(CustomEvents.EXIT_LOAN_EVENT, event -> {
+            tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedIndex());
+            tabPane.getSelectionModel().select(1);
+            event.consume();
+        });
     }
 
 }

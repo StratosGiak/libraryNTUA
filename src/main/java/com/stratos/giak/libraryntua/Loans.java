@@ -32,9 +32,11 @@ public class Loans {
         loanModel.getBook().setCopies(loanModel.getBook().getCopies() - 1);
     }
 
-    void removeLoan(LoanModel loan) {
+    void endLoan(LoanModel loan) {
         BookModel book = loan.getBook();
         book.setCopies(book.getCopies() + 1);
+        if (loan.getRating() != 0 || loan.getComment() != null && !loan.getComment().isBlank())
+            book.addReview(new ReviewModel(loan.getUser().getUsername(), loan.getRating(), loan.getComment()));
         getLoanList().remove(loan);
     }
 

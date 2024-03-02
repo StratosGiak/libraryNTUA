@@ -43,7 +43,7 @@
                 <Label text="Copies:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
                 <Text fx:id="copiesField" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
             </GridPane>
-            <ListView fx:id="commentList" prefHeight="300"/>
+            <ListView fx:id="commentList" prefWidth="300" prefHeight="300"/>
         </HBox>
     </VBox>
 
@@ -65,9 +65,9 @@
         <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="4">
             <Button fx:id="borrowButton" onAction="#handleBorrowButtonAction" text="Submit"/>
         </HBox>
-
-        <Text fx:id="errorText" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.columnSpan="2"
-              GridPane.rowIndex="6"/>
+        <HBox alignment="CENTER" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="6">
+            <Text fx:id="errorText" textAlignment="CENTER"/>
+        </HBox>
     </GridPane>
     <stylesheets>
         <URL value="@login.css"/>

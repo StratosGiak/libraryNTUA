@@ -59,7 +59,7 @@ public class LoanListController {
         LoanModel selectedLoan = tableViewLoans.getSelectionModel().getSelectedItem();
         if (selectedLoan == null) return;
         if (CustomAlerts.showEndLoanAlert(selectedLoan)) {
-            Loans.getInstance().removeLoan(selectedLoan);
+            Loans.getInstance().endLoan(selectedLoan);
         }
     }
 }

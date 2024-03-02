@@ -9,7 +9,7 @@ public final class CustomEvents {
 
     public static final EventType<Event> EXIT_BOOK_EVENT = new EventType<>("exit book creation scene");
     public static final EventType<Event> EXIT_USER_EVENT = new EventType<>("exit user creation scene");
-    public static final EventType<Event> LOGOUT_EVENT = new EventType<>("logout current user");
+    public static final EventType<Event> EXIT_LOAN_EVENT = new EventType<>("exit loan details screen");
 
     public static class EditBookEvent extends Event {
         public static final EventType<EditBookEvent> EDIT_BOOK_EVENT = new EventType<>("create/edit book");

@@ -12,12 +12,8 @@ public class ReviewModel implements Serializable {
     private transient SimpleStringProperty username = new SimpleStringProperty();
     private transient SimpleStringProperty comment = new SimpleStringProperty();
 
-    public ReviewModel() {
-        this.uuid = UUID.randomUUID();
-    }
-
     public ReviewModel(String username, Integer rating, String comment) {
-        this();
+        this.uuid = UUID.randomUUID();
         this.username.set(username);
         this.rating.set(rating);
         this.comment.set(comment);

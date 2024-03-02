@@ -1,5 +1,6 @@
 package com.stratos.giak.libraryntua;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -22,15 +23,18 @@ public class BookShowcaseController {
             showcaseRow.getChildren().add(vBox);
         } else {
             List<BookModel> topBooks = Books.getInstance().getBooksList().sorted((o1, o2) -> {
-                if (o1.getRatingsCount() == 0) return -1;
-                if (o2.getRatingsCount() == 0) return 1;
-                return Float.compare((float) o1.getRatingsSum() / o1.getRatingsCount(), (float) o2.getRatingsSum() / o2.getRatingsCount());
+                if (o1.getRatingsCount() == 0) return 1;
+                if (o2.getRatingsCount() == 0) return -1;
+                return Float.compare((float) o2.getRatingsSum() / o2.getRatingsCount(), (float) o1.getRatingsSum() / o1.getRatingsCount());
             }).subList(0, Math.min(Books.getInstance().getBooksList().size(), 5));
             for (BookModel book : topBooks) {
-                Rating rating = new Rating(5, book.getRatingsCount() != 0 ? book.getRatingsSum() / book.getRatingsCount() : 0);
+                Rating rating = new Rating(5);
+                rating.setPartialRating(true);
+                rating.ratingProperty().bind(Bindings.createDoubleBinding(() -> book.ratingsCountProperty().getValue() != 0 ? (double) book.ratingsSumProperty().getValue() / book.ratingsCountProperty().getValue() : 0, book.ratingsCountProperty(), book.ratingsSumProperty()));
                 rating.setMouseTransparent(true);
                 rating.setFocusTraversable(false);
-                Text text = new Text("(" + book.getRatingsCount() + ")");
+                Text text = new Text();
+                text.textProperty().bind(Bindings.createStringBinding(() -> "(" + book.ratingsCountProperty().get() + ")", book.ratingsCountProperty()));
                 text.setFont(new Font(24));
                 HBox hbox = new HBox(15, rating, text);
                 hbox.getStyleClass().add("rating-bar");
