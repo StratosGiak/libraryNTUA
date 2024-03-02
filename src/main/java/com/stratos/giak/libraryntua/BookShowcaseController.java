@@ -14,9 +14,10 @@ import java.util.List;
 
 public class BookShowcaseController {
     @FXML
-    public HBox showcaseRow;
+    private HBox showcaseRow;
 
-    public void initialize() {
+    @FXML
+    private void initialize() {
         if (Books.getInstance().getBooksList().isEmpty()) {
             VBox vBox = new VBox(new Text("There are currently no books in the library"));
             vBox.alignmentProperty().set(Pos.CENTER);

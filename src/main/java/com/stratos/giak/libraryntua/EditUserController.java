@@ -10,33 +10,35 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
 import javafx.scene.text.Text;
 
-import static com.stratos.giak.libraryntua.Constants.BORDER_ERROR;
-
 public class EditUserController {
-
     @FXML
-    public TextField emailField;
+    private TextField emailField;
     @FXML
-    public TextField nameFirstField;
+    private TextField nameFirstField;
     @FXML
-    public TextField nameLastField;
+    private TextField nameLastField;
     @FXML
-    public TextField IDField;
+    private TextField IDField;
     @FXML
-    public Text errorText;
+    private Text errorText;
     @FXML
-    public Text titleText;
+    private Text titleText;
     @FXML
-    public CheckBox adminField;
-    public Button revertUsername;
-    public Button revertPassword;
-    public Button revertEmail;
-    public Button revertNameFirst;
-    public Button revertNameLast;
-    public Button revertID;
+    private CheckBox adminField;
+    @FXML
+    private Button revertUsername;
+    @FXML
+    private Button revertPassword;
+    @FXML
+    private Button revertEmail;
+    @FXML
+    private Button revertNameFirst;
+    @FXML
+    private Button revertNameLast;
+    @FXML
+    private Button revertID;
     @FXML
     private TextField usernameField;
     @FXML
@@ -71,19 +73,19 @@ public class EditUserController {
         revertID.setOnAction(event -> IDField.setText(user.getID()));
     }
 
-    public void initialize() {
+    @FXML
+    private void onFieldClicked(MouseEvent ignoredMouseEvent) {
+        setTextFieldError(usernameField, false);
+        setTextFieldError(passwordField, false);
+        setTextFieldError(emailField, false);
+        setTextFieldError(nameFirstField, false);
+        setTextFieldError(nameLastField, false);
+        setTextFieldError(IDField, false);
+        errorText.setText(null);
     }
 
-    public void onFieldClicked(MouseEvent ignoredMouseEvent) {
-        usernameField.setBorder(Border.EMPTY);
-        passwordField.setBorder(Border.EMPTY);
-        emailField.setBorder(Border.EMPTY);
-        nameFirstField.setBorder(Border.EMPTY);
-        nameLastField.setBorder(Border.EMPTY);
-        IDField.setBorder(Border.EMPTY);
-    }
-
-    public void handleSubmitButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleSubmitButtonAction(ActionEvent actionEvent) {
         final String username = usernameField.getText();
         final String password = passwordField.getText();
         final String email = emailField.getText();
@@ -93,37 +95,37 @@ public class EditUserController {
         final AccessLevel accessLevel = adminField.isSelected() ? AccessLevel.ADMIN : AccessLevel.USER;
         if (username.isBlank() || password.isBlank() || email.isBlank() || nameFirst.isBlank() || nameLast.isBlank() || ID.isBlank()) {
             errorText.setText("Please fill in all fields");
-            if (username.isBlank()) usernameField.setBorder(BORDER_ERROR);
-            if (password.isBlank()) passwordField.setBorder(BORDER_ERROR);
-            if (email.isBlank()) emailField.setBorder(BORDER_ERROR);
-            if (nameFirst.isBlank()) nameFirstField.setBorder(BORDER_ERROR);
-            if (nameLast.isBlank()) nameLastField.setBorder(BORDER_ERROR);
-            if (ID.isBlank()) IDField.setBorder(BORDER_ERROR);
+            if (username.isBlank()) setTextFieldError(usernameField, true);
+            if (password.isBlank()) setTextFieldError(passwordField, true);
+            if (email.isBlank()) setTextFieldError(emailField, true);
+            if (nameFirst.isBlank()) setTextFieldError(nameFirstField, true);
+            if (nameLast.isBlank()) setTextFieldError(nameLastField, true);
+            if (ID.isBlank()) setTextFieldError(IDField, true);
             return;
         }
         if ((user == null || !username.equals(user.getUsername())) && Users.getInstance().getUserByUsername(username) != null) {
             errorText.setText("Username already exists");
-            usernameField.setBorder(BORDER_ERROR);
+            setTextFieldError(usernameField, true);
             return;
         }
         if (!email.matches(".+@.+")) {
             errorText.setText("Please enter a valid email address");
-            emailField.setBorder(BORDER_ERROR);
+            setTextFieldError(emailField, true);
             return;
         }
         if (!ID.matches(".+")) {
             errorText.setText("Please enter a valid ID");
-            IDField.setBorder(BORDER_ERROR);
+            setTextFieldError(IDField, true);
             return;
         }
         if ((user == null || !email.equals(user.getEmail())) && Users.getInstance().getUsersList().stream().anyMatch(user -> user.getEmail().equals(email))) {
             errorText.setText("Email already exists");
-            emailField.setBorder(BORDER_ERROR);
+            setTextFieldError(emailField, true);
             return;
         }
         if ((user == null || !ID.equals(user.getID())) && Users.getInstance().getUsersList().stream().anyMatch(user -> user.getID().equals(ID))) {
             errorText.setText("ID already exists");
-            IDField.setBorder(BORDER_ERROR);
+            setTextFieldError(IDField, true);
             return;
         }
         if (user == null) {
@@ -135,11 +137,15 @@ public class EditUserController {
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_USER_EVENT));
     }
 
-    public void handleCancelButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleCancelButtonAction(ActionEvent actionEvent) {
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_USER_EVENT));
     }
 
-    public void handleUsernameRevertButtonAction(ActionEvent actionEvent) {
-        System.out.println("HELLO");
+    private void setTextFieldError(Node textField, boolean error) {
+        if (error && !textField.getStyleClass().contains("field-error"))
+            textField.getStyleClass().add("field-error");
+        else if (!error && textField.getStyleClass().contains("field-error"))
+            textField.getStyleClass().removeAll("field-error");
     }
 }

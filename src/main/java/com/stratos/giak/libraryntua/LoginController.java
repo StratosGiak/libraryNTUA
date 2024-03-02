@@ -8,12 +8,6 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
@@ -21,18 +15,22 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class LoginController {
-    final BorderStroke BORDER_STROKE_ERROR = new BorderStroke(Color.RED, new BorderStrokeStyle(StrokeType.OUTSIDE, null, null, 10, 0, null), new CornerRadii(3), null);
     private final Hyperlink registerLink = new Hyperlink("Register");
+
     @FXML
-    private Text loginErrorText;
+    private Text errorText;
+
     @FXML
     private TextField usernameField;
+
     @FXML
     private PasswordField passwordField;
+
     @FXML
     private TextFlow registerTextFlow;
 
-    public void initialize() {
+    @FXML
+    private void initialize() {
         registerTextFlow.getChildren().addAll(new Text("Don't have an account? "), registerLink);
         registerLink.setOnAction(event -> {
             registerTextFlow.fireEvent(new Event(CustomEvents.LINK_REGISTER_EVENT));
@@ -40,29 +38,25 @@ public class LoginController {
     }
 
     @FXML
-    protected void handleLoginButtonAction(ActionEvent event) throws IOException {
+    private void handleLoginButtonAction(ActionEvent event) throws IOException {
         final String username = usernameField.getText();
         final String password = passwordField.getText();
         if (username.isBlank() || password.isBlank()) {
-            loginErrorText.setText("Please fill in all fields");
-            if (username.isBlank()) {
-                usernameField.setBorder(new Border(BORDER_STROKE_ERROR));
-            }
-            if (password.isBlank()) {
-                passwordField.setBorder(new Border(BORDER_STROKE_ERROR));
-            }
+            errorText.setText("Please fill in all fields");
+            setTextFieldError(usernameField, true);
+            setTextFieldError(passwordField, true);
             return;
         }
         final UserModel user = Users.getInstance().getUserByUsername(username);
         if (user == null) {
-            loginErrorText.setText("Username doesn't exist");
-            usernameField.setBorder(new Border(BORDER_STROKE_ERROR));
+            errorText.setText("Username doesn't exist");
+            setTextFieldError(usernameField, true);
             return;
         }
         if (!user.getPassword().equals(password)) {
-            loginErrorText.setText("Wrong password");
-            usernameField.setBorder(new Border(BORDER_STROKE_ERROR));
-            passwordField.setBorder(new Border(BORDER_STROKE_ERROR));
+            errorText.setText("Wrong password");
+            setTextFieldError(usernameField, true);
+            setTextFieldError(passwordField, true);
             return;
         }
         LoggedUser.getInstance().setUser(user);
@@ -73,8 +67,16 @@ public class LoginController {
     }
 
     @FXML
-    protected void onFieldClicked(MouseEvent event) {
-        usernameField.setBorder(Border.EMPTY);
-        passwordField.setBorder(Border.EMPTY);
+    private void onFieldClicked(MouseEvent event) {
+        setTextFieldError(usernameField, false);
+        setTextFieldError(passwordField, false);
+        errorText.setText(null);
+    }
+
+    private void setTextFieldError(Node textField, boolean error) {
+        if (error && !textField.getStyleClass().contains("field-error"))
+            textField.getStyleClass().add("field-error");
+        else if (!error && textField.getStyleClass().contains("field-error"))
+            textField.getStyleClass().removeAll("field-error");
     }
 }

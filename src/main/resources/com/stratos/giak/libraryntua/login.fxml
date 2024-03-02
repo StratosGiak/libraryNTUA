@@ -23,7 +23,7 @@
     <PasswordField fx:id="passwordField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1"
                    GridPane.rowIndex="2"/>
 
-    <Text fx:id="loginErrorText" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    <Text fx:id="errorText" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
     <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5">
         <Button onAction="#handleLoginButtonAction" styleClass="button1" text="Log In"/>
@@ -31,6 +31,6 @@
     <TextFlow fx:id="registerTextFlow" GridPane.columnIndex="0" GridPane.rowIndex="6"
               GridPane.columnSpan="2"/>
     <stylesheets>
-        <URL value="@login.css"/>
+        <URL value="@style.css"/>
     </stylesheets>
 </GridPane>

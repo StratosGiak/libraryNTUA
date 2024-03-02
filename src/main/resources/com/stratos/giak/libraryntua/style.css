@@ -4,14 +4,13 @@ root {
 .root {
 -fx-background-image: url("background.jpg");
 }
-/*
+
 .label {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;
     -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
 }
-*/
 
 #welcome-text {
    -fx-font-size: 32px;
@@ -19,12 +18,7 @@ root {
    -fx-fill: #818181;
    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
 }
-#loginErrorText {
-  -fx-fill: FIREBRICK;
-  -fx-font-weight: bold;
-  -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
-}
-#registerErrorText {
+#errorText {
   -fx-fill: FIREBRICK;
   -fx-font-weight: bold;
   -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
@@ -59,4 +53,10 @@ root {
 
 .table-row-cell:empty {
     -fx-background-color: transparent;
+}
+
+.field-error {
+   -fx-border-color: red;
+   -fx-border-insets: -1px;
+   -fx-border-radius: 3px;
 }

@@ -13,15 +13,16 @@ import javafx.util.Duration;
 public class UserListController {
     private final ObservableList<UserModel> users = Users.getInstance().getUsersList();
     @FXML
-    public Button addUserButton;
+    private Button addUserButton;
     @FXML
-    public Button editUserButton;
+    private Button editUserButton;
     @FXML
-    public Button removeUserButton;
+    private Button removeUserButton;
     @FXML
     private TableView<UserModel> tableViewUsers;
 
-    public void initialize() {
+    @FXML
+    private void initialize() {
         editUserButton.disableProperty().bind(Bindings.createBooleanBinding(() -> tableViewUsers.getSelectionModel().selectedItemProperty().get() == null, tableViewUsers.getSelectionModel().selectedItemProperty()));
         removeUserButton.disableProperty().bind(Bindings.createBooleanBinding(() -> tableViewUsers.getSelectionModel().selectedItemProperty().get() == null || tableViewUsers.getSelectionModel().selectedItemProperty().get().equals(LoggedUser.getInstance().getUser()), tableViewUsers.getSelectionModel().selectedItemProperty()));
 
@@ -61,17 +62,20 @@ public class UserListController {
         }
     }
 
-    public void handleAddUserButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleAddUserButtonAction(ActionEvent actionEvent) {
         ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.EditUserEvent());
     }
 
-    public void handleEditUserButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleEditUserButtonAction(ActionEvent actionEvent) {
         UserModel selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
         if (selectedUser == null) return;
         ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.EditUserEvent(selectedUser));
     }
 
-    public void handleRemoveUserButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleRemoveUserButtonAction(ActionEvent actionEvent) {
         UserModel selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
         if (selectedUser == null || selectedUser.equals(LoggedUser.getInstance().getUser())) return;
         if (CustomAlerts.showDeleteUserAlert()) {

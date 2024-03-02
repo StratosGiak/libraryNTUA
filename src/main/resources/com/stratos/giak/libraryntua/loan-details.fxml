@@ -59,6 +59,6 @@
         </HBox>
     </VBox>
     <stylesheets>
-        <URL value="@login.css"/>
+        <URL value="@style.css"/>
     </stylesheets>
 </StackPane>

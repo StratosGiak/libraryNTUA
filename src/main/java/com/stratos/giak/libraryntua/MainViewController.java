@@ -20,12 +20,15 @@ public class MainViewController {
 
     private final Hyperlink logoutLink = new Hyperlink("Logout?");
     private final Hyperlink userDetailsLink = new Hyperlink();
-    public TextFlow accountTextFlow;
-    public StackPane stackPane;
+    @FXML
+    private TextFlow accountTextFlow;
+    @FXML
+    private StackPane stackPane;
     @FXML
     private TabPane tabPane;
 
-    public void initialize() {
+    @FXML
+    private void initialize() {
         if (LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN) {
             Parent root;
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("user-list.fxml")));

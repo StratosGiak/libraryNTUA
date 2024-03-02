@@ -3,6 +3,7 @@ package com.stratos.giak.libraryntua;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -12,11 +13,15 @@ import javafx.scene.control.TableView;
 import java.util.Arrays;
 
 public class LoanListController {
-    public TableView<LoanModel> tableViewLoans;
-    public Button viewLoanButton;
-    public Button endLoanButton;
+    @FXML
+    private TableView<LoanModel> tableViewLoans;
+    @FXML
+    private Button viewLoanButton;
+    @FXML
+    private Button endLoanButton;
 
-    public void initialize() {
+    @FXML
+    private void initialize() {
         viewLoanButton.disableProperty().bind(Bindings.createBooleanBinding(() -> tableViewLoans.getSelectionModel().selectedItemProperty().get() == null, tableViewLoans.getSelectionModel().selectedItemProperty()));
         endLoanButton.disableProperty().bind(Bindings.createBooleanBinding(() -> tableViewLoans.getSelectionModel().selectedItemProperty().get() == null, tableViewLoans.getSelectionModel().selectedItemProperty()));
 
@@ -49,13 +54,15 @@ public class LoanListController {
         });
     }
 
-    public void handleViewLoanButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleViewLoanButtonAction(ActionEvent actionEvent) {
         LoanModel selectedLoan = tableViewLoans.getSelectionModel().getSelectedItem();
         if (selectedLoan == null) return;
         ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.ViewLoanDetailsEvent(selectedLoan));
     }
 
-    public void handleEndLoanButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleEndLoanButtonAction(ActionEvent actionEvent) {
         LoanModel selectedLoan = tableViewLoans.getSelectionModel().getSelectedItem();
         if (selectedLoan == null) return;
         if (CustomAlerts.showEndLoanAlert(selectedLoan)) {

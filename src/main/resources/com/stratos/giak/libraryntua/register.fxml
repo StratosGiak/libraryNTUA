@@ -40,7 +40,7 @@
     <TextField fx:id="IDField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1"
                GridPane.rowIndex="6"/>
 
-    <Text fx:id="registerErrorText" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+    <Text fx:id="errorText" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
 
     <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="9">
         <Button onAction="#handleLoginButtonAction" styleClass="button1" text="Sign Up"/>
@@ -48,6 +48,6 @@
     <TextFlow fx:id="loginTextFlow" GridPane.columnIndex="0" GridPane.rowIndex="10"
               GridPane.columnSpan="2"/>
     <stylesheets>
-        <URL value="@login.css"/>
+        <URL value="@style.css"/>
     </stylesheets>
 </GridPane>

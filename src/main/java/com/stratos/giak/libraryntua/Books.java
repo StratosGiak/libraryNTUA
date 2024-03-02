@@ -51,15 +51,15 @@ public final class Books {
         return instance;
     }
 
-    ObservableList<BookModel> getBooksList() {
+    public ObservableList<BookModel> getBooksList() {
         return booksList;
     }
 
-    BookModel getBook(UUID uuid) {
+    public BookModel getBook(UUID uuid) {
         return getBooksList().stream().filter(book -> book.getUUID().equals(uuid)).findAny().orElse(null);
     }
 
-    void addBook(BookModel book) {
+    public void addBook(BookModel book) {
         if (book.getTitle().isBlank()
                 || book.getAuthor().isBlank()
                 || book.getPublisher().isBlank()
@@ -69,12 +69,12 @@ public final class Books {
         getBooksList().add(book);
     }
 
-    void removeBook(BookModel book) {
+    public void removeBook(BookModel book) {
         Loans.getInstance().removeAllWithBook(book);
         getBooksList().remove(book);
     }
 
-    void removeAllWithGenre(GenreModel genre) {
+    public void removeAllWithGenre(GenreModel genre) {
         Iterator<BookModel> iterator = getBooksList().iterator();
         while (iterator.hasNext()) {
             BookModel book = iterator.next();
@@ -84,7 +84,7 @@ public final class Books {
         }
     }
 
-    void editBook(BookModel book, String title, String author, String publisher, String ISBN, Integer yearOfPublication, GenreModel genre, Integer copies) {
+    public void editBook(BookModel book, String title, String author, String publisher, String ISBN, Integer yearOfPublication, GenreModel genre, Integer copies) {
         if (book == null)
             throw new IllegalArgumentException("Book UUID does not exist");
         if (title != null) book.setTitle(title);
@@ -96,7 +96,7 @@ public final class Books {
         if (copies != null) book.setCopies(copies);
     }
 
-    void saveBooks() throws IOException {
+    public void saveBooks() throws IOException {
         FileOutputStream fileStream = new FileOutputStream("medialab/books");
         ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
         objectStream.writeObject(new ArrayList<>(getBooksList()));
@@ -104,7 +104,7 @@ public final class Books {
         fileStream.close();
     }
 
-    void loadBooks() throws IOException, ClassNotFoundException {
+    public void loadBooks() throws IOException, ClassNotFoundException {
         FileInputStream fileStream = new FileInputStream("medialab/books");
         ObjectInputStream objectStream = new ObjectInputStream(fileStream);
         booksList = FXCollections.observableArrayList((ArrayList<BookModel>) objectStream.readObject());

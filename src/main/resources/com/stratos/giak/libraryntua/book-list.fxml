@@ -5,51 +5,63 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" hgap="10" vgap="10"
-          xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.stratos.giak.libraryntua.BookListController">
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      fx:controller="com.stratos.giak.libraryntua.BookListController">
     <padding>
         <Insets bottom="10" left="25" right="25" top="25"/>
     </padding>
-    <Label text="Search" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-    <TextField fx:id="searchTitleField" promptText="Title" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-    <TextField fx:id="searchAuthorField" promptText="Author" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-    <TextField fx:id="searchYearOfPublicationField" promptText="Year of publication" GridPane.columnIndex="1"
-               GridPane.rowIndex="3"/>
-    <ChoiceBox fx:id="searchGenreField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-    <VBox spacing="10" alignment="TOP_CENTER" GridPane.columnIndex="2" GridPane.rowIndex="5">
-        <Button fx:id="addBookButton" onAction="#handleAddBookButtonAction" maxWidth="Infinity" text="Add Book"/>
-        <Button fx:id="editBookButton" onAction="#handleEditBookButtonAction" maxWidth="Infinity" text="Edit Book"/>
-        <Button fx:id="removeBookButton" onAction="#handleRemoveBookButtonAction" maxWidth="Infinity"
-                text="Remove Book"/>
-    </VBox>
-    <TableView fx:id="tableViewBooks" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5">
-        <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-        </columnResizePolicy>
-        <columns>
-            <TableColumn text="Title">
-                <cellValueFactory>
-                    <PropertyValueFactory property="title"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="Author">
-                <cellValueFactory>
-                    <PropertyValueFactory property="author"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="ISBN">
-                <cellValueFactory>
-                    <PropertyValueFactory property="ISBN"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="Rating">
-                <cellValueFactory>
-                    <PropertyValueFactory property="rating"/>
-                </cellValueFactory>
-            </TableColumn>
-        </columns>
-    </TableView>
+    <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10">
+        <padding>
+            <Insets bottom="10" left="25" right="25" top="25"/>
+        </padding>
+        <Label text="Search" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="searchTitleField" promptText="Title" prefWidth="220"
+                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <TextField fx:id="searchAuthorField" promptText="Author" prefWidth="220"
+                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <TextField fx:id="searchYearOfPublicationField" promptText="Year" prefWidth="80"/>
+        </HBox>
+        <ChoiceBox fx:id="searchGenreField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    </GridPane>
+    <HBox spacing="10">
+        <TableView fx:id="tableViewBooks" prefWidth="400">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+            <columns>
+                <TableColumn text="Title">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="title"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Author">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="author"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="ISBN">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="ISBN"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Rating">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="rating"/>
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+        <VBox spacing="10" alignment="TOP_CENTER">
+            <Button fx:id="viewBookButton" onAction="#handleViewBookDetailsButtonAction" maxWidth="Infinity"
+                    text="View Details"/>
+            <Button fx:id="addBookButton" onAction="#handleAddBookButtonAction" maxWidth="Infinity" text="Add Book"/>
+            <Button fx:id="editBookButton" onAction="#handleEditBookButtonAction" maxWidth="Infinity" text="Edit Book"/>
+            <Button fx:id="removeBookButton" onAction="#handleRemoveBookButtonAction" maxWidth="Infinity"
+                    text="Remove Book"/>
+        </VBox>
+    </HBox>
     <stylesheets>
-        <URL value="@login.css"/>
+        <URL value="@style.css"/>
     </stylesheets>
-</GridPane>
+</VBox>

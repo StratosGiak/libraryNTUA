@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
@@ -25,29 +26,44 @@ public class BookListController {
     private final SimpleObjectProperty<Predicate<BookModel>> yearOfPublicationPredicate = new SimpleObjectProperty<>(t -> true);
     private final SimpleObjectProperty<Predicate<BookModel>> genrePredicate = new SimpleObjectProperty<>(t -> true);
     @FXML
-    public TextField searchTitleField;
+    private Region region;
     @FXML
-    public TableView<BookModel> tableViewBooks;
+    private Button addGenreButton;
     @FXML
-    public TextField searchAuthorField;
+    private Button editGenreButton;
     @FXML
-    public TextField searchYearOfPublicationField;
+    private Button removeGenreButton;
     @FXML
-    public ChoiceBox<GenreModel> searchGenreField;
+    private Button viewBookButton;
     @FXML
-    public Button addBookButton;
+    private TextField searchTitleField;
     @FXML
-    public Button editBookButton;
+    private TableView<BookModel> tableViewBooks;
     @FXML
-    public Button removeBookButton;
+    private TextField searchAuthorField;
+    @FXML
+    private TextField searchYearOfPublicationField;
+    @FXML
+    private ChoiceBox<GenreModel> searchGenreField;
+    @FXML
+    private Button addBookButton;
+    @FXML
+    private Button editBookButton;
+    @FXML
+    private Button removeBookButton;
 
-    public void initialize() {
-        addBookButton.visibleProperty().set(LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN);
+    @FXML
+    private void initialize() {
+        viewBookButton.visibleProperty().set(!LoggedUser.getInstance().getUser().getAccessLevel().equals(AccessLevel.ADMIN));
+        viewBookButton.managedProperty().bind(viewBookButton.visibleProperty());
+        addBookButton.visibleProperty().set(LoggedUser.getInstance().getUser().getAccessLevel().equals(AccessLevel.ADMIN));
         addBookButton.managedProperty().bind(addBookButton.visibleProperty());
-        editBookButton.visibleProperty().set(LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN);
+        editBookButton.visibleProperty().set(LoggedUser.getInstance().getUser().getAccessLevel().equals(AccessLevel.ADMIN));
         editBookButton.managedProperty().bind(editBookButton.visibleProperty());
-        removeBookButton.visibleProperty().set(LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN);
+        removeBookButton.visibleProperty().set(LoggedUser.getInstance().getUser().getAccessLevel().equals(AccessLevel.ADMIN));
         removeBookButton.managedProperty().bind(removeBookButton.visibleProperty());
+
+        viewBookButton.disableProperty().bind(Bindings.createBooleanBinding(() -> tableViewBooks.getSelectionModel().selectedItemProperty().get() == null, tableViewBooks.getSelectionModel().selectedItemProperty()));
         editBookButton.disableProperty().bind(Bindings.createBooleanBinding(() -> tableViewBooks.getSelectionModel().selectedItemProperty().get() == null, tableViewBooks.getSelectionModel().selectedItemProperty()));
         removeBookButton.disableProperty().bind(Bindings.createBooleanBinding(() -> tableViewBooks.getSelectionModel().selectedItemProperty().get() == null, tableViewBooks.getSelectionModel().selectedItemProperty()));
 
@@ -127,29 +143,22 @@ public class BookListController {
                 }
             });
         }
-//        AutoCompletionBinding<String> autocompletion = TextFields.bindAutoCompletion(searchTitleField, Genres.getInstance().getGenresList());
-//        searchTitleField.setOnMouseClicked(event -> {
-//            if (searchTitleField.getText().isBlank()) {
-//                autocompletion.getAutoCompletionPopup().getSuggestions().setAll(Genres.getInstance().getGenresList());
-//            }
-//            autocompletion.getAutoCompletionPopup().show(searchTitleField);
-//        });
     }
 
     @FXML
-    public void handleAddBookButtonAction(ActionEvent actionEvent) {
+    private void handleAddBookButtonAction(ActionEvent actionEvent) {
         ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.EditBookEvent());
     }
 
     @FXML
-    public void handleEditBookButtonAction(ActionEvent actionEvent) {
+    private void handleEditBookButtonAction(ActionEvent actionEvent) {
         BookModel selectedBook = tableViewBooks.getSelectionModel().getSelectedItem();
         if (selectedBook == null) return;
         ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.EditBookEvent(selectedBook));
     }
 
     @FXML
-    public void handleRemoveBookButtonAction(ActionEvent actionEvent) {
+    private void handleRemoveBookButtonAction(ActionEvent actionEvent) {
         BookModel selectedBook = tableViewBooks.getSelectionModel().getSelectedItem();
         if (selectedBook == null) return;
         if (CustomAlerts.showDeleteBookAlert()) {
@@ -157,9 +166,23 @@ public class BookListController {
         }
     }
 
-    public void handleViewBookDetailsButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleViewBookDetailsButtonAction(ActionEvent actionEvent) {
         BookModel selectedBook = tableViewBooks.getSelectionModel().getSelectedItem();
         if (selectedBook == null) return;
         ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.ViewBookDetailsEvent(selectedBook));
+    }
+
+    @FXML
+    private void handleAddGenreButtonAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    private void handleEditGenreButtonAction(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    private void handleRemoveGenreButtonAction(ActionEvent actionEvent) {
     }
 }

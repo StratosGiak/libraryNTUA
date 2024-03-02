@@ -17,34 +17,35 @@ import java.time.LocalDate;
 
 public class BookDetailsController {
     @FXML
-    public Text titleText;
+    private Text titleText;
     @FXML
-    public Text titleField;
+    private Text titleField;
     @FXML
-    public Text authorField;
+    private Text authorField;
     @FXML
-    public Text publisherField;
+    private Text publisherField;
     @FXML
-    public Text ISBNField;
+    private Text ISBNField;
     @FXML
-    public Text yearOfPublicationField;
+    private Text yearOfPublicationField;
     @FXML
-    public Text genreField;
+    private Text genreField;
     @FXML
-    public Text copiesField;
+    private Text copiesField;
     @FXML
-    public HBox ratingsField;
+    private HBox ratingsField;
     @FXML
-    public Button borrowButton;
+    private Button borrowButton;
     @FXML
-    public Text loanLengthText;
+    private Text loanLengthText;
     @FXML
-    public Button decrementLoanLengthButton;
+    private Button decrementLoanLengthButton;
     @FXML
-    public Button incrementLoanLengthButton;
+    private Button incrementLoanLengthButton;
     @FXML
-    public Text errorText;
-    public ListView<ReviewModel> commentList;
+    private Text errorText;
+    @FXML
+    private ListView<ReviewModel> commentList;
     private BookModel book;
 
     public void initializeFields(BookModel book) {
@@ -195,7 +196,8 @@ public class BookDetailsController {
         commentList.managedProperty().bind(commentList.visibleProperty());
     }
 
-    public void initialize() {
+    @FXML
+    private void initialize() {
         decrementLoanLengthButton.disableProperty().bind(Bindings.createBooleanBinding(() -> Integer.parseInt(loanLengthText.textProperty().get()) <= 1, loanLengthText.textProperty()));
         incrementLoanLengthButton.disableProperty().bind(Bindings.createBooleanBinding(() -> Integer.parseInt(loanLengthText.textProperty().get()) >= 5, loanLengthText.textProperty()));
         errorText.visibleProperty().bind(errorText.textProperty().isNotEmpty());
@@ -203,7 +205,8 @@ public class BookDetailsController {
         //Bindings.createBooleanBinding(() -> Loans.getInstance().getLoanList().stream().filter(loan -> loan.getUser().equals(LoggedUser.getInstance().getUser())).findAny().isEmpty())
     }
 
-    public void handleBorrowButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleBorrowButtonAction(ActionEvent actionEvent) {
         if (LoggedUser.getInstance().getUser().getBorrowedList().size() >= 2) {
             CustomAlerts.showMaxBorrowedAlert();
             return;
@@ -213,13 +216,15 @@ public class BookDetailsController {
         Loans.getInstance().addLoan(borrowed);
     }
 
-    public void handleDecrementLoanLengthAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleDecrementLoanLengthAction(ActionEvent actionEvent) {
         int loanLength = Integer.parseInt(loanLengthText.getText());
         if (loanLength <= 1) return;
         loanLengthText.setText(String.valueOf(loanLength - 1));
     }
 
-    public void handleIncrementLoanLengthAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleIncrementLoanLengthAction(ActionEvent actionEvent) {
         int loanLength = Integer.parseInt(loanLengthText.getText());
         if (loanLength >= 5) return;
         loanLengthText.setText(String.valueOf(loanLength + 1));

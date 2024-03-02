@@ -9,10 +9,12 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class WelcomeController {
+
     @FXML
     private SplitPane splitPane;
 
-    public void initialize() {
+    @FXML
+    private void initialize() {
         splitPane.addEventFilter(CustomEvents.LINK_REGISTER_EVENT, event -> {
             try {
                 changeRightPane("register.fxml");

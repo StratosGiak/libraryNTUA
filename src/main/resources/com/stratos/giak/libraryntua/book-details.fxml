@@ -70,6 +70,6 @@
         </HBox>
     </GridPane>
     <stylesheets>
-        <URL value="@login.css"/>
+        <URL value="@style.css"/>
     </stylesheets>
 </SplitPane>

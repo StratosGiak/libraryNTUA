@@ -10,40 +10,45 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
-import static com.stratos.giak.libraryntua.Constants.BORDER_ERROR;
 import static com.stratos.giak.libraryntua.Utilities.integerFilter;
 
 public class EditBookController {
     @FXML
-    public Text titleText;
+    private Button revertTitle;
     @FXML
-    public TextField titleField;
+    private Button revertAuthor;
     @FXML
-    public TextField authorField;
+    private Button revertPublisher;
     @FXML
-    public TextField publisherField;
+    private Button revertISBN;
     @FXML
-    public TextField ISBNField;
+    private Button revertGenre;
     @FXML
-    public TextField yearOfPublicationField;
+    private Button revertYearOfPublication;
     @FXML
-    public ChoiceBox<GenreModel> genreField;
+    private Button revertCopies;
     @FXML
-    public TextField copiesField;
+    private Text titleText;
     @FXML
-    public Text errorText;
-    public Button revertTitle;
-    public Button revertAuthor;
-    public Button revertPublisher;
-    public Button revertISBN;
-    public Button revertGenre;
-    public Button revertYearOfPublication;
-    public Button revertCopies;
+    private TextField titleField;
+    @FXML
+    private TextField authorField;
+    @FXML
+    private TextField publisherField;
+    @FXML
+    private TextField ISBNField;
+    @FXML
+    private TextField yearOfPublicationField;
+    @FXML
+    private ChoiceBox<GenreModel> genreField;
+    @FXML
+    private TextField copiesField;
+    @FXML
+    private Text errorText;
     private BookModel book;
 
     public void initializeFields(BookModel book) {
@@ -75,7 +80,8 @@ public class EditBookController {
         revertCopies.setOnAction(event -> copiesField.setText(String.valueOf(book.getCopies())));
     }
 
-    public void initialize() {
+    @FXML
+    private void initialize() {
         yearOfPublicationField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), null, integerFilter));
         copiesField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 1, integerFilter));
         genreField.setItems(Genres.getInstance().getGenresList());
@@ -92,17 +98,20 @@ public class EditBookController {
         });
     }
 
-    public void onFieldClicked(MouseEvent mouseEvent) {
-        titleField.setBorder(Border.EMPTY);
-        authorField.setBorder(Border.EMPTY);
-        publisherField.setBorder(Border.EMPTY);
-        ISBNField.setBorder(Border.EMPTY);
-        genreField.setBorder(Border.EMPTY);
-        yearOfPublicationField.setBorder(Border.EMPTY);
-        copiesField.setBorder(Border.EMPTY);
+    @FXML
+    private void onFieldClicked(MouseEvent mouseEvent) {
+        setTextFieldError(titleField, false);
+        setTextFieldError(authorField, false);
+        setTextFieldError(publisherField, false);
+        setTextFieldError(ISBNField, false);
+        setTextFieldError(genreField, false);
+        setTextFieldError(yearOfPublicationField, false);
+        setTextFieldError(copiesField, false);
+        errorText.setText(null);
     }
 
-    public void handleCreateButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleCreateButtonAction(ActionEvent actionEvent) {
         final String title = titleField.getText();
         final String author = authorField.getText();
         final String publisher = publisherField.getText();
@@ -112,13 +121,13 @@ public class EditBookController {
         final String copies = copiesField.getText();
         if (title.isBlank() || author.isBlank() || publisher.isBlank() || ISBN.isBlank() || genre == null || yearOfPublication.isBlank() || copies.isBlank()) {
             errorText.setText("Please fill in all fields");
-            if (title.isBlank()) titleField.setBorder(BORDER_ERROR);
-            if (author.isBlank()) authorField.setBorder(BORDER_ERROR);
-            if (publisher.isBlank()) publisherField.setBorder(BORDER_ERROR);
-            if (ISBN.isBlank()) ISBNField.setBorder(BORDER_ERROR);
-            if (genre == null) genreField.setBorder(BORDER_ERROR);
-            if (yearOfPublication.isBlank()) yearOfPublicationField.setBorder(BORDER_ERROR);
-            if (copies.isBlank()) copiesField.setBorder(BORDER_ERROR);
+            if (title.isBlank()) setTextFieldError(titleField, true);
+            if (author.isBlank()) setTextFieldError(authorField, true);
+            if (publisher.isBlank()) setTextFieldError(publisherField, true);
+            if (ISBN.isBlank()) setTextFieldError(ISBNField, true);
+            if (genre == null) setTextFieldError(genreField, true);
+            if (yearOfPublication.isBlank()) setTextFieldError(yearOfPublicationField, true);
+            if (copies.isBlank()) setTextFieldError(copiesField, true);
             return;
         }
         if (book == null) {
@@ -130,7 +139,15 @@ public class EditBookController {
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_BOOK_EVENT));
     }
 
-    public void handleCancelButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleCancelButtonAction(ActionEvent actionEvent) {
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_BOOK_EVENT));
+    }
+
+    private void setTextFieldError(Node textField, boolean error) {
+        if (error && !textField.getStyleClass().contains("field-error"))
+            textField.getStyleClass().add("field-error");
+        else if (!error && textField.getStyleClass().contains("field-error"))
+            textField.getStyleClass().removeAll("field-error");
     }
 }
