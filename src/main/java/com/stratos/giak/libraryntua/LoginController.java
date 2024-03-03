@@ -7,13 +7,15 @@ import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static com.stratos.giak.libraryntua.Utilities.setTextFieldError;
+
+//TODO ADD DOCS
 public class LoginController {
     private final Hyperlink registerLink = new Hyperlink("Register");
 
@@ -32,9 +34,7 @@ public class LoginController {
     @FXML
     private void initialize() {
         registerTextFlow.getChildren().addAll(new Text("Don't have an account? "), registerLink);
-        registerLink.setOnAction(event -> {
-            registerTextFlow.fireEvent(new Event(CustomEvents.LINK_REGISTER_EVENT));
-        });
+        registerLink.setOnAction(event -> registerTextFlow.fireEvent(new Event(CustomEvents.LINK_REGISTER_EVENT)));
     }
 
     @FXML
@@ -67,16 +67,9 @@ public class LoginController {
     }
 
     @FXML
-    private void onFieldClicked(MouseEvent event) {
+    private void onFieldClicked() {
         setTextFieldError(usernameField, false);
         setTextFieldError(passwordField, false);
         errorText.setText(null);
-    }
-
-    private void setTextFieldError(Node textField, boolean error) {
-        if (error && !textField.getStyleClass().contains("field-error"))
-            textField.getStyleClass().add("field-error");
-        else if (!error && textField.getStyleClass().contains("field-error"))
-            textField.getStyleClass().removeAll("field-error");
     }
 }

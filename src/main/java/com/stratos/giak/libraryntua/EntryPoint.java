@@ -9,14 +9,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+//TODO ADD DOCS
 public class EntryPoint extends Application {
-
-    public void init() {
-//        for (UUID key : Users.getInstance().getAllUsersMap().keySet()) {
-//            System.out.println(Users.getInstance().getAllUsersMap().get(key) + "\n" + key + "\n");
-//        }
-    }
-
+    //TODO ADD DOCS
     public void stop() {
         try {
             Users.getInstance().saveUsers();
@@ -24,10 +19,11 @@ public class EntryPoint extends Application {
             Genres.getInstance().saveGenres();
             Loans.getInstance().saveLoans();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("File not found");
         }
     }
 
+    //TODO ADD DOCS
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("NTUA-Library");

@@ -3,10 +3,12 @@ package com.stratos.giak.libraryntua;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -15,6 +17,7 @@ import org.controlsfx.control.Rating;
 
 import java.time.LocalDate;
 
+//TODO ADD DOCS
 public class BookDetailsController {
     @FXML
     private Text titleText;
@@ -48,6 +51,7 @@ public class BookDetailsController {
     private ListView<ReviewModel> commentList;
     private BookModel book;
 
+    //TODO ADD DOCS
     public void initializeFields(BookModel book) {
         this.book = book;
         if (book == null) return;
@@ -67,7 +71,7 @@ public class BookDetailsController {
         Text text = new Text();
         text.textProperty().bind(Bindings.createStringBinding(() -> "(" + book.ratingsCountProperty().get() + ")", book.ratingsCountProperty()));
         text.setFont(new Font(24));
-        ratingsField.getStyleClass().add("rating-bar");
+        ratingsField.setStyle("-fx-scale-x: 0.6; -fx-scale-y: 0.6;");
         ratingsField.getChildren().addAll(rating, text);
 
         commentList.setCellFactory(listView -> new ListCell<>() {
@@ -201,12 +205,10 @@ public class BookDetailsController {
         decrementLoanLengthButton.disableProperty().bind(Bindings.createBooleanBinding(() -> Integer.parseInt(loanLengthText.textProperty().get()) <= 1, loanLengthText.textProperty()));
         incrementLoanLengthButton.disableProperty().bind(Bindings.createBooleanBinding(() -> Integer.parseInt(loanLengthText.textProperty().get()) >= 5, loanLengthText.textProperty()));
         errorText.visibleProperty().bind(errorText.textProperty().isNotEmpty());
-        commentList.setPlaceholder(new Label("This book has no reviews"));
-        //Bindings.createBooleanBinding(() -> Loans.getInstance().getLoanList().stream().filter(loan -> loan.getUser().equals(LoggedUser.getInstance().getUser())).findAny().isEmpty())
     }
 
     @FXML
-    private void handleBorrowButtonAction(ActionEvent actionEvent) {
+    private void handleBorrowButtonAction() {
         if (LoggedUser.getInstance().getUser().getBorrowedList().size() >= 2) {
             CustomAlerts.showMaxBorrowedAlert();
             return;
@@ -217,14 +219,14 @@ public class BookDetailsController {
     }
 
     @FXML
-    private void handleDecrementLoanLengthAction(ActionEvent actionEvent) {
+    private void handleDecrementLoanLengthAction() {
         int loanLength = Integer.parseInt(loanLengthText.getText());
         if (loanLength <= 1) return;
         loanLengthText.setText(String.valueOf(loanLength - 1));
     }
 
     @FXML
-    private void handleIncrementLoanLengthAction(ActionEvent actionEvent) {
+    private void handleIncrementLoanLengthAction() {
         int loanLength = Integer.parseInt(loanLengthText.getText());
         if (loanLength >= 5) return;
         loanLengthText.setText(String.valueOf(loanLength + 1));

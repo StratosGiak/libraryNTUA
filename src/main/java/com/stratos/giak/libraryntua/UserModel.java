@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import java.io.*;
 import java.util.UUID;
 
+//TODO ADD DOCS
 public class UserModel implements Serializable {
     private final UUID uuid;
     private transient SimpleStringProperty username = new SimpleStringProperty();
@@ -18,6 +19,7 @@ public class UserModel implements Serializable {
     private transient SimpleStringProperty email = new SimpleStringProperty();
     private transient SimpleObjectProperty<AccessLevel> accessLevel = new SimpleObjectProperty<>();
 
+    //TODO ADD DOCS
     public UserModel(String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
         this.uuid = UUID.randomUUID();
         this.username.set(username);
@@ -29,98 +31,117 @@ public class UserModel implements Serializable {
         this.accessLevel.set(accessLevel);
     }
 
-    public UserModel(String username, String password, String nameFirst, String nameLast, String ID, String email) {
-        this(username, password, nameFirst, nameLast, ID, email, AccessLevel.USER);
-    }
-
+    //TODO ADD DOCS
     public ObservableList<LoanModel> getBorrowedList() {
         return FXCollections.observableArrayList(Loans.getInstance().getLoanList().stream().filter(loan -> loan.getUser().equals(this)).toList());
     }
 
+    //TODO ADD DOCS
     public UUID getUUID() {
         return uuid;
     }
 
+    //TODO ADD DOCS
     public SimpleObjectProperty<AccessLevel> accessLevelProperty() {
         return accessLevel;
     }
 
+    //TODO ADD DOCS
     public AccessLevel getAccessLevel() {
         return accessLevel.get();
     }
 
+    //TODO ADD DOCS
     public void setAccessLevel(AccessLevel accessLevel) {
         this.accessLevel.set(accessLevel);
     }
 
+    //TODO ADD DOCS
     public SimpleStringProperty usernameProperty() {
         return username;
     }
 
+    //TODO ADD DOCS
     public String getUsername() {
         return username.get();
     }
 
+    //TODO ADD DOCS
     public void setUsername(String username) {
         this.username.set(username);
     }
 
+    //TODO ADD DOCS
     public SimpleStringProperty passwordProperty() {
         return password;
     }
 
+    //TODO ADD DOCS
     public String getPassword() {
         return password.get();
     }
 
+    //TODO ADD DOCS
     public void setPassword(String password) {
         this.password.set(password);
     }
 
+    //TODO ADD DOCS
     public SimpleStringProperty nameFirstProperty() {
         return nameFirst;
     }
 
+    //TODO ADD DOCS
     public String getNameFirst() {
         return nameFirst.get();
     }
 
+    //TODO ADD DOCS
     public void setNameFirst(String nameFirst) {
         this.nameFirst.set(nameFirst);
     }
 
+    //TODO ADD DOCS
     public SimpleStringProperty nameLastProperty() {
         return nameLast;
     }
 
+    //TODO ADD DOCS
     public String getNameLast() {
         return nameLast.get();
     }
 
+    //TODO ADD DOCS
     public void setNameLast(String nameLast) {
         this.nameLast.set(nameLast);
     }
 
+    //TODO ADD DOCS
     public SimpleStringProperty IDProperty() {
         return ID;
     }
 
+    //TODO ADD DOCS
     public String getID() {
         return ID.get();
     }
 
+    //TODO ADD DOCS
     public void setID(String ID) {
         this.ID.set(ID);
     }
 
+    //TODO ADD DOCS
     public SimpleStringProperty emailProperty() {
         return email;
     }
 
+    //TODO ADD DOCS
     public String getEmail() {
         return email.get();
     }
 
+    //TODO ADD DOCS
     public void setEmail(String email) {
         this.email.set(email);
     }
@@ -149,6 +170,7 @@ public class UserModel implements Serializable {
         accessLevel = new SimpleObjectProperty<>((AccessLevel) stream.readObject());
     }
 
+    //TODO ADD DOCS
     public String toString() {
         return String.format("""
                         Username: %s

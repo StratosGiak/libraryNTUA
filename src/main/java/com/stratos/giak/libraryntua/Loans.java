@@ -7,10 +7,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+//TODO ADD DOCS
 public class Loans {
     private static Loans instance;
     private transient ObservableList<LoanModel> loanList = FXCollections.observableArrayList();
 
+    //TODO ADD DOCS
     public static Loans getInstance() {
         if (instance == null) {
             instance = new Loans();
@@ -23,16 +25,19 @@ public class Loans {
         return instance;
     }
 
+    //TODO ADD DOCS
     public ObservableList<LoanModel> getLoanList() {
         return loanList;
     }
 
-    void addLoan(LoanModel loanModel) {
+    //TODO ADD DOCS
+    public void addLoan(LoanModel loanModel) {
         getLoanList().add(loanModel);
         loanModel.getBook().setCopies(loanModel.getBook().getCopies() - 1);
     }
 
-    void endLoan(LoanModel loan) {
+    //TODO ADD DOCS
+    public void endLoan(LoanModel loan) {
         BookModel book = loan.getBook();
         book.setCopies(book.getCopies() + 1);
         if (loan.getRating() != 0 || loan.getComment() != null && !loan.getComment().isBlank())
@@ -40,7 +45,8 @@ public class Loans {
         getLoanList().remove(loan);
     }
 
-    void removeAllWithUser(UserModel user) {
+    //TODO ADD DOCS
+    public void removeAllWithUser(UserModel user) {
         Iterator<LoanModel> iterator = getLoanList().iterator();
         while (iterator.hasNext()) {
             LoanModel loan = iterator.next();
@@ -51,7 +57,8 @@ public class Loans {
         }
     }
 
-    void removeAllWithBook(BookModel book) {
+    //TODO ADD DOCS
+    public void removeAllWithBook(BookModel book) {
         Iterator<LoanModel> iterator = getLoanList().iterator();
         while (iterator.hasNext()) {
             LoanModel loan = iterator.next();
@@ -62,14 +69,16 @@ public class Loans {
         }
     }
 
-    void editLoan(LoanModel loan, Integer rating, String comment) {
+    //TODO ADD DOCS
+    public void editLoan(LoanModel loan, Integer rating, String comment) {
         if (loan == null)
             throw new IllegalArgumentException("Loan object does not exist");
         if (rating != null) loan.setRating(rating);
         if (comment != null) loan.setComment(comment);
     }
 
-    void saveLoans() throws IOException {
+    //TODO ADD DOCS
+    public void saveLoans() throws IOException {
         FileOutputStream fileStream = new FileOutputStream("medialab/loans");
         ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
         objectStream.writeObject(new ArrayList<>(getLoanList()));
@@ -77,7 +86,8 @@ public class Loans {
         fileStream.close();
     }
 
-    void loadLoans() throws IOException, ClassNotFoundException {
+    //TODO ADD DOCS
+    public void loadLoans() throws IOException, ClassNotFoundException {
         FileInputStream fileStream = new FileInputStream("medialab/loans");
         ObjectInputStream objectStream = new ObjectInputStream(fileStream);
         loanList = FXCollections.observableArrayList((ArrayList<LoanModel>) objectStream.readObject());

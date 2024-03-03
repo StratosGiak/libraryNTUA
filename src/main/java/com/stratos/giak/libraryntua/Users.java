@@ -7,10 +7,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
+//TODO ADD DOCS
 public final class Users {
     private static Users instance;
     private transient ObservableList<UserModel> usersList = FXCollections.observableArrayList();
 
+    //TODO ADD DOCS
     public static Users getInstance() {
         if (instance == null) {
             instance = new Users();
@@ -50,19 +52,23 @@ public final class Users {
         return instance;
     }
 
-    ObservableList<UserModel> getUsersList() {
+    //TODO ADD DOCS
+    public ObservableList<UserModel> getUsersList() {
         return usersList;
     }
 
-    UserModel getUser(UUID uuid) {
+    //TODO ADD DOCS
+    public UserModel getUser(UUID uuid) {
         return getUsersList().stream().filter(user -> user.getUUID().equals(uuid)).findAny().orElse(null);
     }
 
-    UserModel getUserByUsername(String username) {
+    //TODO ADD DOCS
+    public UserModel getUserByUsername(String username) {
         return getUsersList().stream().filter(user -> user.getUsername().equals(username)).findAny().orElse(null);
     }
 
-    void addUser(UserModel user) {
+    //TODO ADD DOCS
+    public void addUser(UserModel user) {
         if (user.getUsername().isBlank()
                 || user.getPassword().isBlank()
                 || user.getEmail().isBlank()
@@ -73,7 +79,8 @@ public final class Users {
         getUsersList().add(user);
     }
 
-    void editUser(UserModel user, String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
+    //TODO ADD DOCS
+    public void editUser(UserModel user, String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
         if (user == null)
             throw new IllegalArgumentException("User object does not exists");
         if (username != null) user.setUsername(username);
@@ -85,12 +92,14 @@ public final class Users {
         if (accessLevel != null) user.setAccessLevel(accessLevel);
     }
 
-    void removeUser(UserModel user) {
+    //TODO ADD DOCS
+    public void removeUser(UserModel user) {
         Loans.getInstance().removeAllWithUser(user);
         getUsersList().remove(user);
     }
 
-    void saveUsers() throws IOException {
+    //TODO ADD DOCS
+    public void saveUsers() throws IOException {
         FileOutputStream fileStream = new FileOutputStream("medialab/users");
         ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
         objectStream.writeObject(new ArrayList<>(getUsersList()));
@@ -98,7 +107,8 @@ public final class Users {
         fileStream.close();
     }
 
-    void loadUsers() throws IOException, ClassNotFoundException {
+    //TODO ADD DOCS
+    public void loadUsers() throws IOException, ClassNotFoundException {
         FileInputStream fileStream = new FileInputStream("medialab/users");
         ObjectInputStream objectStream = new ObjectInputStream(fileStream);
         usersList = FXCollections.observableArrayList((ArrayList<UserModel>) objectStream.readObject());

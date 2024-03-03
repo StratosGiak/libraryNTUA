@@ -2,20 +2,29 @@ package com.stratos.giak.libraryntua;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import org.controlsfx.control.Rating;
 
+//TODO ADD DOCS
 public class LoanDetailsController {
-    public Text titleField;
-    public Text ISBNField;
-    public Text loanDateField;
-    public Text returnDateField;
-    public Rating ratingField;
-    public TextArea commentsField;
+    @FXML
+    private Text titleField;
+    @FXML
+    private Text ISBNField;
+    @FXML
+    private Text loanDateField;
+    @FXML
+    private Text returnDateField;
+    @FXML
+    private Rating ratingField;
+    @FXML
+    private TextArea commentsField;
     private LoanModel loan;
 
+    //TODO ADD DOCS
     public void initializeFields(LoanModel loan) {
         this.loan = loan;
         if (loan == null) return;
@@ -27,7 +36,8 @@ public class LoanDetailsController {
         commentsField.textProperty().set(loan.commentProperty().getValueSafe());
     }
 
-    public void handleEndLoanButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleEndLoanButtonAction(ActionEvent actionEvent) {
         if (loan == null || !CustomAlerts.showEndLoanAlert(loan)) return;
         loan.ratingProperty().set((int) Math.round(ratingField.getRating()));
         loan.commentProperty().set(commentsField.getText());
@@ -35,7 +45,8 @@ public class LoanDetailsController {
         Loans.getInstance().endLoan(loan);
     }
 
-    public void handleSaveLoanButtonAction(ActionEvent actionEvent) {
+    @FXML
+    private void handleSaveLoanButtonAction(ActionEvent actionEvent) {
         loan.ratingProperty().set((int) Math.round(ratingField.getRating()));
         loan.commentProperty().set(commentsField.getText());
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_LOAN_EVENT));

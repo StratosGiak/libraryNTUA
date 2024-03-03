@@ -5,61 +5,84 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea"
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2-ea"
       fx:controller="com.stratos.giak.libraryntua.BookListController">
     <padding>
-        <Insets bottom="10" left="25" right="25" top="25"/>
+        <Insets bottom="20" left="25" right="25" top="10"/>
     </padding>
-    <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10">
+    <GridPane fx:id="gridPane" alignment="CENTER" hgap="10" vgap="10">
         <padding>
             <Insets bottom="10" left="25" right="25" top="25"/>
         </padding>
         <Label text="Search" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField fx:id="searchTitleField" promptText="Title" prefWidth="220"
-                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <TextField fx:id="searchAuthorField" promptText="Author" prefWidth="220"
-                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <TextField fx:id="searchTitleField" prefWidth="220" promptText="Title" GridPane.columnIndex="1"
+                   GridPane.rowIndex="1"/>
+        <TextField fx:id="searchAuthorField" prefWidth="220" promptText="Author" GridPane.columnIndex="1"
+                   GridPane.rowIndex="2"/>
         <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
-            <TextField fx:id="searchYearOfPublicationField" promptText="Year" prefWidth="80"/>
+            <TextField fx:id="searchYearOfPublicationField" prefWidth="80" promptText="Year"/>
         </HBox>
-        <ChoiceBox fx:id="searchGenreField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <ComboBox fx:id="searchGenreField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
     </GridPane>
-    <HBox spacing="10">
-        <TableView fx:id="tableViewBooks" prefWidth="400">
+    <HBox alignment="CENTER" spacing="10">
+        <TableView fx:id="tableViewBooks" prefWidth="470" translateX="20.0">
+            <placeholder>
+                <Label text="There are no books in the library"/>
+            </placeholder>
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
             </columnResizePolicy>
             <columns>
                 <TableColumn text="Title">
+                    <reorderable>false</reorderable>
                     <cellValueFactory>
                         <PropertyValueFactory property="title"/>
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="Author">
+                    <reorderable>false</reorderable>
                     <cellValueFactory>
                         <PropertyValueFactory property="author"/>
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="ISBN">
+                    <reorderable>false</reorderable>
                     <cellValueFactory>
                         <PropertyValueFactory property="ISBN"/>
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="Rating">
+                    <reorderable>false</reorderable>
                     <cellValueFactory>
                         <PropertyValueFactory property="rating"/>
                     </cellValueFactory>
                 </TableColumn>
             </columns>
         </TableView>
-        <VBox spacing="10" alignment="TOP_CENTER">
-            <Button fx:id="viewBookButton" onAction="#handleViewBookDetailsButtonAction" maxWidth="Infinity"
+        <VBox alignment="TOP_CENTER" spacing="10" translateX="20.0">
+            <Button fx:id="viewBookButton" maxWidth="Infinity" onAction="#handleViewBookDetailsButtonAction"
                     text="View Details"/>
-            <Button fx:id="addBookButton" onAction="#handleAddBookButtonAction" maxWidth="Infinity" text="Add Book"/>
-            <Button fx:id="editBookButton" onAction="#handleEditBookButtonAction" maxWidth="Infinity" text="Edit Book"/>
-            <Button fx:id="removeBookButton" onAction="#handleRemoveBookButtonAction" maxWidth="Infinity"
+            <Button fx:id="addBookButton" maxWidth="Infinity" onAction="#handleAddBookButtonAction" text="Add Book"/>
+            <Button fx:id="editBookButton" maxWidth="Infinity" onAction="#handleEditBookButtonAction" text="Edit Book"/>
+            <Button fx:id="removeBookButton" maxWidth="Infinity" onAction="#handleRemoveBookButtonAction"
                     text="Remove Book"/>
         </VBox>
+        <Region prefWidth="40"/>
+        <GridPane fx:id="genreListGridPane" alignment="TOP_CENTER" hgap="10" vgap="15">
+            <TextField fx:id="addGenreField" promptText="Enter new genre" onAction="#handleAddGenreButtonAction"
+                       GridPane.rowIndex="0"
+                       GridPane.columnIndex="0"/>
+            <Button fx:id="addGenreButton" maxWidth="Infinity" onAction="#handleAddGenreButtonAction"
+                    text="Add Genre" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <ListView fx:id="genreList" editable="true" prefHeight="200" prefWidth="150" GridPane.rowIndex="1"
+                      GridPane.columnIndex="0"/>
+            <VBox alignment="TOP_CENTER" spacing="10" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <Button fx:id="editGenreButton" maxWidth="Infinity" onAction="#handleEditGenreButtonAction"
+                        text="Edit Genre"/>
+                <Button fx:id="removeGenreButton" maxWidth="Infinity" onAction="#handleRemoveGenreButtonAction"
+                        text="Remove Genre"/>
+            </VBox>
+        </GridPane>
     </HBox>
     <stylesheets>
         <URL value="@style.css"/>

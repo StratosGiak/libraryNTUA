@@ -3,16 +3,17 @@ package com.stratos.giak.libraryntua;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 
+import static com.stratos.giak.libraryntua.Utilities.setTextFieldError;
+
+//TODO ADD DOCS
 public class RegisterController {
     private final Hyperlink loginLink = new Hyperlink("Login");
 
@@ -96,7 +97,7 @@ public class RegisterController {
     }
 
     @FXML
-    private void onFieldClicked(MouseEvent event) {
+    private void onFieldClicked() {
         setTextFieldError(usernameField, false);
         setTextFieldError(passwordField, false);
         setTextFieldError(emailField, false);
@@ -104,12 +105,5 @@ public class RegisterController {
         setTextFieldError(nameLastField, false);
         setTextFieldError(IDField, false);
         errorText.setText(null);
-    }
-
-    private void setTextFieldError(Node textField, boolean error) {
-        if (error && !textField.getStyleClass().contains("field-error"))
-            textField.getStyleClass().add("field-error");
-        else if (!error && textField.getStyleClass().contains("field-error"))
-            textField.getStyleClass().removeAll("field-error");
     }
 }

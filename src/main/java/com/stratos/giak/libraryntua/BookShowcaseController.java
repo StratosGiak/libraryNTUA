@@ -12,6 +12,7 @@ import org.controlsfx.control.Rating;
 
 import java.util.List;
 
+//TODO ADD DOCS
 public class BookShowcaseController {
     @FXML
     private HBox showcaseRow;
@@ -37,13 +38,13 @@ public class BookShowcaseController {
                 Text text = new Text();
                 text.textProperty().bind(Bindings.createStringBinding(() -> "(" + book.ratingsCountProperty().get() + ")", book.ratingsCountProperty()));
                 text.setFont(new Font(24));
-                HBox hbox = new HBox(15, rating, text);
-                hbox.getStyleClass().add("rating-bar");
+                HBox ratingField = new HBox(15, rating, text);
+                ratingField.setStyle("-fx-scale-x: 0.6; -fx-scale-y: 0.6;");
                 VBox vBox = new VBox(
                         new Text(book.getTitle()),
                         new Text(book.getAuthor()),
                         new Text("ISBN " + book.getISBN()),
-                        new Group(hbox)
+                        new Group(ratingField)
                 );
                 vBox.setSpacing(6);
                 vBox.alignmentProperty().set(Pos.CENTER);

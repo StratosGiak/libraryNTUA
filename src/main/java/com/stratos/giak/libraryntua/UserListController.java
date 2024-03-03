@@ -10,10 +10,9 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.util.Duration;
 
+//TODO ADD DOCS
 public class UserListController {
     private final ObservableList<UserModel> users = Users.getInstance().getUsersList();
-    @FXML
-    private Button addUserButton;
     @FXML
     private Button editUserButton;
     @FXML
@@ -43,7 +42,6 @@ public class UserListController {
         tableViewUsers.setItems(sortableUsers);
 
         for (TableColumn columnName : tableViewUsers.getColumns()) {
-            columnName.setReorderable(false);
             columnName.setCellFactory(column -> new TableCell<UserModel, Object>() {
                 @Override
                 protected void updateItem(Object item, boolean empty) {
@@ -75,10 +73,10 @@ public class UserListController {
     }
 
     @FXML
-    private void handleRemoveUserButtonAction(ActionEvent actionEvent) {
+    private void handleRemoveUserButtonAction() {
         UserModel selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
         if (selectedUser == null || selectedUser.equals(LoggedUser.getInstance().getUser())) return;
-        if (CustomAlerts.showDeleteUserAlert()) {
+        if (CustomAlerts.showRemoveUserAlert()) {
             Users.getInstance().removeUser(selectedUser);
         }
     }

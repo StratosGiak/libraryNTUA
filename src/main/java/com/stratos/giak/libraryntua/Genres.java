@@ -1,6 +1,7 @@
 package com.stratos.giak.libraryntua;
 
 
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -8,10 +9,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public final class Genres implements Serializable {
+//TODO ADD DOCS
+public final class Genres {
     private static Genres instance;
-    private transient ObservableList<GenreModel> genresList = FXCollections.observableArrayList();
+    private transient ObservableList<GenreModel> genresList = FXCollections.observableArrayList(genre -> new Observable[]{genre.nameProperty()});
 
+    //TODO ADD DOCS
     public static Genres getInstance() {
         if (instance == null) {
             instance = new Genres();
@@ -32,42 +35,36 @@ public final class Genres implements Serializable {
         return instance;
     }
 
+    //TODO ADD DOCS
     public ObservableList<GenreModel> getGenresList() {
         return genresList;
     }
 
+    //TODO ADD DOCS
     public GenreModel getGenre(UUID uuid) {
         return getGenresList().stream().filter(genre -> genre != null && genre.getUUID().equals(uuid)).findAny().orElse(null);
     }
 
+    //TODO ADD DOCS
     public void addGenre(GenreModel genre) {
-        if (LoggedUser.getInstance().getUser().getAccessLevel() != AccessLevel.ADMIN) {
-            CustomAlerts.showPrivilegesAlert();
-            return;
-        }
         getGenresList().add(genre);
     }
 
+    //TODO ADD DOCS
     public void editGenre(GenreModel genre, String name) {
-        if (LoggedUser.getInstance().getUser().getAccessLevel() != AccessLevel.ADMIN) {
-            CustomAlerts.showPrivilegesAlert();
-            return;
-        }
         if (genre == null)
             throw new IllegalArgumentException("Genre UUID not found");
         if (name != null) genre.setName(name);
     }
 
+    //TODO ADD DOCS
     public void removeGenre(GenreModel genre) {
-        if (LoggedUser.getInstance().getUser().getAccessLevel() != AccessLevel.ADMIN) {
-            CustomAlerts.showPrivilegesAlert();
-            return;
-        }
         Books.getInstance().removeAllWithGenre(genre);
         getGenresList().remove(genre);
     }
 
-    void saveGenres() throws IOException {
+    //TODO ADD DOCS
+    public void saveGenres() throws IOException {
         FileOutputStream fileStream = new FileOutputStream("medialab/genres");
         ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
         objectStream.writeObject(new ArrayList<>(getGenresList()));
@@ -75,10 +72,11 @@ public final class Genres implements Serializable {
         fileStream.close();
     }
 
-    void loadGenres() throws IOException, ClassNotFoundException {
+    public void loadGenres() throws IOException, ClassNotFoundException {
         FileInputStream fileStream = new FileInputStream("medialab/genres");
         ObjectInputStream objectStream = new ObjectInputStream(fileStream);
-        genresList = FXCollections.observableArrayList((ArrayList<GenreModel>) objectStream.readObject());
+        genresList = FXCollections.observableArrayList(genre -> new Observable[]{genre.nameProperty()});
+        genresList.setAll((ArrayList<GenreModel>) objectStream.readObject());
         objectStream.close();
         fileStream.close();
     }

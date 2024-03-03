@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 
+//TODO ADD DOCS
 public final class Books {
     private static Books instance;
     private transient ObservableList<BookModel> booksList = FXCollections.observableArrayList();
 
+    //TODO ADD DOCS
     public static Books getInstance() {
         if (instance == null) {
             instance = new Books();
@@ -51,14 +53,17 @@ public final class Books {
         return instance;
     }
 
+    //TODO ADD DOCS
     public ObservableList<BookModel> getBooksList() {
         return booksList;
     }
 
+    //TODO ADD DOCS
     public BookModel getBook(UUID uuid) {
         return getBooksList().stream().filter(book -> book.getUUID().equals(uuid)).findAny().orElse(null);
     }
 
+    //TODO ADD DOCS
     public void addBook(BookModel book) {
         if (book.getTitle().isBlank()
                 || book.getAuthor().isBlank()
@@ -69,11 +74,13 @@ public final class Books {
         getBooksList().add(book);
     }
 
+    //TODO ADD DOCS
     public void removeBook(BookModel book) {
         Loans.getInstance().removeAllWithBook(book);
         getBooksList().remove(book);
     }
 
+    //TODO ADD DOCS
     public void removeAllWithGenre(GenreModel genre) {
         Iterator<BookModel> iterator = getBooksList().iterator();
         while (iterator.hasNext()) {
@@ -84,6 +91,7 @@ public final class Books {
         }
     }
 
+    //TODO ADD DOCS
     public void editBook(BookModel book, String title, String author, String publisher, String ISBN, Integer yearOfPublication, GenreModel genre, Integer copies) {
         if (book == null)
             throw new IllegalArgumentException("Book UUID does not exist");
@@ -96,6 +104,7 @@ public final class Books {
         if (copies != null) book.setCopies(copies);
     }
 
+    //TODO ADD DOCS
     public void saveBooks() throws IOException {
         FileOutputStream fileStream = new FileOutputStream("medialab/books");
         ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
@@ -104,6 +113,7 @@ public final class Books {
         fileStream.close();
     }
 
+    //TODO ADD DOCS
     public void loadBooks() throws IOException, ClassNotFoundException {
         FileInputStream fileStream = new FileInputStream("medialab/books");
         ObjectInputStream objectStream = new ObjectInputStream(fileStream);

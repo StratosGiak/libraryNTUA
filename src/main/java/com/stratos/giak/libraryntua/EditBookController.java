@@ -6,16 +6,17 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
 import static com.stratos.giak.libraryntua.Utilities.integerFilter;
+import static com.stratos.giak.libraryntua.Utilities.setTextFieldError;
 
+//TODO ADD DOCS
 public class EditBookController {
     @FXML
     private Button revertTitle;
@@ -44,13 +45,14 @@ public class EditBookController {
     @FXML
     private TextField yearOfPublicationField;
     @FXML
-    private ChoiceBox<GenreModel> genreField;
+    private ComboBox<GenreModel> genreField;
     @FXML
     private TextField copiesField;
     @FXML
     private Text errorText;
     private BookModel book;
 
+    //TODO ADD DOCS
     public void initializeFields(BookModel book) {
         this.book = book;
         if (book == null) return;
@@ -99,7 +101,7 @@ public class EditBookController {
     }
 
     @FXML
-    private void onFieldClicked(MouseEvent mouseEvent) {
+    private void onFieldClicked() {
         setTextFieldError(titleField, false);
         setTextFieldError(authorField, false);
         setTextFieldError(publisherField, false);
@@ -142,12 +144,5 @@ public class EditBookController {
     @FXML
     private void handleCancelButtonAction(ActionEvent actionEvent) {
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_BOOK_EVENT));
-    }
-
-    private void setTextFieldError(Node textField, boolean error) {
-        if (error && !textField.getStyleClass().contains("field-error"))
-            textField.getStyleClass().add("field-error");
-        else if (!error && textField.getStyleClass().contains("field-error"))
-            textField.getStyleClass().removeAll("field-error");
     }
 }

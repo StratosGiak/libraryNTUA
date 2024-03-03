@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+//TODO ADD DOCS
 public class MainViewController {
 
     private final Hyperlink logoutLink = new Hyperlink("Logout?");
@@ -44,9 +45,7 @@ public class MainViewController {
         userDetailsLink.visitedProperty().bind(new SimpleBooleanProperty(false));
         logoutLink.visitedProperty().bind(new SimpleBooleanProperty(false));
         userDetailsLink.textProperty().bind(LoggedUser.getInstance().getUser().usernameProperty());
-        userDetailsLink.setOnAction(event -> {
-            userDetailsLink.fireEvent(new CustomEvents.EditUserEvent(LoggedUser.getInstance().getUser()));
-        });
+        userDetailsLink.setOnAction(event -> userDetailsLink.fireEvent(new CustomEvents.EditUserEvent(LoggedUser.getInstance().getUser())));
         logoutLink.setOnAction(event -> {
             if (!CustomAlerts.showLogoutAlert()) return;
             try {

@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 
 import java.util.Arrays;
 
+//TODO ADD DOCS
 public class LoanListController {
     @FXML
     private TableView<LoanModel> tableViewLoans;
@@ -62,7 +63,7 @@ public class LoanListController {
     }
 
     @FXML
-    private void handleEndLoanButtonAction(ActionEvent actionEvent) {
+    private void handleEndLoanButtonAction() {
         LoanModel selectedLoan = tableViewLoans.getSelectionModel().getSelectedItem();
         if (selectedLoan == null) return;
         if (CustomAlerts.showEndLoanAlert(selectedLoan)) {

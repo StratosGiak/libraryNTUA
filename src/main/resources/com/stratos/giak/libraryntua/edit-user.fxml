@@ -47,7 +47,7 @@
     <Button fx:id="revertID" visible="false" styleClass="revert-button" GridPane.columnIndex="2"
             GridPane.rowIndex="7"/>
 
-    <Label text="Admin:" GridPane.rowIndex="8"/>
+    <Label text="Admin:" fx:id="adminLabel" GridPane.rowIndex="8"/>
     <CheckBox fx:id="adminField" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
 
     <Text fx:id="errorText" GridPane.columnIndex="1" GridPane.rowIndex="10"/>

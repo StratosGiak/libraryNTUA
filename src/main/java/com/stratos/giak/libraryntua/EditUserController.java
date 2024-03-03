@@ -5,14 +5,16 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
+import static com.stratos.giak.libraryntua.Utilities.setTextFieldError;
+
+//TODO ADD DOCS
 public class EditUserController {
+    @FXML
+    private Label adminLabel;
     @FXML
     private TextField emailField;
     @FXML
@@ -45,6 +47,7 @@ public class EditUserController {
     private PasswordField passwordField;
     private UserModel user;
 
+    //TODO ADD DOCS
     public void initializeFields(UserModel user) {
         this.user = user;
         if (user == null) return;
@@ -55,7 +58,6 @@ public class EditUserController {
         nameLastField.setText(user.getNameLast());
         IDField.setText(user.getID());
         titleText.setText("Edit user " + user.getUsername());
-        adminField.setDisable(LoggedUser.getInstance().getUser().equals(user));
         adminField.setSelected(user.getAccessLevel().equals(AccessLevel.ADMIN));
 
         revertUsername.visibleProperty().bind(Bindings.createBooleanBinding(() -> !usernameField.textProperty().get().equals(user.getUsername()), usernameField.textProperty()));
@@ -71,6 +73,12 @@ public class EditUserController {
         revertNameFirst.setOnAction(event -> nameFirstField.setText(user.getNameFirst()));
         revertNameLast.setOnAction(event -> nameLastField.setText(user.getNameLast()));
         revertID.setOnAction(event -> IDField.setText(user.getID()));
+
+        adminField.visibleProperty().bind(LoggedUser.getInstance().getUser().accessLevelProperty().isEqualTo(AccessLevel.ADMIN));
+        adminField.managedProperty().bind(adminField.visibleProperty());
+        adminLabel.visibleProperty().bind(LoggedUser.getInstance().getUser().accessLevelProperty().isEqualTo(AccessLevel.ADMIN));
+        adminLabel.managedProperty().bind(adminLabel.visibleProperty());
+        adminField.setDisable(LoggedUser.getInstance().getUser().equals(user));
     }
 
     @FXML
@@ -140,12 +148,5 @@ public class EditUserController {
     @FXML
     private void handleCancelButtonAction(ActionEvent actionEvent) {
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_USER_EVENT));
-    }
-
-    private void setTextFieldError(Node textField, boolean error) {
-        if (error && !textField.getStyleClass().contains("field-error"))
-            textField.getStyleClass().add("field-error");
-        else if (!error && textField.getStyleClass().contains("field-error"))
-            textField.getStyleClass().removeAll("field-error");
     }
 }

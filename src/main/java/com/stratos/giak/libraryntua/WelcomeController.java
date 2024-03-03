@@ -8,6 +8,7 @@ import javafx.scene.control.SplitPane;
 import java.io.IOException;
 import java.util.Objects;
 
+//TODO ADD DOCS
 public class WelcomeController {
 
     @FXML
@@ -20,7 +21,7 @@ public class WelcomeController {
                 changeRightPane("register.fxml");
                 event.consume();
             } catch (IOException ex) {
-                ex.printStackTrace();
+                throw new RuntimeException("File not found");
             }
         });
         splitPane.addEventFilter(CustomEvents.LINK_LOGIN_EVENT, event -> {
@@ -28,12 +29,13 @@ public class WelcomeController {
                 changeRightPane("login.fxml");
                 event.consume();
             } catch (IOException ex) {
-                ex.printStackTrace();
+                throw new RuntimeException("File not found");
             }
         });
     }
 
-    void changeRightPane(String FXMLFile) throws IOException {
+    //TODO ADD DOCS
+    public void changeRightPane(String FXMLFile) throws IOException {
         Parent newPane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(FXMLFile)));
         splitPane.getItems().set(1, newPane);
     }

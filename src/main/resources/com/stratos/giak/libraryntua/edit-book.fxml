@@ -37,7 +37,7 @@
             GridPane.rowIndex="5"/>
 
     <Label text="Genre:" GridPane.rowIndex="6"/>
-    <ChoiceBox fx:id="genreField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+    <ComboBox fx:id="genreField" onMouseClicked="#onFieldClicked" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
     <Button fx:id="revertGenre" visible="false" styleClass="revert-button" GridPane.columnIndex="2"
             GridPane.rowIndex="6"/>
 

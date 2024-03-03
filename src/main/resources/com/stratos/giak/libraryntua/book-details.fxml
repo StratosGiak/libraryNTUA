@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
-<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.65" xmlns="http://javafx.com/javafx/17.0.2-ea"
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.7" xmlns="http://javafx.com/javafx/17.0.2-ea"
            fx:controller="com.stratos.giak.libraryntua.BookDetailsController">
     <VBox alignment="CENTER" spacing="30">
         <padding>
@@ -43,7 +43,11 @@
                 <Label text="Copies:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
                 <Text fx:id="copiesField" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
             </GridPane>
-            <ListView fx:id="commentList" prefWidth="300" prefHeight="300"/>
+            <ListView fx:id="commentList" prefWidth="300" prefHeight="300">
+                <placeholder>
+                    <Label text="This book has no reviews"/>
+                </placeholder>
+            </ListView>
         </HBox>
     </VBox>
 
