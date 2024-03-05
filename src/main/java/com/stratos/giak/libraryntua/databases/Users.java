@@ -1,5 +1,8 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.databases;
 
+import com.stratos.giak.libraryntua.models.BookModel;
+import com.stratos.giak.libraryntua.models.UserModel;
+import com.stratos.giak.libraryntua.utilities.AccessLevel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -7,12 +10,20 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
-//TODO ADD DOCS
 public final class Users {
     private static Users instance;
     private transient ObservableList<UserModel> usersList = FXCollections.observableArrayList();
 
-    //TODO ADD DOCS
+    private Users() {
+    }
+
+    /**
+     * Returns a singleton instance of the Users database object.
+     * The Users object manages all operations that concern the registered users.
+     *
+     * @return a Users instance
+     * @see BookModel
+     */
     public static Users getInstance() {
         if (instance == null) {
             instance = new Users();
@@ -52,53 +63,51 @@ public final class Users {
         return instance;
     }
 
-    //TODO ADD DOCS
+    /**
+     * @return an observable list of all registered users, represented by {@link UserModel} objects
+     */
     public ObservableList<UserModel> getUsersList() {
         return usersList;
     }
 
-    //TODO ADD DOCS
+    /**
+     * Returns a user with the given UUID.
+     * This is only used for the (de)serialization of loans.
+     *
+     * @param uuid the {@link UUID} of the UserModel object
+     * @return a {@link UserModel} object with the given UUID, or null if no such user exists
+     */
     public UserModel getUser(UUID uuid) {
         return getUsersList().stream().filter(user -> user.getUUID().equals(uuid)).findAny().orElse(null);
     }
 
-    //TODO ADD DOCS
-    public UserModel getUserByUsername(String username) {
-        return getUsersList().stream().filter(user -> user.getUsername().equals(username)).findAny().orElse(null);
-    }
-
-    //TODO ADD DOCS
+    /**
+     * Adds the given user to the list of registered users.
+     *
+     * @param user the user to be added
+     */
     public void addUser(UserModel user) {
-        if (user.getUsername().isBlank()
-                || user.getPassword().isBlank()
-                || user.getEmail().isBlank()
-                || user.getNameFirst().isBlank()
-                || user.getNameLast().isBlank()
-                || user.getID().isBlank())
-            throw new IllegalArgumentException("Invalid account info");
         getUsersList().add(user);
     }
 
-    //TODO ADD DOCS
-    public void editUser(UserModel user, String username, String password, String nameFirst, String nameLast, String ID, String email, AccessLevel accessLevel) {
-        if (user == null)
-            throw new IllegalArgumentException("User object does not exists");
-        if (username != null) user.setUsername(username);
-        if (password != null) user.setPassword(password);
-        if (nameFirst != null) user.setNameFirst(nameFirst);
-        if (nameLast != null) user.setNameLast(nameLast);
-        if (ID != null) user.setID(ID);
-        if (email != null) user.setEmail(email);
-        if (accessLevel != null) user.setAccessLevel(accessLevel);
-    }
-
-    //TODO ADD DOCS
+    /**
+     * Removes the given user from the database, if it exists.
+     * Also ends all open loans by that user.
+     *
+     * @param user the user to be removed
+     */
     public void removeUser(UserModel user) {
         Loans.getInstance().removeAllWithUser(user);
         getUsersList().remove(user);
     }
 
-    //TODO ADD DOCS
+    /**
+     * Serializes the list of registered users.
+     * Saves the list of users as a file named "users",
+     * in a folder named medialab placed in the project directory
+     *
+     * @throws IOException if there is any error writing to the file
+     */
     public void saveUsers() throws IOException {
         FileOutputStream fileStream = new FileOutputStream("medialab/users");
         ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
@@ -107,7 +116,14 @@ public final class Users {
         fileStream.close();
     }
 
-    //TODO ADD DOCS
+    /**
+     * Deserializes the list of registered users.
+     * Loads the list of users from a file named "users",
+     * in a folder named medialab placed in the project directory
+     *
+     * @throws IOException            if there is any error reading the file
+     * @throws ClassNotFoundException if the serialized object is not a list of {@link UserModel}
+     */
     public void loadUsers() throws IOException, ClassNotFoundException {
         FileInputStream fileStream = new FileInputStream("medialab/users");
         ObjectInputStream objectStream = new ObjectInputStream(fileStream);

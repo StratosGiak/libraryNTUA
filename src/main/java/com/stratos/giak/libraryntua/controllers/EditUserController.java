@@ -1,5 +1,10 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.controllers;
 
+import com.stratos.giak.libraryntua.databases.Users;
+import com.stratos.giak.libraryntua.models.UserModel;
+import com.stratos.giak.libraryntua.utilities.AccessLevel;
+import com.stratos.giak.libraryntua.utilities.CustomEvents;
+import com.stratos.giak.libraryntua.utilities.LoggedUser;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -9,10 +14,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
-import static com.stratos.giak.libraryntua.Utilities.setTextFieldError;
+import static com.stratos.giak.libraryntua.utilities.Miscellaneous.setTextFieldError;
 
-//TODO ADD DOCS
 public class EditUserController {
+    private final UserModel user;
     @FXML
     private Label adminLabel;
     @FXML
@@ -45,11 +50,13 @@ public class EditUserController {
     private TextField usernameField;
     @FXML
     private PasswordField passwordField;
-    private UserModel user;
 
-    //TODO ADD DOCS
-    public void initializeFields(UserModel user) {
+    EditUserController(UserModel user) {
         this.user = user;
+    }
+
+    @FXML
+    private void initialize() {
         if (user == null) return;
         usernameField.setText(user.getUsername());
         passwordField.setText(user.getPassword());
@@ -111,18 +118,21 @@ public class EditUserController {
             if (ID.isBlank()) setTextFieldError(IDField, true);
             return;
         }
-        if ((user == null || !username.equals(user.getUsername())) && Users.getInstance().getUserByUsername(username) != null) {
-            errorText.setText("Username already exists");
-            setTextFieldError(usernameField, true);
-            return;
+        if ((user == null || !username.equals(user.getUsername()))) {
+            Users users = Users.getInstance();
+            if (users.getUsersList().stream().filter(user1 -> user1.getUsername().equals(username)).findAny().orElse(null) != null) {
+                errorText.setText("Username already exists");
+                setTextFieldError(usernameField, true);
+                return;
+            }
         }
         if (!email.matches(".+@.+")) {
-            errorText.setText("Please enter a valid email address");
+            errorText.setText("Email address is invalid");
             setTextFieldError(emailField, true);
             return;
         }
         if (!ID.matches(".+")) {
-            errorText.setText("Please enter a valid ID");
+            errorText.setText("ID is invalid");
             setTextFieldError(IDField, true);
             return;
         }
@@ -140,7 +150,7 @@ public class EditUserController {
             final UserModel user = new UserModel(username, password, nameFirst, nameLast, ID, email, accessLevel);
             Users.getInstance().addUser(user);
         } else {
-            Users.getInstance().editUser(user, username, password, nameFirst, nameLast, ID, email, accessLevel);
+            user.editUser(username, password, nameFirst, nameLast, ID, email, accessLevel);
         }
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_USER_EVENT));
     }

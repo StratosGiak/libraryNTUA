@@ -1,5 +1,13 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.controllers;
 
+import com.stratos.giak.libraryntua.databases.Books;
+import com.stratos.giak.libraryntua.databases.Genres;
+import com.stratos.giak.libraryntua.models.BookModel;
+import com.stratos.giak.libraryntua.models.GenreModel;
+import com.stratos.giak.libraryntua.utilities.AccessLevel;
+import com.stratos.giak.libraryntua.utilities.CustomAlerts;
+import com.stratos.giak.libraryntua.utilities.CustomEvents;
+import com.stratos.giak.libraryntua.utilities.LoggedUser;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.SimpleObjectProperty;
@@ -25,9 +33,8 @@ import org.controlsfx.control.Rating;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import static com.stratos.giak.libraryntua.Utilities.integerFilter;
+import static com.stratos.giak.libraryntua.utilities.Miscellaneous.integerFilter;
 
-//TODO ADD DOCS
 public class BookListController {
     private final ObservableList<BookModel> books = Books.getInstance().getBooksList();
     private final SimpleObjectProperty<Predicate<BookModel>> titlePredicate = new SimpleObjectProperty<>(t -> true);
@@ -99,7 +106,7 @@ public class BookListController {
                 @Override
                 public GenreModel fromString(String string) {
                     GenreModel genre = list.getSelectionModel().getSelectedItem();
-                    genre.setName(string);
+                    genre.editGenre(string);
                     return genre;
                 }
             });
@@ -143,9 +150,9 @@ public class BookListController {
                 if (clickEvent.getClickCount() > 1) {
                     if (row.getItem() == null) return;
                     if (LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN) {
-                        ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.EditBookEvent(row.getItem()));
+                        ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.BookEvent(CustomEvents.BookEvent.EDIT_BOOK_EVENT, row.getItem()));
                     } else {
-                        ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.ViewBookDetailsEvent(row.getItem()));
+                        ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.BookEvent(CustomEvents.BookEvent.VIEW_BOOK_DETAILS_EVENT, row.getItem()));
                     }
                 }
             });
@@ -202,14 +209,14 @@ public class BookListController {
 
     @FXML
     private void handleAddBookButtonAction(ActionEvent actionEvent) {
-        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.EditBookEvent());
+        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.BookEvent(CustomEvents.BookEvent.EDIT_BOOK_EVENT, null));
     }
 
     @FXML
     private void handleEditBookButtonAction(ActionEvent actionEvent) {
         BookModel selectedBook = tableViewBooks.getSelectionModel().getSelectedItem();
         if (selectedBook == null) return;
-        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.EditBookEvent(selectedBook));
+        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.BookEvent(CustomEvents.BookEvent.EDIT_BOOK_EVENT, selectedBook));
     }
 
     @FXML
@@ -223,7 +230,7 @@ public class BookListController {
     private void handleViewBookDetailsButtonAction(ActionEvent actionEvent) {
         BookModel selectedBook = tableViewBooks.getSelectionModel().getSelectedItem();
         if (selectedBook == null) return;
-        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.ViewBookDetailsEvent(selectedBook));
+        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.BookEvent(CustomEvents.BookEvent.VIEW_BOOK_DETAILS_EVENT, selectedBook));
     }
 
     @FXML

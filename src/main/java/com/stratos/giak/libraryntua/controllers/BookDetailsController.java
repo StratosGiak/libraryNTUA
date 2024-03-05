@@ -1,14 +1,17 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.controllers;
 
+import com.stratos.giak.libraryntua.databases.Loans;
+import com.stratos.giak.libraryntua.models.BookModel;
+import com.stratos.giak.libraryntua.models.LoanModel;
+import com.stratos.giak.libraryntua.models.ReviewModel;
+import com.stratos.giak.libraryntua.utilities.CustomAlerts;
+import com.stratos.giak.libraryntua.utilities.LoggedUser;
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -17,8 +20,8 @@ import org.controlsfx.control.Rating;
 
 import java.time.LocalDate;
 
-//TODO ADD DOCS
 public class BookDetailsController {
+    private final BookModel book;
     @FXML
     private Text titleText;
     @FXML
@@ -49,12 +52,14 @@ public class BookDetailsController {
     private Text errorText;
     @FXML
     private ListView<ReviewModel> commentList;
-    private BookModel book;
 
-    //TODO ADD DOCS
-    public void initializeFields(BookModel book) {
+    BookDetailsController(BookModel book) {
+        if (book == null) throw new IllegalArgumentException("Book must not be null");
         this.book = book;
-        if (book == null) return;
+    }
+
+    @FXML
+    private void initialize() {
         titleText.setText(book.getTitle() + " details");
         titleField.textProperty().bind(book.titleProperty());
         authorField.textProperty().bind(book.authorProperty());
@@ -110,82 +115,6 @@ public class BookDetailsController {
         );
         commentList.setItems(book.getReviews());
 
-        commentList.setSelectionModel(new MultipleSelectionModel<>() {
-            @Override
-            public ObservableList<Integer> getSelectedIndices() {
-                return FXCollections.emptyObservableList();
-            }
-
-            @Override
-            public ObservableList<ReviewModel> getSelectedItems() {
-                return FXCollections.emptyObservableList();
-            }
-
-            @Override
-            public void selectIndices(int index, int... indices) {
-
-            }
-
-            @Override
-            public void selectAll() {
-
-            }
-
-            @Override
-            public void selectFirst() {
-
-            }
-
-            @Override
-            public void selectLast() {
-
-            }
-
-            @Override
-            public void clearAndSelect(int index) {
-
-            }
-
-            @Override
-            public void select(int index) {
-
-            }
-
-            @Override
-            public void select(ReviewModel obj) {
-
-            }
-
-            @Override
-            public void clearSelection(int index) {
-
-            }
-
-            @Override
-            public void clearSelection() {
-
-            }
-
-            @Override
-            public boolean isSelected(int index) {
-                return false;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public void selectPrevious() {
-
-            }
-
-            @Override
-            public void selectNext() {
-
-            }
-        });
         borrowButton.disableProperty().bind(Bindings.createBooleanBinding(() -> book.copiesProperty().get() <= 0 || Loans.getInstance().getLoanList().filtered(loan -> loan.getUser().equals(LoggedUser.getInstance().getUser())).size() >= 2, book.copiesProperty(), Loans.getInstance().getLoanList()));
         errorText.textProperty().bind(Bindings.createStringBinding(() -> {
             String error = "";
@@ -198,10 +127,7 @@ public class BookDetailsController {
 
         commentList.visibleProperty().bind(Bindings.createBooleanBinding(() -> !book.getReviews().isEmpty(), book.getReviews()));
         commentList.managedProperty().bind(commentList.visibleProperty());
-    }
 
-    @FXML
-    private void initialize() {
         decrementLoanLengthButton.disableProperty().bind(Bindings.createBooleanBinding(() -> Integer.parseInt(loanLengthText.textProperty().get()) <= 1, loanLengthText.textProperty()));
         incrementLoanLengthButton.disableProperty().bind(Bindings.createBooleanBinding(() -> Integer.parseInt(loanLengthText.textProperty().get()) >= 5, loanLengthText.textProperty()));
         errorText.visibleProperty().bind(errorText.textProperty().isNotEmpty());
@@ -209,11 +135,10 @@ public class BookDetailsController {
 
     @FXML
     private void handleBorrowButtonAction() {
-        if (LoggedUser.getInstance().getUser().getBorrowedList().size() >= 2) {
+        if (Loans.getInstance().getLoanListByUser(LoggedUser.getInstance().getUser()).size() >= 2) {
             CustomAlerts.showMaxBorrowedAlert();
             return;
         }
-        if (book == null) throw new RuntimeException("Book UUID is null");
         LoanModel borrowed = new LoanModel(book, LoggedUser.getInstance().getUser(), LocalDate.now(), Integer.parseInt(loanLengthText.getText()));
         Loans.getInstance().addLoan(borrowed);
     }

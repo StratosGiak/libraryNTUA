@@ -1,5 +1,7 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.controllers;
 
+import com.stratos.giak.libraryntua.Main;
+import com.stratos.giak.libraryntua.utilities.*;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +18,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-//TODO ADD DOCS
 public class MainViewController {
 
     private final Hyperlink logoutLink = new Hyperlink("Logout?");
@@ -32,7 +33,7 @@ public class MainViewController {
     private void initialize() {
         if (LoggedUser.getInstance().getUser().getAccessLevel() == AccessLevel.ADMIN) {
             Parent root;
-            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("user-list.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Main.class.getResource("user-list.fxml")));
             try {
                 root = loader.load();
             } catch (IOException e) {
@@ -45,12 +46,12 @@ public class MainViewController {
         userDetailsLink.visitedProperty().bind(new SimpleBooleanProperty(false));
         logoutLink.visitedProperty().bind(new SimpleBooleanProperty(false));
         userDetailsLink.textProperty().bind(LoggedUser.getInstance().getUser().usernameProperty());
-        userDetailsLink.setOnAction(event -> userDetailsLink.fireEvent(new CustomEvents.EditUserEvent(LoggedUser.getInstance().getUser())));
+        userDetailsLink.setOnAction(event -> userDetailsLink.fireEvent(new CustomEvents.UserEvent(LoggedUser.getInstance().getUser())));
         logoutLink.setOnAction(event -> {
             if (!CustomAlerts.showLogoutAlert()) return;
             try {
                 ((Stage) ((Node) event.getSource()).getScene().getWindow()).setTitle("NTUA-Library");
-                Utilities.changeScene(event, "welcome.fxml");
+                Miscellaneous.changeScene(event, "welcome.fxml");
                 LoggedUser.getInstance().setUser(null);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -58,65 +59,65 @@ public class MainViewController {
         });
         accountTextFlow.getChildren().addAll(new Text("Logged in as"), userDetailsLink, new Text(" | "), logoutLink);
 
-        stackPane.addEventFilter(CustomEvents.EditUserEvent.EDIT_USER_EVENT, event -> {
+        stackPane.addEventFilter(CustomEvents.UserEvent.EDIT_USER_EVENT, event -> {
             if (!LoggedUser.getInstance().getUser().equals(event.getUser()) && !LoggedUser.getInstance().getUser().getAccessLevel().equals(AccessLevel.ADMIN)) {
                 CustomAlerts.showPrivilegesAlert();
                 return;
             }
             Parent root;
-            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("edit-user.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Main.class.getResource("edit-user.fxml")));
+            loader.setControllerFactory(param -> new EditUserController(event.getUser()));
             try {
                 root = loader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            ((EditUserController) loader.getController()).initializeFields(event.getUser());
             Tab tab = new Tab("Edit User", root);
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
             event.consume();
         });
-        stackPane.addEventFilter(CustomEvents.EditBookEvent.EDIT_BOOK_EVENT, event -> {
+        stackPane.addEventFilter(CustomEvents.BookEvent.EDIT_BOOK_EVENT, event -> {
             if (!LoggedUser.getInstance().getUser().getAccessLevel().equals(AccessLevel.ADMIN)) {
                 CustomAlerts.showPrivilegesAlert();
                 return;
             }
             Parent root;
-            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("edit-book.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Main.class.getResource("edit-book.fxml")));
+            loader.setControllerFactory(controller -> new EditBookController(event.getBook()));
             try {
                 root = loader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            ((EditBookController) loader.getController()).initializeFields(event.getBook());
             Tab tab = new Tab("Edit Book", root);
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
             event.consume();
         });
-        stackPane.addEventFilter(CustomEvents.ViewBookDetailsEvent.VIEW_BOOK_DETAILS_EVENT, event -> {
+        stackPane.addEventFilter(CustomEvents.BookEvent.VIEW_BOOK_DETAILS_EVENT, event -> {
             Parent root;
-            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("book-details.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Main.class.getResource("book-details.fxml")));
+            loader.setControllerFactory(controller -> new BookDetailsController(event.getBook()));
             try {
                 root = loader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            ((BookDetailsController) loader.getController()).initializeFields(event.getBook());
             Tab tab = new Tab(event.getBook().getTitle(), root);
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
             event.consume();
         });
-        stackPane.addEventFilter(CustomEvents.ViewLoanDetailsEvent.VIEW_LOAN_DETAILS_EVENT, event -> {
+        stackPane.addEventFilter(CustomEvents.LoanEvent.VIEW_LOAN_DETAILS_EVENT, event -> {
             Parent root;
-            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("loan-details.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Main.class.getResource("loan-details.fxml")));
+            loader.setControllerFactory(controller -> new LoanDetailsController(event.getLoan()));
             try {
                 root = loader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            ((LoanDetailsController) loader.getController()).initializeFields(event.getLoan());
             Tab tab = new Tab("Loan Details", root);
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);

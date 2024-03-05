@@ -8,4 +8,12 @@ module com.stratos.giak.libraryntua {
 
     opens com.stratos.giak.libraryntua to javafx.fxml;
     exports com.stratos.giak.libraryntua;
+    exports com.stratos.giak.libraryntua.utilities;
+    opens com.stratos.giak.libraryntua.utilities to javafx.fxml;
+    exports com.stratos.giak.libraryntua.controllers;
+    opens com.stratos.giak.libraryntua.controllers to javafx.fxml;
+    exports com.stratos.giak.libraryntua.models;
+    opens com.stratos.giak.libraryntua.models to javafx.fxml;
+    exports com.stratos.giak.libraryntua.databases;
+    opens com.stratos.giak.libraryntua.databases to javafx.fxml;
 }

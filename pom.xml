@@ -52,7 +52,9 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.stratos.giak.libraryntua/com.stratos.giak.libraryntua.EntryPoint</mainClass>
+                            <mainClass>
+                                com.stratos.giak.libraryntua/com.stratos.giak.libraryntua.Main
+                            </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

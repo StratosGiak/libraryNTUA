@@ -1,5 +1,10 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.controllers;
 
+import com.stratos.giak.libraryntua.databases.Books;
+import com.stratos.giak.libraryntua.databases.Genres;
+import com.stratos.giak.libraryntua.models.BookModel;
+import com.stratos.giak.libraryntua.models.GenreModel;
+import com.stratos.giak.libraryntua.utilities.CustomEvents;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -13,11 +18,11 @@ import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
-import static com.stratos.giak.libraryntua.Utilities.integerFilter;
-import static com.stratos.giak.libraryntua.Utilities.setTextFieldError;
+import static com.stratos.giak.libraryntua.utilities.Miscellaneous.integerFilter;
+import static com.stratos.giak.libraryntua.utilities.Miscellaneous.setTextFieldError;
 
-//TODO ADD DOCS
 public class EditBookController {
+    private final BookModel book;
     @FXML
     private Button revertTitle;
     @FXML
@@ -50,11 +55,28 @@ public class EditBookController {
     private TextField copiesField;
     @FXML
     private Text errorText;
-    private BookModel book;
 
-    //TODO ADD DOCS
-    public void initializeFields(BookModel book) {
+    EditBookController(BookModel book) {
         this.book = book;
+    }
+
+    @FXML
+    private void initialize() {
+        yearOfPublicationField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), null, integerFilter));
+        copiesField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 1, integerFilter));
+        genreField.setItems(Genres.getInstance().getGenresList());
+        genreField.converterProperty().set(new StringConverter<>() {
+            @Override
+            public String toString(GenreModel genre) {
+                return genre != null ? genre.toString() : "—";
+            }
+
+            @Override
+            public GenreModel fromString(String string) {
+                return null;
+            }
+        });
+
         if (book == null) return;
         titleField.setText(book.getTitle());
         authorField.setText(book.getAuthor());
@@ -80,24 +102,6 @@ public class EditBookController {
         revertGenre.setOnAction(event -> genreField.setValue(book.getGenre()));
         revertYearOfPublication.setOnAction(event -> yearOfPublicationField.setText(String.valueOf(book.getYearOfPublication())));
         revertCopies.setOnAction(event -> copiesField.setText(String.valueOf(book.getCopies())));
-    }
-
-    @FXML
-    private void initialize() {
-        yearOfPublicationField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), null, integerFilter));
-        copiesField.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 1, integerFilter));
-        genreField.setItems(Genres.getInstance().getGenresList());
-        genreField.converterProperty().set(new StringConverter<>() {
-            @Override
-            public String toString(GenreModel genre) {
-                return genre != null ? genre.toString() : "—";
-            }
-
-            @Override
-            public GenreModel fromString(String string) {
-                return null;
-            }
-        });
     }
 
     @FXML
@@ -136,7 +140,7 @@ public class EditBookController {
             final BookModel book = new BookModel(title, author, publisher, ISBN, Integer.parseInt(yearOfPublication), genre, Integer.parseInt(copies));
             Books.getInstance().addBook(book);
         } else {
-            Books.getInstance().editBook(book, title, author, publisher, ISBN, Integer.parseInt(yearOfPublication), genre, Integer.parseInt(copies));
+            book.editBook(title, author, publisher, ISBN, Integer.parseInt(yearOfPublication), genre, Integer.parseInt(copies));
         }
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_BOOK_EVENT));
     }

@@ -1,5 +1,7 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.controllers;
 
+import com.stratos.giak.libraryntua.databases.Books;
+import com.stratos.giak.libraryntua.models.BookModel;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -12,7 +14,6 @@ import org.controlsfx.control.Rating;
 
 import java.util.List;
 
-//TODO ADD DOCS
 public class BookShowcaseController {
     @FXML
     private HBox showcaseRow;
@@ -43,7 +44,7 @@ public class BookShowcaseController {
                 VBox vBox = new VBox(
                         new Text(book.getTitle()),
                         new Text(book.getAuthor()),
-                        new Text("ISBN " + book.getISBN()),
+                        new Text("ISBN - " + book.getISBN()),
                         new Group(ratingField)
                 );
                 vBox.setSpacing(6);

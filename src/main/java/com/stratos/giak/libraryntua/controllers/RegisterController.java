@@ -1,5 +1,11 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.controllers;
 
+import com.stratos.giak.libraryntua.databases.Users;
+import com.stratos.giak.libraryntua.models.UserModel;
+import com.stratos.giak.libraryntua.utilities.AccessLevel;
+import com.stratos.giak.libraryntua.utilities.CustomEvents;
+import com.stratos.giak.libraryntua.utilities.LoggedUser;
+import com.stratos.giak.libraryntua.utilities.Miscellaneous;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -11,9 +17,8 @@ import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 
-import static com.stratos.giak.libraryntua.Utilities.setTextFieldError;
+import static com.stratos.giak.libraryntua.utilities.Miscellaneous.setTextFieldError;
 
-//TODO ADD DOCS
 public class RegisterController {
     private final Hyperlink loginLink = new Hyperlink("Login");
 
@@ -65,18 +70,19 @@ public class RegisterController {
             if (ID.isBlank()) setTextFieldError(IDField, true);
             return;
         }
-        if (Users.getInstance().getUserByUsername(username) != null) {
+        Users users = Users.getInstance();
+        if (users.getUsersList().stream().filter(user1 -> user1.getUsername().equals(username)).findAny().orElse(null) != null) {
             errorText.setText("Username already exists");
             setTextFieldError(usernameField, true);
             return;
         }
         if (!email.matches(".+@.+")) {
-            errorText.setText("Please enter a valid email address");
+            errorText.setText("Email address is invalid");
             setTextFieldError(emailField, true);
             return;
         }
-        if (!ID.matches("\\d+")) {
-            errorText.setText("Please enter a valid ID");
+        if (!ID.matches(".+")) {
+            errorText.setText("ID is invalid");
             setTextFieldError(IDField, true);
             return;
         }
@@ -93,7 +99,7 @@ public class RegisterController {
         final UserModel user = new UserModel(username, password, nameFirst, nameLast, ID, email, AccessLevel.USER);
         Users.getInstance().addUser(user);
         LoggedUser.getInstance().setUser(user);
-        Utilities.changeScene(actionEvent, "main-view.fxml");
+        Miscellaneous.changeScene(actionEvent, "main-view.fxml");
     }
 
     @FXML

@@ -6,7 +6,8 @@
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" hgap="10" vgap="10"
-          xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.stratos.giak.libraryntua.EditBookController">
+          xmlns="http://javafx.com/javafx/17.0.2-ea"
+          fx:controller="com.stratos.giak.libraryntua.controllers.EditBookController">
     <padding>
         <Insets bottom="10" left="25" right="25" top="25"/>
     </padding>

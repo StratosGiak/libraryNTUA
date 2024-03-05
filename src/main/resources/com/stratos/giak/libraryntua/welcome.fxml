@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.SplitPane?>
-<SplitPane xmlns:fx="http://javafx.com/fxml/1" fx:id="splitPane"
-           fx:controller="com.stratos.giak.libraryntua.WelcomeController"
-           xmlns="http://javafx.com/javafx/17.0.2-ea">
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" fx:id="splitPane" xmlns="http://javafx.com/javafx/17.0.2-ea"
+           fx:controller="com.stratos.giak.libraryntua.controllers.WelcomeController">
     <fx:include source="book-showcase.fxml"/>
     <fx:include source="login.fxml"/>
 </SplitPane>

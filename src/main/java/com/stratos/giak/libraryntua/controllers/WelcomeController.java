@@ -1,5 +1,7 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.controllers;
 
+import com.stratos.giak.libraryntua.Main;
+import com.stratos.giak.libraryntua.utilities.CustomEvents;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,7 +10,6 @@ import javafx.scene.control.SplitPane;
 import java.io.IOException;
 import java.util.Objects;
 
-//TODO ADD DOCS
 public class WelcomeController {
 
     @FXML
@@ -34,9 +35,8 @@ public class WelcomeController {
         });
     }
 
-    //TODO ADD DOCS
-    public void changeRightPane(String FXMLFile) throws IOException {
-        Parent newPane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(FXMLFile)));
+    private void changeRightPane(String FXMLFile) throws IOException {
+        Parent newPane = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource(FXMLFile)));
         splitPane.getItems().set(1, newPane);
     }
 }

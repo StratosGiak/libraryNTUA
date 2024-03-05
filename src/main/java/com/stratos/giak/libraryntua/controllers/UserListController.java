@@ -1,5 +1,10 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.controllers;
 
+import com.stratos.giak.libraryntua.databases.Users;
+import com.stratos.giak.libraryntua.models.UserModel;
+import com.stratos.giak.libraryntua.utilities.CustomAlerts;
+import com.stratos.giak.libraryntua.utilities.CustomEvents;
+import com.stratos.giak.libraryntua.utilities.LoggedUser;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -10,7 +15,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.util.Duration;
 
-//TODO ADD DOCS
 public class UserListController {
     private final ObservableList<UserModel> users = Users.getInstance().getUsersList();
     @FXML
@@ -32,7 +36,7 @@ public class UserListController {
             row.setOnMouseClicked(clickEvent -> {
                 if (clickEvent.getClickCount() > 1) {
                     if (row.getItem() == null) return;
-                    ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.EditUserEvent(row.getItem()));
+                    ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.UserEvent(row.getItem()));
                 }
             });
             return row;
@@ -62,14 +66,14 @@ public class UserListController {
 
     @FXML
     private void handleAddUserButtonAction(ActionEvent actionEvent) {
-        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.EditUserEvent());
+        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.UserEvent(null));
     }
 
     @FXML
     private void handleEditUserButtonAction(ActionEvent actionEvent) {
         UserModel selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
         if (selectedUser == null) return;
-        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.EditUserEvent(selectedUser));
+        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.UserEvent(selectedUser));
     }
 
     @FXML

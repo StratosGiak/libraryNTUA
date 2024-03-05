@@ -1,11 +1,15 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.utilities;
 
+import com.stratos.giak.libraryntua.databases.Books;
+import com.stratos.giak.libraryntua.models.GenreModel;
+import com.stratos.giak.libraryntua.models.LoanModel;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
-//TODO ADD DOCS
 public class CustomAlerts {
-    //TODO ADD DOCS
+    /**
+     * Shows an alert dialog warning the user that they don't have the required access privileges for an action.
+     */
     public static void showPrivilegesAlert() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Illegal action");
@@ -13,7 +17,9 @@ public class CustomAlerts {
         alert.showAndWait();
     }
 
-    //TODO ADD DOCS
+    /**
+     * Shows an alert dialog warning the user that they have exceeded their maximum allowance of book loans.
+     */
     public static void showMaxBorrowedAlert() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Illegal action");
@@ -21,7 +27,9 @@ public class CustomAlerts {
         alert.showAndWait();
     }
 
-    //TODO ADD DOCS
+    /**
+     * Shows an alert warning the user before removing a book.
+     */
     public static boolean showRemoveBookAlert() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Delete book");
@@ -30,7 +38,9 @@ public class CustomAlerts {
         return alert.showAndWait().orElse(ButtonType.CANCEL).equals(ButtonType.YES);
     }
 
-    //TODO ADD DOCS
+    /**
+     * Shows an alert warning the user before removing a user account.
+     */
     public static boolean showRemoveUserAlert() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Delete user");
@@ -39,7 +49,9 @@ public class CustomAlerts {
         return alert.showAndWait().orElse(ButtonType.CANCEL).equals(ButtonType.YES);
     }
 
-    //TODO ADD DOCS
+    /**
+     * Shows an alert warning the user before removing a genre.
+     */
     public static boolean showRemoveGenreAlert(GenreModel genre) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Delete genre");
@@ -49,7 +61,9 @@ public class CustomAlerts {
         return alert.showAndWait().orElse(ButtonType.CANCEL).equals(ButtonType.YES);
     }
 
-    //TODO ADD DOCS
+    /**
+     * Shows an alert warning the user before ending a loan.
+     */
     public static boolean showEndLoanAlert(LoanModel loan) {
         if (loan == null || loan.getUser() == null || loan.getBook() == null)
             throw new IllegalArgumentException("Null user or book");
@@ -60,7 +74,9 @@ public class CustomAlerts {
         return alert.showAndWait().orElse(ButtonType.CANCEL).equals(ButtonType.YES);
     }
 
-    //TODO ADD DOCS
+    /**
+     * Shows an alert warning the user before logging out.
+     */
     public static boolean showLogoutAlert() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");

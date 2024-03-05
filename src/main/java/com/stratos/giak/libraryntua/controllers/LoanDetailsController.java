@@ -1,5 +1,9 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.controllers;
 
+import com.stratos.giak.libraryntua.databases.Loans;
+import com.stratos.giak.libraryntua.models.LoanModel;
+import com.stratos.giak.libraryntua.utilities.CustomAlerts;
+import com.stratos.giak.libraryntua.utilities.CustomEvents;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -8,8 +12,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import org.controlsfx.control.Rating;
 
-//TODO ADD DOCS
 public class LoanDetailsController {
+    private final LoanModel loan;
     @FXML
     private Text titleField;
     @FXML
@@ -22,12 +26,14 @@ public class LoanDetailsController {
     private Rating ratingField;
     @FXML
     private TextArea commentsField;
-    private LoanModel loan;
 
-    //TODO ADD DOCS
-    public void initializeFields(LoanModel loan) {
+    LoanDetailsController(LoanModel loan) {
         this.loan = loan;
-        if (loan == null) return;
+    }
+
+    @FXML
+    private void initialize() {
+        if (loan == null) throw new RuntimeException("Loan is null");
         titleField.textProperty().bind(loan.getBook().titleProperty());
         ISBNField.textProperty().bind(loan.getBook().ISBNProperty());
         loanDateField.setText(loan.getLoanDate().toString());
@@ -39,16 +45,14 @@ public class LoanDetailsController {
     @FXML
     private void handleEndLoanButtonAction(ActionEvent actionEvent) {
         if (loan == null || !CustomAlerts.showEndLoanAlert(loan)) return;
-        loan.ratingProperty().set((int) Math.round(ratingField.getRating()));
-        loan.commentProperty().set(commentsField.getText());
+        loan.editLoan((int) Math.round(ratingField.getRating()), commentsField.getText());
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_LOAN_EVENT));
         Loans.getInstance().endLoan(loan);
     }
 
     @FXML
     private void handleSaveLoanButtonAction(ActionEvent actionEvent) {
-        loan.ratingProperty().set((int) Math.round(ratingField.getRating()));
-        loan.commentProperty().set(commentsField.getText());
+        loan.editLoan((int) Math.round(ratingField.getRating()), commentsField.getText());
         ((Node) actionEvent.getSource()).fireEvent(new Event(CustomEvents.EXIT_LOAN_EVENT));
     }
 }

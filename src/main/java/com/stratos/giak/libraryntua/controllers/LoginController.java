@@ -1,5 +1,11 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.controllers;
 
+import com.stratos.giak.libraryntua.databases.Users;
+import com.stratos.giak.libraryntua.models.UserModel;
+import com.stratos.giak.libraryntua.utilities.AccessLevel;
+import com.stratos.giak.libraryntua.utilities.CustomEvents;
+import com.stratos.giak.libraryntua.utilities.LoggedUser;
+import com.stratos.giak.libraryntua.utilities.Miscellaneous;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -13,9 +19,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import static com.stratos.giak.libraryntua.Utilities.setTextFieldError;
+import static com.stratos.giak.libraryntua.utilities.Miscellaneous.setTextFieldError;
 
-//TODO ADD DOCS
 public class LoginController {
     private final Hyperlink registerLink = new Hyperlink("Register");
 
@@ -47,7 +52,8 @@ public class LoginController {
             setTextFieldError(passwordField, true);
             return;
         }
-        final UserModel user = Users.getInstance().getUserByUsername(username);
+        Users users = Users.getInstance();
+        final UserModel user = users.getUsersList().stream().filter(user1 -> user1.getUsername().equals(username)).findAny().orElse(null);
         if (user == null) {
             errorText.setText("Username doesn't exist");
             setTextFieldError(usernameField, true);
@@ -63,7 +69,7 @@ public class LoginController {
         if (user.getAccessLevel() == AccessLevel.ADMIN) {
             ((Stage) ((Node) event.getSource()).getScene().getWindow()).setTitle("NTUA-Library (Admin)");
         }
-        Utilities.changeScene(event, "main-view.fxml");
+        Miscellaneous.changeScene(event, "main-view.fxml");
     }
 
     @FXML

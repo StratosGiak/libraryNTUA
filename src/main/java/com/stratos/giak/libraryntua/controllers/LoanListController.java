@@ -1,5 +1,11 @@
-package com.stratos.giak.libraryntua;
+package com.stratos.giak.libraryntua.controllers;
 
+import com.stratos.giak.libraryntua.databases.Loans;
+import com.stratos.giak.libraryntua.models.LoanModel;
+import com.stratos.giak.libraryntua.utilities.AccessLevel;
+import com.stratos.giak.libraryntua.utilities.CustomAlerts;
+import com.stratos.giak.libraryntua.utilities.CustomEvents;
+import com.stratos.giak.libraryntua.utilities.LoggedUser;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -12,7 +18,6 @@ import javafx.scene.control.TableView;
 
 import java.util.Arrays;
 
-//TODO ADD DOCS
 public class LoanListController {
     @FXML
     private TableView<LoanModel> tableViewLoans;
@@ -47,7 +52,7 @@ public class LoanListController {
             row.setOnMouseClicked(clickEvent -> {
                 if (clickEvent.getClickCount() > 1) {
                     if (row.getItem() == null) return;
-                    ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.ViewLoanDetailsEvent(row.getItem()));
+                    ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.LoanEvent(row.getItem()));
 
                 }
             });
@@ -59,7 +64,7 @@ public class LoanListController {
     private void handleViewLoanButtonAction(ActionEvent actionEvent) {
         LoanModel selectedLoan = tableViewLoans.getSelectionModel().getSelectedItem();
         if (selectedLoan == null) return;
-        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.ViewLoanDetailsEvent(selectedLoan));
+        ((Node) actionEvent.getSource()).fireEvent(new CustomEvents.LoanEvent(selectedLoan));
     }
 
     @FXML
