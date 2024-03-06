@@ -54,6 +54,7 @@ public final class Users {
 
     /**
      * Adds the given user to the list of registered users.
+     * Does not check whether the user is already in the list.
      *
      * @param user the user to be added
      */

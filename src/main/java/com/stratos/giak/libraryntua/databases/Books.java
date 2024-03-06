@@ -55,6 +55,7 @@ public final class Books {
 
     /**
      * Adds the given book to the list of registered books.
+     * Does not check whether the book is already in the list.
      *
      * @param book the book to be added
      */

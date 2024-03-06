@@ -52,6 +52,7 @@ public final class Genres {
 
     /**
      * Adds the given genre to the list of genres.
+     * Does not check whether the genre is already in the list.
      *
      * @param genre the genre to be added
      */
@@ -69,7 +70,7 @@ public final class Genres {
         Books.getInstance().removeAllWithGenre(genre);
         getGenresList().remove(genre);
     }
-    
+
     /**
      * Serializes the list of genres.
      * Saves the list of genres as a file named "genres",
