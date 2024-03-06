@@ -23,12 +23,12 @@ public class ReviewModel implements Serializable {
      */
     public ReviewModel(String username, Integer rating, String comment) {
         if (username == null || username.isBlank()) throw new IllegalArgumentException("Username cannot be blank");
-        if (rating == null || rating < 1 || rating > 5)
+        if (rating != null && (rating < 0 || rating > 5))
             throw new IllegalArgumentException("Rating must be in the range [1, 5]");
         this.uuid = UUID.randomUUID();
-        this.username.set(username);
-        this.rating.set(rating);
-        this.comment.set(comment);
+        this.username.setValue(username);
+        this.rating.setValue(rating);
+        this.comment.setValue(comment);
     }
 
     /**

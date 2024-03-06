@@ -31,6 +31,9 @@ public class LoanListController {
         viewLoanButton.disableProperty().bind(Bindings.createBooleanBinding(() -> tableViewLoans.getSelectionModel().selectedItemProperty().get() == null, tableViewLoans.getSelectionModel().selectedItemProperty()));
         endLoanButton.disableProperty().bind(Bindings.createBooleanBinding(() -> tableViewLoans.getSelectionModel().selectedItemProperty().get() == null, tableViewLoans.getSelectionModel().selectedItemProperty()));
 
+        viewLoanButton.visibleProperty().bind(LoggedUser.getInstance().getUser().accessLevelProperty().isNotEqualTo(AccessLevel.ADMIN));
+        viewLoanButton.managedProperty().bind(viewLoanButton.visibleProperty());
+
         TableColumn<LoanModel, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setCellValueFactory(loan -> loan.getValue().getBook().titleProperty());
         TableColumn<LoanModel, String> userColumn = new TableColumn<>("Username");
@@ -51,7 +54,8 @@ public class LoanListController {
             TableRow<LoanModel> row = new TableRow<>();
             row.setOnMouseClicked(clickEvent -> {
                 if (clickEvent.getClickCount() > 1) {
-                    if (row.getItem() == null) return;
+                    if (row.getItem() == null || LoggedUser.getInstance().getUser().getAccessLevel().equals(AccessLevel.ADMIN))
+                        return;
                     ((Node) clickEvent.getSource()).fireEvent(new CustomEvents.LoanEvent(row.getItem()));
 
                 }

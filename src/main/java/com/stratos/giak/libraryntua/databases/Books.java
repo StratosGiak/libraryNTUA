@@ -29,35 +29,7 @@ public final class Books {
             instance = new Books();
             try {
                 instance.loadBooks();
-            } catch (IOException | ClassNotFoundException e) {
-//                BookModel[] defaultBooks = {
-//                        new BookModel(
-//                                "Piranesi",
-//                                "Susanna Clarke",
-//                                "Bloomsbury",
-//                                "9781635575637",
-//                                2020,
-//                                "Fantasy",
-//                                1),
-//                        new BookModel(
-//                                "House of Leaves",
-//                                "Mark Z. Danielewski",
-//                                "Pantheon",
-//                                "9780375703768",
-//                                2000,
-//                                "Novel",
-//                                3),
-//                        new BookModel(
-//                                "Pale Fire",
-//                                "Vladimir Nabokov",
-//                                "Vintage",
-//                                "9780679723424",
-//                                1989,
-//                                "Novel",
-//                                4),
-//                };
-//                instance.getBooksList().addAll(defaultBooks);
-                return instance;
+            } catch (IOException | ClassNotFoundException ignored) {
             }
         }
         return instance;
