@@ -24,8 +24,8 @@ public class UserModel implements Serializable {
      *
      * @param username    the username of the user
      * @param password    the password of the user
-     * @param nameFirst   the nameFirst of the user
-     * @param nameLast    the nameLast of the user
+     * @param nameFirst   the first name of the user
+     * @param nameLast    the last name of the user
      * @param ID          the ID of the user
      * @param email       the email of the user
      * @param accessLevel the access level of the user

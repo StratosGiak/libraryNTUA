@@ -2,7 +2,6 @@ package com.stratos.giak.libraryntua.databases;
 
 import com.stratos.giak.libraryntua.models.BookModel;
 import com.stratos.giak.libraryntua.models.UserModel;
-import com.stratos.giak.libraryntua.utilities.AccessLevel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -29,35 +28,7 @@ public final class Users {
             instance = new Users();
             try {
                 instance.loadUsers();
-            } catch (IOException | ClassNotFoundException e) {
-                UserModel[] defaultUsers = {
-                        new UserModel(
-                                "medialab",
-                                "medialab_2024",
-                                "Default",
-                                "Admin",
-                                "0",
-                                "admin@admin.com",
-                                AccessLevel.ADMIN),
-                        new UserModel(
-                                "a",
-                                "a",
-                                "Temp",
-                                "Admin",
-                                "1",
-                                "temp@admin.com",
-                                AccessLevel.ADMIN),
-                        new UserModel(
-                                "stratos",
-                                "pass",
-                                "Stra",
-                                "Tos",
-                                "1234",
-                                "s@g.c",
-                                AccessLevel.USER)
-                };
-                instance.getUsersList().addAll(defaultUsers);
-                return instance;
+            } catch (IOException | ClassNotFoundException ignored) {
             }
         }
         return instance;

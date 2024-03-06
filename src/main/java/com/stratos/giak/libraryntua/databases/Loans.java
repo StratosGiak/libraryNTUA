@@ -30,8 +30,7 @@ public class Loans {
             instance = new Loans();
             try {
                 instance.loadLoans();
-            } catch (IOException | ClassNotFoundException e) {
-                return instance;
+            } catch (IOException | ClassNotFoundException ignored) {
             }
         }
         return instance;

@@ -43,7 +43,7 @@ public class BookShowcaseController {
                 ratingField.setStyle("-fx-scale-x: 0.6; -fx-scale-y: 0.6;");
                 VBox vBox = new VBox(
                         new Text(book.getTitle()),
-                        new Text(book.getAuthor()),
+                        new Text("by " + book.getAuthor()),
                         new Text("ISBN - " + book.getISBN()),
                         new Group(ratingField)
                 );

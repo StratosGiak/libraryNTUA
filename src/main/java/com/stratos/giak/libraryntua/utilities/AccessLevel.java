@@ -13,10 +13,5 @@ public enum AccessLevel {
      * User privileges.
      * Can view books and request loans.
      */
-    USER,
-    /**
-     * Guest privileges.
-     * Can only view books.
-     */
-    GUEST
+    USER
 }

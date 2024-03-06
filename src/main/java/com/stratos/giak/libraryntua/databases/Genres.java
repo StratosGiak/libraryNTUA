@@ -26,16 +26,7 @@ public final class Genres {
             instance = new Genres();
             try {
                 instance.loadGenres();
-            } catch (IOException | ClassNotFoundException e) {
-                GenreModel[] defaultGenres = {
-                        null,
-                        new GenreModel("Fantasy"),
-                        new GenreModel("Science Fiction"),
-                        new GenreModel("Novel"),
-                        new GenreModel("Poetry")
-                };
-                instance.getGenresList().addAll(defaultGenres);
-                return instance;
+            } catch (IOException | ClassNotFoundException ignored) {
             }
         }
         return instance;
@@ -78,8 +69,7 @@ public final class Genres {
         Books.getInstance().removeAllWithGenre(genre);
         getGenresList().remove(genre);
     }
-
-
+    
     /**
      * Serializes the list of genres.
      * Saves the list of genres as a file named "genres",

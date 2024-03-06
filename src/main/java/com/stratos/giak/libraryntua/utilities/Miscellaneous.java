@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 
@@ -52,11 +53,11 @@ public class Miscellaneous {
             stage.sizeToScene();
             stage.setMinHeight(600);
             stage.setMinWidth(700);
+            ((SplitPane) newRoot).setDividerPositions(1);
             return;
         }
         stage.sizeToScene();
         stage.setMinHeight(stage.getHeight());
         stage.setMinWidth(950);
-
     }
 }

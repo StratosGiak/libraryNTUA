@@ -105,7 +105,7 @@ public class LoanModel implements Serializable {
      * Sets the value of the rating property of the loan
      */
     public void setRating(int rating) {
-        if (rating < 1 || rating > 5) throw new IllegalArgumentException("Rating must be in the range [1, 5]");
+        if (rating < 0 || rating > 5) throw new IllegalArgumentException("Rating must be in the range [1, 5]");
         this.rating.set(rating);
     }
 
