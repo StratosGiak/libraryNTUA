@@ -28,7 +28,9 @@ public final class Users {
             instance = new Users();
             try {
                 instance.loadUsers();
-            } catch (IOException | ClassNotFoundException ignored) {
+            } catch (IOException ignored) {
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("Serialized book file is not of type List<UserModel>");
             }
         }
         return instance;

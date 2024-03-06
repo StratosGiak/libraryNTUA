@@ -30,7 +30,9 @@ public class Loans {
             instance = new Loans();
             try {
                 instance.loadLoans();
-            } catch (IOException | ClassNotFoundException ignored) {
+            } catch (IOException ignored) {
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("Serialized book file is not of type List<LoanModel>");
             }
         }
         return instance;

@@ -14,6 +14,9 @@ public final class Genres {
     private static Genres instance;
     private transient ObservableList<GenreModel> genresList = FXCollections.observableArrayList(genre -> new Observable[]{genre.nameProperty()});
 
+    private Genres() {
+    }
+
     /**
      * Returns a singleton instance of the Genres database object.
      * The Genres object manages all operations that concern the saved genres.
@@ -26,7 +29,9 @@ public final class Genres {
             instance = new Genres();
             try {
                 instance.loadGenres();
-            } catch (IOException | ClassNotFoundException ignored) {
+            } catch (IOException ignored) {
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("Serialized book file is not of type List<GenreModel>");
             }
         }
         return instance;

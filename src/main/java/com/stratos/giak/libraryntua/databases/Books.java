@@ -29,7 +29,9 @@ public final class Books {
             instance = new Books();
             try {
                 instance.loadBooks();
-            } catch (IOException | ClassNotFoundException ignored) {
+            } catch (IOException ignored) {
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("Serialized book file is not of type List<BookModel>");
             }
         }
         return instance;
