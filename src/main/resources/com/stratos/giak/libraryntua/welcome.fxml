@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.SplitPane?>
 <SplitPane xmlns:fx="http://javafx.com/fxml/1" fx:id="splitPane" xmlns="http://javafx.com/javafx/17.0.2-ea"
+           id="root" stylesheets="@style.css"
            fx:controller="com.stratos.giak.libraryntua.controllers.WelcomeController">
     <fx:include source="book-showcase.fxml"/>
     <fx:include source="login.fxml"/>

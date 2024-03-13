@@ -6,7 +6,8 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.TextFlow?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="stackPane" xmlns="http://javafx.com/javafx/17.0.2-ea"
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="stackPane" stylesheets="@style.css"
+           xmlns="http://javafx.com/javafx/17.0.2-ea"
            fx:controller="com.stratos.giak.libraryntua.controllers.MainViewController">
     <TabPane fx:id="tabPane">
         <Tab closable="false" text="Library">

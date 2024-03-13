@@ -4,7 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
-<?import java.net.URL?>
 <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" hgap="10" vgap="10"
           xmlns="http://javafx.com/javafx/17.0.2-ea"
           fx:controller="com.stratos.giak.libraryntua.controllers.UserListController">
@@ -54,7 +53,4 @@
             </TableColumn>
         </columns>
     </TableView>
-    <stylesheets>
-        <URL value="@style.css"/>
-    </stylesheets>
 </GridPane>

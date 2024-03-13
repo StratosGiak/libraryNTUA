@@ -58,6 +58,6 @@ public class Miscellaneous {
         }
         stage.sizeToScene();
         stage.setMinHeight(stage.getHeight());
-        stage.setMinWidth(950);
+        stage.setMinWidth(1000);
     }
 }

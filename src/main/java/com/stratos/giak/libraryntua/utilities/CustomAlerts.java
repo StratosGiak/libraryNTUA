@@ -28,7 +28,19 @@ public class CustomAlerts {
     }
 
     /**
+     * Shows an alert dialog informing the user they have successfully requested a book loan.
+     */
+    public static void showRequestLoanAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Book loan requested");
+        alert.setContentText("Book loan requested successfully!");
+        alert.showAndWait();
+    }
+
+    /**
      * Shows an alert warning the user before removing a book.
+     *
+     * @return true or false based on whether the user confirmed the removal
      */
     public static boolean showRemoveBookAlert() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -40,6 +52,8 @@ public class CustomAlerts {
 
     /**
      * Shows an alert warning the user before removing a user account.
+     *
+     * @return true or false based on whether the user confirmed the removal
      */
     public static boolean showRemoveUserAlert() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -51,6 +65,8 @@ public class CustomAlerts {
 
     /**
      * Shows an alert warning the user before removing a genre.
+     *
+     * @return true or false based on whether the user confirmed the removal
      */
     public static boolean showRemoveGenreAlert(GenreModel genre) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -63,6 +79,8 @@ public class CustomAlerts {
 
     /**
      * Shows an alert warning the user before ending a loan.
+     *
+     * @return true or false based on whether the user confirmed the action
      */
     public static boolean showEndLoanAlert(LoanModel loan) {
         if (loan == null || loan.getUser() == null || loan.getBook() == null)
@@ -76,6 +94,8 @@ public class CustomAlerts {
 
     /**
      * Shows an alert warning the user before logging out.
+     *
+     * @return true or false based on whether the user confirmed the action
      */
     public static boolean showLogoutAlert() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

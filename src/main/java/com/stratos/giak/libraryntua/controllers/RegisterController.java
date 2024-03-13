@@ -70,13 +70,12 @@ public class RegisterController {
             if (ID.isBlank()) setTextFieldError(IDField, true);
             return;
         }
-        Users users = Users.getInstance();
-        if (users.getUsersList().stream().filter(user1 -> user1.getUsername().equals(username)).findAny().orElse(null) != null) {
+        if (Users.getInstance().getUsersList().stream().anyMatch(user -> user.getUsername().equals(username))) {
             errorText.setText("Username already exists");
             setTextFieldError(usernameField, true);
             return;
         }
-        if (!email.matches(".+@.+")) {
+        if (!email.matches(".+")) {
             errorText.setText("Email address is invalid");
             setTextFieldError(emailField, true);
             return;

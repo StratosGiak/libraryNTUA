@@ -119,8 +119,7 @@ public class EditUserController {
             return;
         }
         if ((user == null || !username.equals(user.getUsername()))) {
-            Users users = Users.getInstance();
-            if (users.getUsersList().stream().filter(user1 -> user1.getUsername().equals(username)).findAny().orElse(null) != null) {
+            if (Users.getInstance().getUsersList().stream().anyMatch(user1 -> user1.getUsername().equals(username))) {
                 errorText.setText("Username already exists");
                 setTextFieldError(usernameField, true);
                 return;

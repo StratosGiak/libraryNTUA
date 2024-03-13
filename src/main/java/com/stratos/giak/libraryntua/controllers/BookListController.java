@@ -175,6 +175,16 @@ public class BookListController {
                 genrePredicate.set(book -> newValue == null || book.getGenre().equals(newValue))
         );
         for (TableColumn column : tableViewBooks.getColumns()) {
+            if (column.getText().equals("Rating")) {
+                ((TableColumn<BookModel, String>) column).setComparator((a, b) -> {
+                    if (a.equals(b) && a.equals("–")) return 0;
+                    if (a.equals("–")) return 1;
+                    if (b.equals("–")) return -1;
+                    double ratingA = Double.parseDouble(a.split(" ")[0]);
+                    double ratingB = Double.parseDouble(b.split(" ")[0]);
+                    return ratingA < ratingB ? 1 : -1;
+                });
+            }
             column.setCellFactory(cellData -> new TableCell<BookModel, Object>() {
                 @Override
                 protected void updateItem(Object item, boolean empty) {

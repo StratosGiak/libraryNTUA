@@ -36,10 +36,13 @@ public class LoanListController {
 
         TableColumn<LoanModel, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setCellValueFactory(loan -> loan.getValue().getBook().titleProperty());
+        titleColumn.setReorderable(false);
         TableColumn<LoanModel, String> userColumn = new TableColumn<>("Username");
         userColumn.setCellValueFactory(loan -> loan.getValue().getUser().usernameProperty());
+        userColumn.setReorderable(false);
         TableColumn<LoanModel, String> loanDateColumn = new TableColumn<>("Loan date");
         loanDateColumn.setCellValueFactory(loan -> new SimpleStringProperty(loan.getValue().getLoanDate().toString()));
+        loanDateColumn.setReorderable(false);
         TableColumn<LoanModel, String> returnDateColumn = new TableColumn<>("Return date");
         returnDateColumn.setCellValueFactory(loan -> new SimpleStringProperty(loan.getValue().getLoanDate().plusDays(loan.getValue().getLoanLength()).toString()));
         if (LoggedUser.getInstance().getUser().getAccessLevel().equals(AccessLevel.ADMIN)) {

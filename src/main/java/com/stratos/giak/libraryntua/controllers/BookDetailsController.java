@@ -141,6 +141,7 @@ public class BookDetailsController {
         }
         LoanModel borrowed = new LoanModel(book, LoggedUser.getInstance().getUser(), LocalDate.now(), Integer.parseInt(loanLengthText.getText()));
         Loans.getInstance().addLoan(borrowed);
+        CustomAlerts.showRequestLoanAlert();
     }
 
     @FXML

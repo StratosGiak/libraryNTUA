@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<?import java.net.URL?>
 <GridPane xmlns:fx="http://javafx.com/fxml"
           xmlns="http://javafx.com/javafx" alignment="center" hgap="10" vgap="10"
           fx:controller="com.stratos.giak.libraryntua.controllers.BookShowcaseController">
@@ -11,13 +10,10 @@
         <Insets bottom="10" left="25" right="25" top="25"/>
     </padding>
     <HBox alignment="CENTER" GridPane.rowIndex="0">
-        <Text text="Top rated books"/>
+        <Text text="Top rated books" id="title"/>
     </HBox>
-    <Region prefHeight="25" GridPane.rowIndex="1"/>
+    <Region prefHeight="60" GridPane.rowIndex="1"/>
     <VBox GridPane.rowIndex="2" alignment="CENTER">
         <HBox alignment="CENTER" spacing="30" fx:id="showcaseRow"/>
     </VBox>
-    <stylesheets>
-        <URL value="@style.css"/>
-    </stylesheets>
 </GridPane>

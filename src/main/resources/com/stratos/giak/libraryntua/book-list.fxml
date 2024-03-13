@@ -4,7 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.*?>
-<?import java.net.URL?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2-ea"
       fx:controller="com.stratos.giak.libraryntua.controllers.BookListController">
     <padding>
@@ -84,7 +83,4 @@
             </VBox>
         </GridPane>
     </HBox>
-    <stylesheets>
-        <URL value="@style.css"/>
-    </stylesheets>
 </VBox>

@@ -52,8 +52,7 @@ public class LoginController {
             setTextFieldError(passwordField, true);
             return;
         }
-        Users users = Users.getInstance();
-        final UserModel user = users.getUsersList().stream().filter(user1 -> user1.getUsername().equals(username)).findAny().orElse(null);
+        final UserModel user = Users.getInstance().getUsersList().stream().filter(user1 -> user1.getUsername().equals(username)).findAny().orElse(null);
         if (user == null) {
             errorText.setText("Username doesn't exist");
             setTextFieldError(usernameField, true);

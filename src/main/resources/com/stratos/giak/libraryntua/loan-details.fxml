@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import org.controlsfx.control.Rating?>
-<?import java.net.URL?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="501.0" prefWidth="753.0"
            xmlns="http://javafx.com/javafx/17.0.2-ea"
            fx:controller="com.stratos.giak.libraryntua.controllers.LoanDetailsController">
@@ -19,7 +18,7 @@
             <Insets bottom="10" left="25" right="25" top="25"/>
         </padding>
         <HBox alignment="CENTER">
-            <Text text="Loan details" textAlignment="CENTER"/>
+            <Text text="Loan details" id="subtitle" textAlignment="CENTER"/>
         </HBox>
         <HBox alignment="CENTER" spacing="50">
             <GridPane alignment="CENTER" hgap="10" vgap="10">
@@ -58,7 +57,4 @@
             </HBox>
         </HBox>
     </VBox>
-    <stylesheets>
-        <URL value="@style.css"/>
-    </stylesheets>
 </StackPane>
