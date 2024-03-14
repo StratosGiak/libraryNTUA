@@ -8,9 +8,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -24,6 +24,10 @@ public class Main extends Application {
     }
 
     public void start(Stage stage) throws IOException {
+        File f = new File("medialab");
+        if (!f.isDirectory() && !f.mkdir()) {
+            throw new RuntimeException("Cannot create directory");
+        }
         stage.setTitle("NTUA-Library");
         stage.setResizable(false);
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("welcome.fxml")));
@@ -32,6 +36,5 @@ public class Main extends Application {
         stage.show();
         stage.setMinHeight(600);
         stage.setMinWidth(700);
-        ((SplitPane) root).setDividerPositions(1);
     }
 }
