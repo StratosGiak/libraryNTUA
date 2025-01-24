@@ -11,9 +11,18 @@ The management of the library system is handled by administrator accounts. Admin
 To run the app, download and extract libraryNTUA.zip from the [releases](https://github.com/StratosGiak/libraryNTUA/releases/latest) page, and run launch.bat.
 
 To log in as the default admin use the following account info:
+
 ```
 Username: medialab
 Password: medialab_2024
 ```
 
 To delete initial sample data, delete the bin/medialab folder
+
+# Screenshots
+
+<img src="demo/login.png" width=640>
+<img src="demo/books.png" width=640>
+<img src="demo/book.png" width=640>
+<img src="demo/reviews.png" width=640>
+<img src="demo/loan.png" width=640>
